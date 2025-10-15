@@ -1,0 +1,105 @@
+import React, { useContext, useState } from "react";
+import HeaderMain from "../components/Header";
+import Navbar from "../components/NavBarHome";
+import Resumen from "../components/Resumen";
+import { CarritoContext } from "../context/CarritoContexto";
+import { useCalculoCarrito } from "../logic/logicaCarrito";
+import { EnvioContext } from "../context/EnvioContext";
+import { useNavigate } from "react-router-dom";
+import "../assets/estilos.css";
+
+function Checkout() {
+  const { productos } = useContext(CarritoContext);
+  const { total, contador, descuento } = useCalculoCarrito(productos);
+  const { setDatosEnvio } = useContext(EnvioContext);
+  const [form, setForm] = useState({
+    nombre: "",
+    apellido: "",
+    ciudad: "",
+    departamento: "",
+    direccion: "",
+    telefono: "",
+    codigoPostal: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setDatosEnvio(form);
+    navigate("/metodo-pago");
+  };
+
+  return (
+    <>
+      <HeaderMain />
+      <Navbar />
+
+      <div className="titulo-pagina">
+        <h2>Checkout</h2>
+      </div>
+
+      <main className="checkout-contenedor">
+        <div className="checkout-grid">
+          <form className="form-checkout" onSubmit={handleSubmit}>
+            <section className="seccion direccion-envio">
+              <h3>Dirección de envío</h3>
+
+              <div className="fila">
+                <div className="campo">
+                  <label>Nombre:</label>
+                  <input name="nombre" value={form.nombre} onChange={handleChange} required />
+                </div>
+
+                <div className="campo">
+                  <label>Apellido:</label>
+                  <input name="apellido" value={form.apellido} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="fila">
+                <div className="campo">
+                  <label>Ciudad:</label>
+                  <input name="ciudad" value={form.ciudad} onChange={handleChange} />
+                </div>
+
+                <div className="campo">
+                  <label>Departamento:</label>
+                  <input name="departamento" value={form.departamento} onChange={handleChange} />
+                </div>
+              </div>
+
+              <div className="campo ancho-completo">
+                <label>Dirección:</label>
+                <input name="direccion" value={form.direccion} onChange={handleChange} required />
+              </div>
+
+              <div className="fila">
+                <div className="campo">
+                  <label>Teléfono:</label>
+                  <input name="telefono" value={form.telefono} onChange={handleChange} />
+                </div>
+
+                <div className="campo">
+                  <label>Código Postal:</label>
+                  <input name="codigoPostal" value={form.codigoPostal} onChange={handleChange} />
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-pago">
+                Continuar con el pago
+              </button>
+            </section>
+          </form>
+
+          <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
+        </div>
+      </main>
+    </>
+  );
+}
+export default Checkout;

@@ -1,0 +1,78 @@
+import HeaderMain from "../components/Header";
+import Navbar from "../components/NavBarHome";
+import Resumen from "../components/Resumen";
+import Producto from "../components/Producto";
+import { CarritoContext } from "../context/CarritoContexto";
+import { useCalculoCarrito } from "../logic/logicaCarrito";
+import { EnvioContext } from "../context/EnvioContext";
+import { useContext, useEffect } from 'react';
+import { obtenerFechaEntrega } from "../logic/fechaEnvio";
+
+function Pedido() {
+  const { productos } = useContext(CarritoContext);
+  const { total, contador, descuento } = useCalculoCarrito(productos);
+  const { datosEnvio } = useContext(EnvioContext);
+  const fechaFormateada = obtenerFechaEntrega(2);
+
+  return (
+    <>
+      <HeaderMain />
+      <Navbar />
+
+      <main className="pedido-completado">
+        <div className="mensaje-exito">
+          <h2>Orden completada ✅</h2>
+          <p>¡Gracias por tu compra!</p>
+        </div>
+
+        <div className="checkout-grid">
+          <div className="carro-productos">
+            {productos.map((producto) => (
+              <Producto key={producto.id} {...producto} />
+            ))}
+          </div>
+
+          <aside className="resumen-final">
+            <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
+
+            <div className="direccion-envio-final">
+              <h3>Dirección de envío</h3>
+              {datosEnvio?.nombre ? (
+                <>
+                  <p>
+                    {datosEnvio.nombre} {datosEnvio.apellido}
+                    <br />
+                    {datosEnvio.direccion}
+                    <br />
+                    {datosEnvio.ciudad} - {datosEnvio.departamento}
+                  </p>
+                  <p>
+                    Celular: <b>{datosEnvio.telefono}</b>
+                  </p>
+                  <p>
+                    Código Postal: <b>{datosEnvio.codigoPostal}</b>
+                  </p>
+                  <p>
+                    Fecha de entrega aproximada: <b>{fechaFormateada}</b>
+                  </p>
+
+                </>
+              ) : (
+                <p style={{ color: "red" }}>❌ No hay datos de envío guardados.</p>
+              )}
+              <img
+                src="https://media.istockphoto.com/id/1200224470/es/vector/logotipo-de-moto-delivery-man-plantilla-vectorial-de-icono-y-s%C3%ADmbolo.jpg?s=612x612&w=0&k=20&c=zCxW556jgK7lMD6evnQIiYLOldB8iW32S_zlOTI4mOs="
+                alt="Delivery"
+                className="icono-delivery"
+              />
+            </div>
+
+            <button className="btn btn-pago">Ver más ofertas</button>
+          </aside>
+        </div>
+      </main>
+    </>
+  );
+}
+export default Pedido;
+

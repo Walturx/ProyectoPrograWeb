@@ -11,7 +11,7 @@ export default function CrearCategoriaPage() {
       <NavBarHome />
 
       <main >
-        <CrearCategoria />
+        <CrearCategoria /> 
       </main>
 
     </div>
