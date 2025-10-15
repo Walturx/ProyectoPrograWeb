@@ -1,0 +1,56 @@
+#crear-categoria {
+  width: 60%;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#crear-categoria h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  min-height: 80px;
+}
+
+.acciones-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-guardar {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+.btn-cancelar {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+}

@@ -1,0 +1,41 @@
+#cambiar-contrasena {
+  background-color: #f0f4f8;
+  border-radius: 12px;
+  text-align: center;
+  font-family: Arial;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+#cambiar-contrasena h2 {
+  color: #28a745;
+}
+
+#form-contrasena h3 {
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 16px;
+}
+
+#form-contrasena input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  display: block;
+}
+
+#btn-cambiar {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  font-size: 16px;
+  margin: 15px;
+}

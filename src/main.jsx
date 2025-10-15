@@ -9,6 +9,16 @@ import { StatePrice } from "./data/priceState";
 import Results from "./components/Results";
 import SearchPage from "./views/searchPage";
 
+
+import DetalleUsuario from "./components/DetalleUsuario/DetalleUsuario";
+import DetalleOrden from "./components/DetalleOrden/DetalleOrden";
+import CambiarClave from "./components/CambiarClave/CambiarClave";
+import ListadoCategorias from "./components/ListadoCategorias/ListadoCategorias";
+import CrearCategoria from "./components/CrearCategoria/CrearCategoria";
+import EditarCategoria from "./components/EditarCategoria/EditarCategoria"; 
+
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -19,6 +29,14 @@ root.render(
         <Route path="/producto/:id" element={<ProductoPage />} />
         <Route path="/categorias/:categoria" element={<CatPage />} />
         <Route path="/search/:busqueda" element={<SearchPage/>} />
+
+
+        <Route path="/usuario/:usuarioId" element={<DetalleUsuario />} />
+          <Route path="/usuario/:usuarioId/orden/:ordenId" element={<DetalleOrden />} />
+          <Route path="/usuario/:usuarioId/cambiar-clave" element={<CambiarClave />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias" element={<ListadoCategorias />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias/crearCategoria" element={<CrearCategoria />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias/editar/:id" element={<EditarCategoria />} /> {/* ruta para editar categoria */}
 
       </Routes>
     </Router>

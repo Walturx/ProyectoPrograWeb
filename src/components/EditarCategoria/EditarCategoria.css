@@ -1,0 +1,46 @@
+#editar-categoria {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+#editar-categoria h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#editar-categoria form {
+  display: flex;
+  flex-direction: column;
+}
+
+#editar-categoria label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+#editar-categoria input,
+#editar-categoria textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#editar-categoria #btn-guardar {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+}
+
+#editar-categoria  #btn-guardar {
+  background-color: #45a049;
+}
