@@ -23,3 +23,5 @@ export const usuarios = [
     telefono:965098605,
   }
 ];
+
+export default usuarios;
