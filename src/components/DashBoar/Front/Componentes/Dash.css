@@ -1,0 +1,31 @@
+
+.dash{
+    margin: 30px;
+}
+
+.dashboard {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin: 20px;
+}
+
+.dashboard-card {
+    background-color: #38b000;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.dashboard h2{ 
+    color: white;
+}
+.dashboard p{
+    color: white;
+}
+
+.dashboard-card h2 {
+    margin-bottom: 10px;
+}
