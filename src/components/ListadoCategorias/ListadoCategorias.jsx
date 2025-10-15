@@ -1,9 +1,9 @@
+//hecho por Jean Carlo Rado-(202235056)
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { categorias } from "../../data/categoria";
 import { usuarios } from "../../data/usuarios";
-import HeaderHome from "../HeaderHome";
-import NavBarHome from "../navBarHome";
 import "./ListadoCategorias.css";
 
 export default function ListadoCategorias() {
@@ -50,8 +50,6 @@ export default function ListadoCategorias() {
 
   return (
     <>
-      <HeaderHome />
-      <NavBarHome />
 
       <div id="listado-categorias">
         <h2>Listado de Categorías</h2>

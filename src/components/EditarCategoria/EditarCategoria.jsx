@@ -1,3 +1,5 @@
+//hecho por Jean Carlo Rado-(202235056)
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { categorias } from "../../data/categoria";

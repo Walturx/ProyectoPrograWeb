@@ -10,12 +10,12 @@ import Results from "./components/Results";
 import SearchPage from "./views/searchPage";
 
 
-import DetalleUsuario from "./components/DetalleUsuario/DetalleUsuario";
-import DetalleOrden from "./components/DetalleOrden/DetalleOrden";
-import CambiarClave from "./components/CambiarClave/CambiarClave";
-import ListadoCategorias from "./components/ListadoCategorias/ListadoCategorias";
-import CrearCategoria from "./components/CrearCategoria/CrearCategoria";
-import EditarCategoria from "./components/EditarCategoria/EditarCategoria"; 
+import DetalleUsuarioPage from "./views/DetalleUsuarioPage";
+import DetalleOrdenPage from "./views/DetalleOrdenPage";
+import CambiarClavePage from "./views/CambiarClavePage";
+import ListadoCategoriasPage from "./views/ListadoCategoriasPage";
+import CrearCategoriaPage from "./views/CrearCategoriaPage";
+import EditarCategoriaPage from "./views/EditarCategoriaPage"; 
 
 
 
@@ -31,12 +31,12 @@ root.render(
         <Route path="/search/:busqueda" element={<SearchPage/>} />
 
 
-        <Route path="/usuario/:usuarioId" element={<DetalleUsuario />} />
-          <Route path="/usuario/:usuarioId/orden/:ordenId" element={<DetalleOrden />} />
-          <Route path="/usuario/:usuarioId/cambiar-clave" element={<CambiarClave />} />
-          <Route path="/usuario/:usuarioId/listadoCategorias" element={<ListadoCategorias />} />
-          <Route path="/usuario/:usuarioId/listadoCategorias/crearCategoria" element={<CrearCategoria />} />
-          <Route path="/usuario/:usuarioId/listadoCategorias/editar/:id" element={<EditarCategoria />} /> {/* ruta para editar categoria */}
+        <Route path="/usuario/:usuarioId" element={<DetalleUsuarioPage />} />
+          <Route path="/usuario/:usuarioId/orden/:ordenId" element={<DetalleOrdenPage />} />
+          <Route path="/usuario/:usuarioId/cambiar-clave" element={<CambiarClavePage />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias" element={<ListadoCategoriasPage />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias/crearCategoria" element={<CrearCategoriaPage />} />
+          <Route path="/usuario/:usuarioId/listadoCategorias/editar/:id" element={<EditarCategoriaPage />} /> {/* ruta para editar categoria */}
 
       </Routes>
     </Router>

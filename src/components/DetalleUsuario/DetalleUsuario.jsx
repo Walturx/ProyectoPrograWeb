@@ -1,10 +1,10 @@
+//hecho por Jean Carlo Rado-(202235056)
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { usuarios } from "../../data/usuarios";
 import { ordenes } from "../../data/ordenes";
 import { productos } from "../../data/productos";
-import HeaderHome from "../HeaderHome";
-import NavBarHome from "../navBarHome";
 
 import "./DetalleUsuario.css";
 
@@ -45,9 +45,6 @@ export default function DetalleUsuario() {
 
   return (
     <>
-      <HeaderHome />
-      <NavBarHome />
-
       <div id="detalle-usuario">
         {/* Título y botón Cambiar Contraseña */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

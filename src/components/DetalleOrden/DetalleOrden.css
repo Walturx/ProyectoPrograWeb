@@ -1,4 +1,13 @@
-#contenedor { max-width: 1100px; margin: 36px auto; padding: 0 16px; }
+
+#contenedor {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 16px;
+}
+
 .tarjeta {
   background: #ffffff;
   border-radius: 8px;
@@ -6,7 +15,7 @@
   border: 1px solid #e6e6e6;
 }
 
-.titulo-seccion { color: #333; margin-left: 20%; font-size: 40px,}
+.titulo-seccion { color: #333; margin-left: 25%; font-size: 30px;margin-top: 10px;margin-bottom: 20px; }
 #orden-titulo { font-size: 28px; color: #111; margin: 0; }
 .orden-num { color: #28a745; font-weight: 700; }
 

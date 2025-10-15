@@ -1,11 +1,10 @@
+//hecho por Jean Carlo Rado-(202235056)
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { usuarios } from "../../data/usuarios"; // base de datos de usuario
 import "./CambiarClave.css";
 
-import HeaderHome from "../HeaderHome";
-import NavBarHome from "../navBarHome";
-import Footer from "../footer";
+
 
 
 export default function CambiarClave() {
@@ -43,8 +42,6 @@ export default function CambiarClave() {
 
   return (
     <div className="screen">
-      <HeaderHome />
-      <NavBarHome />
       <div className="page-container">
         <div id="cambiar-contrasena">
           <h2>Cambiar Contraseña</h2>
@@ -74,9 +71,8 @@ export default function CambiarClave() {
               required
             />
             <button type="submit" id="btn-cambiar">Cambiar</button>
-          </form>
+          </form> 
         </div>
-        <Footer />
       </div>
     </div>
   );

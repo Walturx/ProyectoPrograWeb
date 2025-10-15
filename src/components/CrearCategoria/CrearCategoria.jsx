@@ -1,3 +1,5 @@
+//hecho por Jean Carlo Rado-(202235056)
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";//use params para traer el parametro dinamico de la url que es el id del usuario, mientras q el navigate es para navegar entre rutas desde el codigo
 import { categorias } from "../../data/categoria";

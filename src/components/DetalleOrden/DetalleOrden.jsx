@@ -1,9 +1,8 @@
+//hecho por Jean Carlo Rado-(202235056)
+
 import { useParams } from "react-router-dom";
 import { ordenes } from "../../data/ordenes";
 import { productos } from "../../data/productos";
-
-import HeaderHome from "../HeaderHome";
-import NavBarHome from "../navBarHome";
 
 import "./DetalleOrden.css";
 
@@ -34,9 +33,6 @@ export default function DetalleOrden() {
 
   return (
     <>
-      <HeaderHome />
-      <NavBarHome />
-
       <h1 className="titulo-seccion">Detalle de orden</h1>
       <main id="contenedor">
         <section id="detalle-orden" className="tarjeta">
