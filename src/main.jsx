@@ -21,7 +21,7 @@ import LoginPage from "./views/LoginPage";
 import RegistroPage from "./views/RegistroPage";
 import OlvidePasswordPage from "./views/OlvidePasswordPage";
 import ResetPasswordPage from "./views/ResetPasswordPage";
-import UserDashBoardPage from "./views/UserDashBoardPage";
+import UserDashBoardPage from "./views/UserDashboardPage";
 
 //probando subida de rama
 const root = ReactDOM.createRoot(document.getElementById("root"));

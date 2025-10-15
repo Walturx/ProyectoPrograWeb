@@ -1,14 +1,17 @@
-import HeaderHome from '../components/HeaderHome';
-import Footer from '../components/footer';
-import UserDashboard from '../components/UserDashboard/UserDashboard';
+import HeaderHome from "../components/HeaderHome";
+import NavBarHome from "../components/navBarHome";
+import UserDashboard from "../components/UserDashboard/UserDashboard";
+import Footer from "../components/footer";
 
 const UserDashboardPage = () => {
     return (
         <>
             <HeaderHome />
-            <UserDashboard />
+            <NavBarHome />
+            
             <Footer />
         </>
     );
 }
+
 export default UserDashboardPage;

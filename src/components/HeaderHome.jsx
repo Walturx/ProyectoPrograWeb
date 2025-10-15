@@ -4,6 +4,7 @@ import { productos } from '../data/productos';
 import { useContext } from "react";
 import { list } from 'postcss';
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from '../context/UserContext';
 
 function HeaderHome() {
   const { price } = useContext(PriceContext);
