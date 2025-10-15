@@ -1,7 +1,7 @@
 import { useUser } from "../../context/UserContext";
 import ordenes from "../../data/ordenes";
 import { useNavigate } from "react-router-dom";
-import './UserDashboardPage.css';
+import './UserDashboard.css';
 
 const UserDashboard = () => {
     const { user, logout } = useUser();
@@ -23,7 +23,7 @@ const UserDashboard = () => {
                 <div className="info-card">
                     <h4>Datos personales</h4>
                     <p><strong>Nombre:</strong> {user.nombre} {user.apellido}</p>
-                    <p><strong>Correo:</strong> {user.username}</p>
+                    <p><strong>Correo:</strong> {user.email}</p>
                 </div>
                 <div className="info-card">
                     <h4>Dirección de envío</h4>

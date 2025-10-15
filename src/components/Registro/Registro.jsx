@@ -28,7 +28,7 @@ const Registro = () => {
 
         const newUser = {
             id: Date.now(),
-            username: email, 
+            email: email, 
             password: password,
             nombre: nombre,
             apellido: apellido,

@@ -6,8 +6,8 @@ const UserContext = createContext()
 export function UserProvider({ children }) {
     const [ user, setUser ] = useState(null)
 
-    const login = (email, password) => {
-        const resultado = usuarios.find((u) => u.email.toLowerCase() === email.toLowerCase() 
+    const login = (usuario, password) => {
+        const resultado = usuarios.find((u) => u.email.toLowerCase() === usuario.toLowerCase() 
                                         && u.password.toLowerCase() === password.toLowerCase())
 
         if (resultado) {
@@ -50,7 +50,7 @@ export function UserProvider({ children }) {
     };
 
     const resetPassword = (email, newPassword) => {
-        const usuarioEncontrado = usuarios.find(u => u.username.toLowerCase() === email.toLowerCase());
+        const usuarioEncontrado = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
 
         // Si encontramos el usuario...
         if (usuarioEncontrado) {

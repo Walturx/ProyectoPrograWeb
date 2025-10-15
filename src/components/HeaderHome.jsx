@@ -66,13 +66,13 @@ function HeaderHome() {
 
 
       <Link to={user ? "/mi-cuenta" : "/login"} className="flex items-center space-x-2 ">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-          alt="user"
-          className="w-10 h-10 rounded-full border-2 border-white"
-        />
-        <span className="text-grey font-medium">Usuario</span>
-      </Link>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+            alt="user"
+            className="w-10 h-10 rounded-full border-2 border-white"
+          />
+          <span className="text-grey font-medium">Usuario</span>
+        </Link>
     </header>
   );
 }
