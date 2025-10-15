@@ -8,14 +8,14 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const [usuario, setUsuario] = useState('');
+    const [email, setUsuario] = useState('');
     const [password, setPassword] = useState('');
 
     const { login } = useUser(); // Obtener la función de login del contexto
 
     const handleLogin = () => {
         
-        if (login(usuario, password)) {
+        if (login(email, password)) {
             navigate('/inicio')
         }
         else
@@ -31,7 +31,7 @@ const Login = () => {
                     <div className="grupo">
                         <p>Correo</p>
                         <input type="email" id="login-email" placeholder="usuario@gmail.com" 
-                            value={usuario} onChange={(e) => setUsuario(e.target.value)} />
+                            value={email} onChange={(e) => setUsuario(e.target.value)} />
                     </div>
                     <div className="grupo">
                         <p>Contraseña</p>

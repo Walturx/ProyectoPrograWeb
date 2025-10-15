@@ -6,8 +6,8 @@ const UserContext = createContext()
 export function UserProvider({ children }) {
     const [ user, setUser ] = useState(null)
 
-    const login = (usuario, password) => {
-        const resultado = usuarios.find((u) => u.username.toLowerCase() === usuario.toLowerCase() 
+    const login = (email, password) => {
+        const resultado = usuarios.find((u) => u.email.toLowerCase() === email.toLowerCase() 
                                         && u.password.toLowerCase() === password.toLowerCase())
 
         if (resultado) {
@@ -25,7 +25,7 @@ export function UserProvider({ children }) {
 
     const register = (newUser) => {
         // Verificamos si el usuario ya existe
-        const existe = usuarios.find(u => u.username.toLowerCase() === newUser.username.toLowerCase());
+        const existe = usuarios.find(u => u.email.toLowerCase() === newUser.email.toLowerCase());
         if (existe) {
             alert("El correo ya está registrado.");
             return false;
@@ -39,7 +39,7 @@ export function UserProvider({ children }) {
     };
 
     const recoverPassword = (email) => {
-        const existe = usuarios.find(u => u.username.toLowerCase() === email.toLowerCase());
+        const existe = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
         if (!existe) {
             // Si el correo no existe, retornamos false
             console.log(`Solicitud de recuperación para: ${email}. Usuario no encontrado.`);

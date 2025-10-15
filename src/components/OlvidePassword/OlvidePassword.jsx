@@ -15,10 +15,8 @@ const OlvidePassword = () => {
             return;
         }
 
-        // Llamamos a la función del contexto
         const emailExiste = recoverPassword(email);
-
-        // Mostramos un mensaje genérico por seguridad y redirigimos
+        
         alert("Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.");
         if (emailExiste){
             navigate(`/reset-password/${email}`);

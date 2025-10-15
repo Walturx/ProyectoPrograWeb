@@ -1,13 +1,13 @@
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import Navbar from '../components/NavBarHome/NavBarHome';
+import Footer from '../components/footer';
 import ResetPassword from '../components/ResetPassword/ResetPassword';
+import HeaderHome from '../components/HeaderHome';
+import NavBarHome from '../components/navBarHome';
 
 const ResetPasswordPage = () => {
     return (
         <>
-            <Header />
-            <Navbar />
+            <HeaderHome />
+            <NavBarHome />
             <ResetPassword /> 
             <Footer />
         </>

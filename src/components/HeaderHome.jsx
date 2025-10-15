@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function HeaderHome() {
   const { price } = useContext(PriceContext);
+  const { user } = useUser();
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState('');
   const handleKeyPress = (e) => {
@@ -63,14 +64,15 @@ function HeaderHome() {
         </div>
       </button>
 
-      <div className="flex items-center space-x-2 ">
+
+      <Link to={user ? "/mi-cuenta" : "/login"} className="flex items-center space-x-2 ">
         <img
           src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
           alt="user"
           className="w-10 h-10 rounded-full border-2 border-white"
         />
-        <span className="text-grey font-medium">Walter</span>
-      </div>
+        <span className="text-grey font-medium">Usuario</span>
+      </Link>
     </header>
   );
 }

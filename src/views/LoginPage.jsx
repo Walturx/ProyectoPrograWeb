@@ -1,13 +1,13 @@
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
-import Navbar from '../components/NavBarHome/NavBarHome';
+import Footer from '../components/footer';
 import Login from '../components/Login/Login';
+import HeaderHome from '../components/HeaderHome';
+import NavBarHome from '../components/navBarHome';
 
 const LoginPage = () => {
     return (
         <>
-            <Header />
-            <Navbar />
+            <HeaderHome />
+            <NavBarHome />
             <Login />
             <Footer />
         </>
