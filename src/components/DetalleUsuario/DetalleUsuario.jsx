@@ -51,7 +51,7 @@ export default function DetalleUsuario() {
       <div id="detalle-usuario">
         {/* Título y botón Cambiar Contraseña */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2>Detalles de Usuario</h2>
+          <h2 style={{fontSize: "30px"}}>Detalles de Usuario</h2>
           <button
             className="btn-ver"
             onClick={() => navigate(`/usuario/${usuario.id}/cambiar-clave`)} // Ruta para cambiar clave
@@ -85,7 +85,7 @@ export default function DetalleUsuario() {
             style={{ padding: "5px", marginRight: "10px" }}
           />
           <button className="btn-ver" onClick={handleBuscar}>
-            Buscar
+            Buscar 🔍
           </button>
         </div>
 

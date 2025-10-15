@@ -49,7 +49,7 @@ export default function DetalleOrden() {
               <div id="info-orden">
                 <p>
                   <strong>Estado:</strong>{" "}
-                  <span className={`estado ${orden.estado.toLowerCase()}`}>{/* construye el classname EJ: estado entregado-porque como puede haber mas de un estado(pendiente,cancelado,entregado) */}
+                  <span className={`estado ${orden.estado.toLowerCase()}`}>{/* construye el classname con un prop buildingEJ: estado entregado-porque como puede haber mas de un estado(pendiente,cancelado,entregado) */}
                     {orden.estado}
                   </span>
                 </p>

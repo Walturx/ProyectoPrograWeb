@@ -1,32 +1,56 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.screen {
+  min-height: 100vh;          
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 #cambiar-contrasena {
   background-color: #f0f4f8;
   border-radius: 12px;
   text-align: center;
   font-family: Arial;
-  max-width: 500px;
+  width: 500px;
   margin: 50px auto;
   padding: 20px;
 }
 
 #cambiar-contrasena h2 {
   color: #28a745;
+  font-size: 30px;
 }
 
 #form-contrasena h3 {
   text-align: left;
   margin-top: 15px;
   margin-bottom: 5px;
-  color: #333;
-  font-size: 16px;
+  color: black;
+  font-size: 20px;
+  font-family: serif;
 }
 
 #form-contrasena input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 20px;
   display: block;
+  box-sizing: border-box;
+}
+
+#form-contrasena input::placeholder {
+  color: #666;
+  font-style: italic;
+  font-size: 16px;
 }
 
 #btn-cambiar {
@@ -37,5 +61,13 @@
   color: white;
   border: none;
   font-size: 16px;
-  margin: 15px;
+  margin: 15px 0 0;
+  cursor: pointer;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }

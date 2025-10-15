@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import { usuarios } from "../../data/usuarios"; // base de datos de usuario
 import "./CambiarClave.css";
 
+import HeaderHome from "../HeaderHome";
+import NavBarHome from "../navBarHome";
+import Footer from "../footer";
+
+
 export default function CambiarClave() {
   const { usuarioId } = useParams(); // obtener el id desde la URL
   const usuario = usuarios.find(u => u.id === parseInt(usuarioId));
@@ -35,36 +40,44 @@ export default function CambiarClave() {
     setConfirmar("");
   };
 
+
   return (
-    <div id="cambiar-contrasena">
-      <h2>Cambiar Contraseña</h2>
-      <form onSubmit={handleSubmit}>
-        <h3>Contraseña actual</h3>
-        <input
-          type="password"
-          value={actual}
-          onChange={e => setActual(e.target.value)}//cada vez que escribes en el input, React guarda el valor en el estado actual
-          placeholder="Contraseña actual"
-          required
-        />
-        <h3>Nueva contraseña</h3>
-        <input
-          type="password"
-          value={nueva}
-          onChange={e => setNueva(e.target.value)}
-          placeholder="Nueva contraseña"
-          required //cada vez que escribes en el input, React guarda el valor en el estado actual
-        />
-        <h3>Confirmar contraseña</h3>
-        <input
-          type="password"
-          value={confirmar}
-          onChange={e => setConfirmar(e.target.value)}//cada vez que escribes en el input, React guarda el valor en el estado actual
-          placeholder="Confirmar contraseña"
-          required
-        />
-        <button type="submit" id="btn-cambiar">Cambiar</button>
-      </form>
+    <div className="screen">
+      <HeaderHome />
+      <NavBarHome />
+      <div className="page-container">
+        <div id="cambiar-contrasena">
+          <h2>Cambiar Contraseña</h2>
+          <form id="form-contrasena" onSubmit={handleSubmit}>
+            <h3>Contraseña actual</h3>
+            <input
+              type="password"
+              value={actual}
+              onChange={e => setActual(e.target.value)}
+              placeholder="Contraseña actual"
+              required
+            />
+            <h3>Nueva contraseña</h3>
+            <input
+              type="password"
+              value={nueva}
+              onChange={e => setNueva(e.target.value)}
+              placeholder="Nueva contraseña"
+              required
+            />
+            <h3>Confirmar contraseña</h3>
+            <input
+              type="password"
+              value={confirmar}
+              onChange={e => setConfirmar(e.target.value)}
+              placeholder="Confirmar contraseña"
+              required
+            />
+            <button type="submit" id="btn-cambiar">Cambiar</button>
+          </form>
+        </div>
+        <Footer />
+      </div>
     </div>
   );
 }

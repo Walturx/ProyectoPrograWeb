@@ -63,7 +63,7 @@ export default function ListadoCategorias() {
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
           />
-          <button style={{ borderRadius: "8px" ,border:"black"}} onClick={handleBuscar}>Buscar 🔍</button>
+          <button style={{ background: "#28a745",color: "white",padding: "6px 12px",borderRadius: "4px", }} onClick={handleBuscar}>Buscar 🔍</button>
           <button
             id="btn-agregar"
             onClick={() => navigate(`/usuario/${usuarioId}/listadoCategorias/crearCategoria`)}
