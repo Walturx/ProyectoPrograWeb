@@ -1,0 +1,28 @@
+.navegacion {
+  background-color: #28a745;
+  padding: 15px 40px;
+}
+
+.navegacion ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.navegacion ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navegacion ul li a:hover {
+  color: #000000;
+}
+
+.navegacion ul li.ofertas {
+  margin-left: auto;
+  font-weight: bold;
+}
