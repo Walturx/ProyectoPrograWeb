@@ -1,4 +1,4 @@
-/* --- Contenedor Principal --- */
+
 .dashboard-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -7,19 +7,18 @@
     color: #333;
 }
 
-/* --- Sección Superior (Bienvenida y Datos) --- */
 .welcome-title {
     font-size: 32px;
-    font-weight: 300; /* Letra más delgada */
+    font-weight: 300; 
     margin-bottom: 30px;
 }
 
 .user-info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 0.5fr; /* Tres columnas */
+    grid-template-columns: 1fr 1fr 0.5fr;
     gap: 30px;
     margin-bottom: 50px;
-    position: relative; /* Para posicionar el avatar */
+    position: relative;
 }
 
 .info-card {
@@ -44,7 +43,6 @@
     line-height: 1.6;
 }
 
-/* Tarjetas de resumen (Órdenes, Ahorro) */
 .summary-cards {
     display: flex;
     flex-direction: column;
@@ -68,13 +66,12 @@
     font-weight: bold;
 }
 
-.green { background-color: #2E7D32; } /* Verde más oscuro */
-.dark-green { background-color: #1B5E20; } /* Verde aún más oscuro */
+.green { background-color: #2E7D32; } 
+.dark-green { background-color: #1B5E20; } 
 
-/* Avatar del usuario */
 .avatar {
     position: absolute;
-    top: 50px; /* Ajusta para que quede bien posicionado */
+    top: 50px;
     right: 0;
     width: 120px;
     height: 120px;
@@ -90,7 +87,6 @@
     object-fit: cover;
 }
 
-/* --- Sección Inferior (Tabla de Órdenes) --- */
 .orders-title {
     font-size: 24px;
     font-weight: 400;
@@ -101,7 +97,7 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    overflow: hidden; /* Para que los bordes redondeados se apliquen a la tabla */
+    overflow: hidden;
     border: 1px solid #eee;
 }
 
@@ -127,12 +123,11 @@
 }
 
 .orders-table tbody tr:last-child td {
-    border-bottom: none; /* Quita el borde de la última fila */
+    border-bottom: none; 
 }
 
-/* Estilos específicos de la tabla */
 .order-id {
-    color: #4CAF50; /* Verde principal */
+    color: #4CAF50;
     font-weight: bold;
     cursor: pointer;
 }
@@ -146,11 +141,11 @@
 }
 
 .status-delivered {
-    background-color: #4CAF50; /* Verde */
+    background-color: #4CAF50;
 }
 
 .status-pending {
-    background-color: #F44336; /* Rojo */
+    background-color: #F44336; 
 }
 
 .btn-detail {

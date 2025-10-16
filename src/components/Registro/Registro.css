@@ -20,8 +20,8 @@
 
 .btn-primary2 {
     padding: 10px;
-    background-color: var(--green-primary);
-    color: var(--white);
+    background-color: green;
+    color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -43,7 +43,6 @@
 }
 
 .cont_1 input {
-    /* Usa el estilo de .grupo input */
     width: 100%;
     padding: 10px 15px;
     border: 1px solid #ccc;

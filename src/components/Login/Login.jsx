@@ -11,7 +11,7 @@ const Login = () => {
     const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
 
-    const { login } = useUser(); // Obtener la función de login del contexto
+    const { login } = useUser();
 
     const handleLogin = () => {
         

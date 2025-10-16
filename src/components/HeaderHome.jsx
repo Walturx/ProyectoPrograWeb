@@ -29,7 +29,7 @@ function HeaderHome() {
   return (
     <header className="flex items-center justify-between bg-white-500 px-8 py-4 shadow-md h-30">
       <div className="flex items-center">
-        <Link to={'/'}>
+        <Link to={'/home'}>
 
           <img
             src="https://gameplay.com.co/cdn/shop/files/loggp.png?v=1746397510&width=500"

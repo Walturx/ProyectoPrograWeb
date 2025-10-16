@@ -16,7 +16,6 @@ const Registro = () => {
 
     const handleRegister = () => {
 
-        // Validaciones básicas
         if (password !== confirmPassword) {
             alert("Las contraseñas no coinciden.");
             return;
@@ -40,7 +39,6 @@ const Registro = () => {
             telefono: ""
         };
 
-        // Llamamos a la función register del contexto
         const exito = register(newUser);
 
         if (exito) {

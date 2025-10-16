@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Importamos useParams
+import { useNavigate, useParams } from 'react-router-dom'; 
 import { useUser } from '../../context/UserContext';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
-    const { email } = useParams(); // Obtenemos el email de la URL
-    const { resetPassword } = useUser(); // Necesitaremos esta función del contexto
+    const { email } = useParams(); 
+    const { resetPassword } = useUser(); 
 
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,12 +17,11 @@ const ResetPassword = () => {
             return;
         }
 
-        // Llamamos a la función del contexto para cambiar la contraseña
         const exito = resetPassword(email, newPassword);
 
         if (exito) {
             alert("Contraseña actualizada con éxito. Por favor, inicia sesión de nuevo.");
-            navigate('/'); // Redirigimos al login
+            navigate('/');
         } else {
             alert("No se pudo actualizar la contraseña.");
         }
