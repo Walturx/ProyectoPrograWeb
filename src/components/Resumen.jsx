@@ -39,8 +39,8 @@ function Resumen({ productosSeleccionados, total, descuento }) {
             {mostrarBotones && (
                 <>
                     <button className="btn-continuar" onClick={handleSiguiente}>Continuar compra</button>
-                    <button className="btn-eliminar" onClick={handleEliminar}>Cancelar compra</button>
-                    <button className="btn-guardar">Guardar para después</button>
+                    <button className="btn-eliminarCarrito" onClick={handleEliminar}>Cancelar compra</button>
+                    <button className="btn-guardarCarrito">Guardar para después</button>
                     
                 </>
             )}
@@ -49,3 +49,4 @@ function Resumen({ productosSeleccionados, total, descuento }) {
 }
 
 export default Resumen;
+
