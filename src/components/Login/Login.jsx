@@ -15,13 +15,18 @@ const Login = () => {
     const { login } = useUser();
 
     const handleLogin = () => {
-        
-        if (login(usuario, password)) {
-            navigate('/home')
+        const usuarioLogueado = login(usuario, password);
+
+        if (usuarioLogueado) {
+            if (usuarioLogueado.admin === 1) {
+                navigate('/dashboard-admin');
+            } else {
+                navigate('/home');
+            }
+        } else {
+            alert('Usuario o password incorrecto!');
         }
-        else
-            alert('Usuario o password incorrecto!')
-    }
+    };
 
 
     return (

@@ -16,13 +16,13 @@ export const usuarios = [
     id: 2,
     nombre: "Admin Master",
     apellido: "Power",
-    email: "admin@example.com",
+    email: "admin",
     dni: "87654321",
     fechaRegistro: "10/01/2025",
     estado: "Activo",
     admin: 1, // 1 = admin
     imagen: "https://i.pravatar.cc/150?img=5",
-    password: "AdministratorPriviledges",
+    password: "admin",
     telefono: 965098605,
   }
 ];

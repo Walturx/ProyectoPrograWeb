@@ -1,6 +1,4 @@
 //HECHO POR ANDRES BEJAR 20230352
-
-import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 import categ from '../data/categorias';
 function Productos() {

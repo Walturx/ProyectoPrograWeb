@@ -32,6 +32,17 @@ import PagoTarjeta from './views/Pago_Tarjeta';
 import Pedido from './views/Pedido';
 import { Navigate } from "react-router-dom"; 
 
+import DashboardAdminPage from "./views/Dashboard";
+import ListaProductoPage from "./views/Lista_Prod";
+import AgregarProductoPage from "./views/Agregar_Prod";
+import ModProductoPage from "./views/Mod_Prod";
+
+import Todas_Ordenes from './components/DashBoar/Front/Componentes/Todas_Ordenes'
+import Detalles_Ordenes from './components/DashBoar/Front/Componentes/Detalles_Ordenes'
+import Detalles_Usuarios from './components/DashBoar/Front/Componentes/Detalles_Usuarios'
+import Usuarios from './components/DashBoar/Front/Componentes/Usuarios'
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -63,6 +74,16 @@ root.render(
               <Route path="/pago-qr" element={<ProtectedRoute><PagoQR /></ProtectedRoute>} />
               <Route path="/pago-tarjeta" element={<ProtectedRoute><PagoTarjeta /></ProtectedRoute>} />
               <Route path="/pedido" element={<ProtectedRoute><Pedido /></ProtectedRoute>} />
+
+              <Route path="/dashboard-admin" element={<ProtectedRoute><DashboardAdminPage /></ProtectedRoute>} />
+              <Route path="/dashboard-admin/lista-productos" element={<ProtectedRoute><ListaProductoPage /></ProtectedRoute>} />
+              <Route path="/dashboard-admin/agregar-producto" element={<ProtectedRoute><AgregarProductoPage /></ProtectedRoute>} />
+              <Route path="/dashboard-admin/modificar-producto/:id" element={<ProtectedRoute><ModProductoPage /></ProtectedRoute>} />
+
+              <Route path="/usuarios" element={<ProtectedRoute><Usuarios /></ProtectedRoute>} />
+              <Route path="/ordenes" element={<ProtectedRoute><Todas_Ordenes /></ProtectedRoute>} />
+              <Route path="/detalles_Orden" element={<ProtectedRoute><Detalles_Ordenes /></ProtectedRoute>} />
+              <Route path="/detalles_Usuario/:id" element={<ProtectedRoute><Detalles_Usuarios /></ProtectedRoute>} />
             </Routes>
           </Router>
         </EnvioProvider>

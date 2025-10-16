@@ -12,11 +12,12 @@ export function UserProvider({ children }) {
                                         && u.password === password);
 
         if (resultado) {
-            setUser(resultado)
+            setUser(resultado);
             localStorage.setItem("usuario", JSON.stringify(resultado));
-            return true;
-        } else 
-            return false;
+            return resultado;
+        } else {
+            return null;
+        }
     }
 
     const logout = () => {

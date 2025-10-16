@@ -51,12 +51,12 @@ function Lista_Prod() {
                                 <tr key={v.id}>
                                     <td><img src={v.imagen} alt="" /></td>
                                     <td class="ID"><b>#{v.id}</b></td>
-                                    <td>{v.nombre}</td>
-                                    <td>{v.presentacion}</td>
-                                    <td>{v.descripcion}</td>
-                                    <td><b>{v.categoria}</b></td>
-                                    <td>{v.stock}</td>
-                                    <td><button class="Acciones" onClick={()=> navigate(`/modprod/${v.id}`)}>✏️</button><button class="Acciones">🗑️</button></td>
+                                    <td class="tdAdmin">{v.nombre}</td>
+                                    <td class="tdAdmin">{v.presentacion}</td>
+                                    <td class="tdAdmin">{v.descripcion}</td>
+                                    <td class="tdAdmin"><b>{v.categoria}</b></td>
+                                    <td class="tdAdmin">{v.stock}</td>
+                                    <td class="tdAdmin"><button class="Acciones" onClick={()=> navigate(`/modprod/${v.id}`)}>✏️</button><button class="Acciones">🗑️</button></td>
                                     <hr />
                                 </tr> 
                             )
