@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import React, { createContext, useState, useEffect } from "react";
 
 export const CarritoContext = createContext();
@@ -53,6 +55,7 @@ export const CarritoProvider = ({ children }) => {
     </CarritoContext.Provider>
   );
 };
+
 
 
 
