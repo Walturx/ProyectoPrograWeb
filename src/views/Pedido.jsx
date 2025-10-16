@@ -20,10 +20,6 @@ function Pedido() {
     setProductosFinal(pedidoGuardado);
   }, []);
 
-  useEffect(() => {
-    vaciarCarrito();
-  }, [vaciarCarrito]);
-
   const { total, contador, descuento } = useCalculoCarrito(productosFinal);
 
   return (
@@ -97,5 +93,6 @@ function Pedido() {
 }
 
 export default Pedido;
+
 
 
