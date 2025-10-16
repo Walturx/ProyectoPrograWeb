@@ -1,3 +1,4 @@
+//Codigo hecho por Martín Tejada
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import './UserDashboard.css';
@@ -17,7 +18,6 @@ const UserDashboard = () => {
 
     return (
         <div className="dashboard-container">
-            {/* --- CONTENEDOR SIMPLE PARA EL ENCABEZADO --- */}
             <div className="user-header">
                 <h1 className="welcome-title">Hola, {user.nombre}!</h1>
                 <div className="avatar">
@@ -25,7 +25,6 @@ const UserDashboard = () => {
                 </div>
             </div>
 
-            {/* --- El resto del contenido sigue igual --- */}
             <div className="user-info-grid">
                 <div className="info-card">
                     <h4>Datos personales</h4>
@@ -40,7 +39,7 @@ const UserDashboard = () => {
                 <div className="summary-cards">
                     <div className="summary-card green">
                         <p>Órdenes</p>
-                        <span>3</span>
+                        <span>2</span>
                     </div>
                 </div>
             </div>
