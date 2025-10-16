@@ -1,3 +1,5 @@
+//Codigo hecho por Walter Melendez 20231805
+
 import { Link } from "react-router-dom";
 import { categorias } from "../data/categoria";
 

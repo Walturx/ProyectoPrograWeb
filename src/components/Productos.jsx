@@ -1,3 +1,5 @@
+//Codigo hecho por Walter Melendez 20231805
+
 import { Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { Swiper, SwiperSlide } from "swiper/react";

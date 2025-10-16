@@ -1,3 +1,5 @@
+//Codigo hecho por Walter Melendez 20231805
+
 import React, { useRef } from 'react';
 import localImg from '../assets/banner.png';
 import localImg1 from '../assets/banner1.jpg';

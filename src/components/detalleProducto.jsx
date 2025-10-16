@@ -1,3 +1,5 @@
+//Codigo hecho por Walter Melendez 20231805
+
 import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { useContext } from "react";
