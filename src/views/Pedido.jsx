@@ -4,7 +4,6 @@ import HeaderHome from "../components/HeaderHome";
 import Navbar from "../components/navBarHome";
 import Resumen from "../components/Resumen";
 import Producto from "../components/Producto";
-import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from "../data/logicaCarrito";
 import { EnvioContext } from "../context/EnvioContext";
 import { useContext, useEffect, useState } from 'react';
@@ -12,7 +11,6 @@ import { obtenerFechaEntrega } from "../data/fechaEnvio";
 import Footer from "../components/footer";
 
 function Pedido() {
-  const { vaciarCarrito } = useContext(CarritoContext);
   const { datosEnvio } = useContext(EnvioContext);
   const [productosFinal, setProductosFinal] = useState([]); // estado para los productos del pedido
   const fechaFormateada = obtenerFechaEntrega(2);
@@ -95,6 +93,7 @@ function Pedido() {
 }
 
 export default Pedido;
+
 
 
 
