@@ -1,0 +1,147 @@
+//HECHO POR ANDRES BEJAR 20230352
+
+const productos = [
+    // Consolas (id 1-5)
+
+    {
+        id: 1,
+        nombre: "PlayStation 5",
+        stock: 10,
+        imagen: "https://m.media-amazon.com/images/I/51eOztNdCkL._SL1500_.jpg",
+        descripcion: "Consola de última generación de Sony con gráficos 4K y SSD ultrarrápido.",
+        categoria: "Consolas",
+        presentacion: "Fisico",
+    },
+    {
+        id: 2,
+        nombre: "Xbox Series X",
+        stock: 1,
+        imagen: "https://m.media-amazon.com/images/I/61JGKhqxHxL._SL1500_.jpg",
+        descripcion: "Consola potente de Microsoft con 1TB de almacenamiento y rendimiento de 120 FPS.",
+        categoria: "Consolas",
+        presentacion: "Fisico",
+    },
+    {
+        id: 3,
+        nombre: "Nintendo Switch OLED",
+        stock: 50,
+        imagen: "https://media.falabella.com/falabellaPE/116992404_01/w=1500,h=1500,fit=pad",
+        descripcion: "Consola híbrida con pantalla OLED de 7 pulgadas y soporte mejorado.",
+        categoria: "Consolas",
+        presentacion: "Fisico",
+    },
+    {
+        id: 4,
+        nombre: "PlayStation 4 Slim 1TB",
+        stock: 40,
+        imagen: "https://prizmastore.pe/wp-content/uploads/2019/04/4-1024x1024.jpg",
+        descripcion: "Versión compacta y eficiente de la PS4 con 1TB de almacenamiento.",
+        categoria: "Consolas",
+        presentacion: "Fisico",
+    },
+    {
+        id: 5,
+        nombre: "Xbox Series S",
+        stock: 22,
+        imagen: "https://m.media-amazon.com/images/I/71NBQ2a52CL._SL1500_.jpg",
+        descripcion: "Consola digital compacta con gran rendimiento a menor precio.",
+        categoria: "Consolas",
+        presentacion: "Fisico",
+    },
+
+    // Coleccionables (id 6–10)
+    {
+        id: 6,
+        nombre: "Figura The Mandalorian con Grogu",
+        stock: 35,
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSslo18m6Ezk1BNO3WDuLG45upPu_E594dB-g&s",
+        descripcion: "Figura detallada de The Mandalorian sosteniendo a Grogu.",
+        categoria: "Coleccionables",
+        presentacion: "Fisico",
+    },
+    {
+        id: 7,
+        nombre: "Funko Pop! Darth Vader",
+        stock: 12,
+        imagen: "https://production-tailoy-repo-magento-statics.s3.amazonaws.com/imagenes/872x872/productos/i/f/u/funko-pop-star-wars-darth-vader-71372-default-1.jpg",
+        descripcion: "Figura coleccionable de Star Wars en versión Funko Pop.",
+        categoria: "Coleccionables",
+        presentacion: "Fisico",
+    },
+    {
+        id: 8,
+        nombre: "Lego Star Wars X-Wing",
+        stock: 2,
+        imagen: "https://m.media-amazon.com/images/I/81KnhgtqQmL._AC_SL1500_.jpg",
+        descripcion: "Set de construcción coleccionable del clásico X-Wing.",
+        categoria: "Coleccionables",
+        presentacion: "Fisico",
+    },
+    {
+        id: 9,
+        nombre: "Figura Iron Man Hot Toys",
+        stock: 0,
+        imagen: "https://m.media-amazon.com/images/I/611y2Ch1D-L._AC_SL1000_.jpg",
+        descripcion: "Figura premium articulada de Iron Man de colección.",
+        categoria: "Coleccionables",
+        presentacion: "Fisico",
+    },
+    {
+        id: 10,
+        nombre: "Estatua Batman Dark Knight",
+        stock: 4,
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXNKNURjHir6Dwq6SBr8ApAzXQDpef0UAkEw&s",
+        descripcion: "Estatua de alta calidad de Batman basada en la película The Dark Knight.",
+        categoria: "Coleccionables",
+        presentacion: "Fisico",
+    },
+
+    // Periféricos (id 11–15)
+    {
+        id: 11,
+        nombre: "Teclado Mecánico RGB Logitech G Pro X",
+        stock: 20,
+        imagen: "https://cyccomputer.pe/56012-large_default/teclado-logitech-g-pro-x-60-black-lightspeed-rgb-tactil-wireless-bluetooth-pn920-011902.jpg",
+        descripcion: "Teclado profesional mecánico con switches intercambiables y RGB.",
+        categoria: "Periféricos",
+        presentacion: "Fisico",
+    },
+    {
+        id: 12,
+        nombre: "Mouse Logitech G502 HERO",
+        stock: 30,
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdysNh8M1Y88rXoUj5Dux_oY_iipyllnJhJA&s",
+        descripcion: "Mouse gaming de alta precisión con 11 botones programables.",
+        categoria: "Periféricos",
+        presentacion: "Fisico",
+    },
+    {
+        id: 13,
+        nombre: "Auriculares Razer Kraken",
+        stock: 50,
+        imagen: "https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/a/u/audifonos_razer_kraken_v4_x_negro_2_.jpg",
+        descripcion: "Auriculares con sonido envolvente y micrófono retráctil.",
+        categoria: "Periféricos",
+        presentacion: "Fisico",
+    },
+    {
+        id: 14,
+        nombre: "Monitor ASUS TUF Gaming 27” 165Hz",
+        stock: 60,
+        imagen: "https://www.asus.com/media/global/gallery/rnzytqtxhqoshuut_setting_xxx_0_90_end_2000.png",
+        descripcion: "Monitor con alta tasa de refresco y tecnología ELMB para gaming competitivo.",
+        categoria: "Periféricos",
+        presentacion: "Fisico"
+    },
+    {
+        id: 15,
+        nombre: "Base de Carga Dual para PS5",
+        stock: 50,
+        imagen: "https://phantom.pe/media/catalog/product/cache/c58c05327f55128aefac5642661cf3d1/e/s/estacion-de-carga-ps5.jpg",
+        descripcion: "Accesorio para cargar dos controles de PS5 al mismo tiempo.",
+        categoria: "Periféricos",
+        presentacion: "Fisico",
+    },
+];
+
+export default productos;

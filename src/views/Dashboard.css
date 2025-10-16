@@ -1,0 +1,147 @@
+/*HECHO POR ANDRES BEJAR 20230352*/
+
+.informacion{
+    display: flex;
+}
+
+.Dash_cab{
+    flex: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgb(58, 164, 34);
+    padding: 40px;
+    color: white;
+    border-radius: 20px;
+}
+
+.cont_dash{
+    display: flex;
+}
+
+.tablas_cab{
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.tablas_cab button{
+    height: 40px;
+    margin: 10px;
+    margin-left: 150px;
+    border-bottom: transparent;
+    border-radius: 20px;    
+}
+
+table{
+    border: solid gray;
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 10px;
+    width: 90%;
+}
+
+.tablas{
+    padding-left: 50px;
+    padding-right: 50px;
+    display: flex;
+}
+
+.Activo{
+    color: rgb(58, 164, 34);
+}
+
+.Inactivo{
+    color: red;
+}
+
+.Desactivar{
+    background-color: rgb(58, 164, 34);
+    border: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    width: 100px;
+}
+
+.Activar{
+    border-color: rgb(58, 164, 34);
+    color: rgb(58, 164, 34);
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.TbUsuarios img{
+    border-radius: 100%;
+    width: 80px;
+}
+
+.tablas_dash{
+    flex: 1;
+    width: 100%;
+}
+
+.Detalle{
+    display: flex;
+    
+}
+
+.Detalle img{
+    border-radius: 100%;
+    padding: 60px;
+    width: 110px;
+}
+
+.contenido-usuario{
+    border: solid gray 1px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+}
+
+.Ordenes{
+    display: flex;
+    padding-left: 50px;
+}
+
+td{
+    padding: 10px;
+}
+
+.Formulario{
+    display: flex;
+    border: solid gray 1px;
+    width: 100%;
+    border-radius: 8px;
+    padding: 24px;
+
+}
+.Form{
+    flex: 1;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.Form input{
+    width: 200px;
+    border-radius: 4px;
+}
+
+.AgregProd{
+    display: flex;
+    justify-content: center;
+}
+
+textarea{
+    border-radius: 4px;
+    width: 300px;
+    height: 100px; 
+}
+
+.Archivo{
+    margin-bottom: 200px;
+}
+
+.ImagenEdit{
+    width: 300px;
+}
