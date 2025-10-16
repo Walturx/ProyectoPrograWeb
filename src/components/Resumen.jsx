@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContexto";
 import './Resumen.css';
 
-function Resumen({ productosSeleccionados, total, descuento }) {
+function Resumen({ productosSeleccionados, total, descuento, onGuardarParaDespues }) {
     const navigate = useNavigate();
     const location = useLocation();
     const { vaciarCarrito } = useContext(CarritoContext);
@@ -40,7 +40,7 @@ function Resumen({ productosSeleccionados, total, descuento }) {
                 <>
                     <button className="btn-continuar" onClick={handleSiguiente}>Continuar compra</button>
                     <button className="btn-eliminarCarrito" onClick={handleEliminar}>Cancelar compra</button>
-                    <button className="btn-guardarCarrito">Guardar para después</button>
+                    <button className="btn-guardarCarrito" onClick={onGuardarParaDespues}>Guardar para después</button>
                     
                 </>
             )}
@@ -49,4 +49,6 @@ function Resumen({ productosSeleccionados, total, descuento }) {
 }
 
 export default Resumen;
+
+
 
