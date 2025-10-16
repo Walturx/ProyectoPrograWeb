@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import './App.css';
 import Dash from './Componentes/Dash.jsx';
 import Usuarios from './Componentes/Usuarios.jsx';
-import Detalles_Usuarios from './Componentes/Detalles_Usuarios.jsx';
 
 function App() {
   const navigate = useNavigate();
@@ -12,8 +11,10 @@ function App() {
     navigate("/usuarios"); 
   };  
 
-  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
- 
+  const irATodos_Ordenes = () => {
+    navigate("/ordenes");
+  };
+
   return (
     <div>
       
@@ -31,7 +32,7 @@ function App() {
                 >Ver todos los Usuarios</button>
                 </div>
 
-                <Usuarios mostrar ='limitado' onSeleccionarUsuario={setUsuarioSeleccionado} />
+                <Usuarios />
                 </section>
                 <div className="pagination">
                     <button className="prev">◀</button>
@@ -49,7 +50,6 @@ function App() {
                     <img alt="Foto de Juan Perez" id='fotoRad'/>
                 </div>
                 <div className="user-data">
-                    <Detalles_Usuarios id ={ usuarioSeleccionado}/>
                 </div>
                 </div>
 
@@ -68,16 +68,6 @@ function App() {
                     <td>20/01/2025</td>
                     <td>S/199.00</td>
                 </tr>
-                <tr>
-                    <td>#2386</td>
-                    <td>20/02/2025</td>
-                    <td>S/199.00</td>
-                </tr>
-                <tr>
-                    <td>#4577</td>
-                    <td>20/03/2025</td>
-                    <td>S/199.00</td>
-                </tr>
             </tbody>
         </table>
         <div className="pagination">
@@ -90,8 +80,10 @@ function App() {
     </div>
         <div className='barraOrdenes'>
             <h3>Listado Ordenes</h3>
+            
             <button>Ver Productos</button>
-            <button>Ver Todas las Ordenes</button>
+            <button onClick={irATodos_Ordenes}>Ver Todas las Ordenes</button>
+            
         </div>
         <div>
 

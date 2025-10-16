@@ -5,14 +5,22 @@ import Producto from "../components/Producto";
 import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from "../data/logicaCarrito";
 import { EnvioContext } from "../context/EnvioContext";
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { obtenerFechaEntrega } from "../data/fechaEnvio";
-import Footer from "../components/footer"
+import Footer from "../components/footer";
+
 function Pedido() {
-  const { productos } = useContext(CarritoContext);
-  const { total, contador, descuento } = useCalculoCarrito(productos);
+  const { vaciarCarrito } = useContext(CarritoContext);
   const { datosEnvio } = useContext(EnvioContext);
+  const [productosFinal, setProductosFinal] = useState([]); // estado para los productos del pedido
   const fechaFormateada = obtenerFechaEntrega(2);
+
+  useEffect(() => {
+    const pedidoGuardado = JSON.parse(localStorage.getItem("pedido_final")) || [];
+    setProductosFinal(pedidoGuardado);
+  }, []);
+
+  const { total, contador, descuento } = useCalculoCarrito(productosFinal);
 
   return (
     <>
@@ -27,13 +35,21 @@ function Pedido() {
 
         <div className="checkout-grid">
           <div className="carro-productos">
-            {productos.map((producto) => (
-              <Producto key={producto.id} {...producto} />
-            ))}
+            {productosFinal.length === 0 ? (
+              <p>No hay productos en este pedido.</p>
+            ) : (
+              productosFinal.map((producto) => (
+                <Producto key={producto.id} {...producto} />
+              ))
+            )}
           </div>
 
           <aside className="resumen-final">
-            <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
+            <Resumen
+              productosSeleccionados={contador}
+              total={total}
+              descuento={descuento}
+            />
 
             <div className="direccion-envio-final">
               <h3>Dirección de envío</h3>
@@ -55,7 +71,6 @@ function Pedido() {
                   <p>
                     Fecha de entrega aproximada: <b>{fechaFormateada}</b>
                   </p>
-
                 </>
               ) : (
                 <p style={{ color: "red" }}>❌ No hay datos de envío guardados.</p>
@@ -71,10 +86,13 @@ function Pedido() {
           </aside>
         </div>
       </main>
-      <Footer />
 
+      <Footer />
     </>
   );
 }
+
 export default Pedido;
+
+
 
