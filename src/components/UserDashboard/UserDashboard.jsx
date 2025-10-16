@@ -23,8 +23,8 @@ const UserDashboard = () => {
                 <div className="info-card">
                     <h4>Datos personales</h4>
    
-                    <p><strong>Nombre:</strong> Juan Perez</p>
-                    <p><strong>Correo:</strong> juan.perez@example.com</p>
+                    <p><strong>Nombre:</strong> {user.nombre} {user.apellido}</p>
+                    <p><strong>Correo:</strong> {user.email}</p>
                 </div>
                 <div className="info-card">
                     <h4>Dirección de envío</h4>
