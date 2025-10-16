@@ -19,10 +19,9 @@
 ========================================================= */
 
 .btn-continuar,
-.btn-eliminar,
-.btn-guardar,
-.btn-pago,
-.btn-restaurar {
+.btn-eliminarCarrito,
+.btn-guardarCarrito,
+.btn-pago {
   color: white;
   border: none;
   border-radius: 6px;
@@ -35,17 +34,16 @@
 
 
 .btn-continuar,
-.btn-pago,
-.btn-restaurar {
+.btn-pago {
   background-color: #28a745;
   font-weight: bold;
 }
 
-.btn-eliminar {
+.btn-eliminarCarrito {
   background-color: #dc3545;
 }
 
-.btn-guardar {
+.btn-guardarCarrito {
   background-color: #f95c0d;
 }
 
@@ -55,11 +53,11 @@
   background-color: #218838;
 }
 
-.btn-guardar:hover {
+.btn-guardarCarrito:hover {
   background-color: #c1490d;
 }
 
-.btn-eliminar:hover {
+.btn-eliminarCarrito:hover {
   background-color: #ae1e2c;
 }
 
@@ -324,4 +322,5 @@
   font-weight: bold;
   color: #000000;
 }
+
 
