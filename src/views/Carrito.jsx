@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import React, { useContext, useState, useEffect } from 'react';
 import '../assets/estilos.css';
 import HeaderHome from '../components/HeaderHome';
@@ -123,3 +125,4 @@ function Carrito() {
 }
 
 export default Carrito;
+
