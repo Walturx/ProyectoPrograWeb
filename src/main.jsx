@@ -57,7 +57,7 @@ root.render(
               <Route path="/usuario/:usuarioId/cambiar-clave" element={<ProtectedRoute><CambiarClavePage /></ProtectedRoute>} />
               <Route path="/usuario/:usuarioId/listadoCategorias" element={<ListadoCategoriasPage />} />
               <Route path="/usuario/:usuarioId/listadoCategorias/crearCategoria" element={<CrearCategoriaPage />} />
-              <Route path="/usuario/:usuarioId/listadoCategorias/editar/:id" element={<EditarCategoriaPage />} /> {/* ruta para editar categoria */}
+              <Route path="/usuario/:usuarioId/listadoCategorias/editar/:id" element={<EditarCategoriaPage />} />
               <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
               <Route path="/metodo-pago" element={<ProtectedRoute><MetodoPago /></ProtectedRoute>} />
               <Route path="/pago-qr" element={<ProtectedRoute><PagoQR /></ProtectedRoute>} />

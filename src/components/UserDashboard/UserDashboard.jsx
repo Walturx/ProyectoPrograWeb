@@ -17,14 +17,21 @@ const UserDashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <h1 className="welcome-title">Hola, {user.nombre}!</h1>
-            
+            {/* --- CONTENEDOR SIMPLE PARA EL ENCABEZADO --- */}
+            <div className="user-header">
+                <h1 className="welcome-title">Hola, {user.nombre}!</h1>
+                <div className="avatar">
+                    <img src={user.imagen} alt={`Foto de ${user.nombre}`} />
+                </div>
+            </div>
+
+            {/* --- El resto del contenido sigue igual --- */}
             <div className="user-info-grid">
                 <div className="info-card">
                     <h4>Datos personales</h4>
-   
                     <p><strong>Nombre:</strong> {user.nombre} {user.apellido}</p>
                     <p><strong>Correo:</strong> {user.email}</p>
+                    <p><strong>Fecha de registro:</strong> {user.fechaRegistro}</p>
                 </div>
                 <div className="info-card">
                     <h4>Dirección de envío</h4>

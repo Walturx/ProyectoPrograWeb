@@ -1,24 +1,48 @@
-
 .dashboard-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
     font-family: Arial, sans-serif;
-    color: #333;
+}
+
+/* --- ESTA ES LA PARTE IMPORTANTE Y SIMPLE --- */
+.user-header {
+    display: flex;              /* Pone los elementos en una fila */
+    justify-content: space-between; /* Empuja el título a la izquierda y la imagen a la derecha */
+    align-items: center;        /* Los alinea verticalmente en el centro */
+    margin-bottom: 30px;        /* Espacio para que no se pegue con las tarjetas de abajo */
 }
 
 .welcome-title {
     font-size: 32px;
-    font-weight: 300; 
-    margin-bottom: 30px;
+    font-weight: 300;
+    margin: 0; /* Quitamos cualquier margen extra */
 }
+
+.avatar {
+    /* Ya no necesita 'position: absolute' */
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* --- FIN DE LA PARTE IMPORTANTE --- */
+
 
 .user-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr;
     gap: 30px;
     margin-bottom: 50px;
-    position: relative;
 }
 
 .info-card {
@@ -66,25 +90,8 @@
     font-weight: bold;
 }
 
-.green { background-color: #2E7D32; } 
-.dark-green { background-color: #1B5E20; } 
-
-.avatar {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 5px solid white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.green {
+    background-color: #2E7D32;
 }
 
 .orders-title {
@@ -106,7 +113,8 @@
     border-collapse: collapse;
 }
 
-.orders-table th, .orders-table td {
+.orders-table th,
+.orders-table td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #f0f0f0;
@@ -123,7 +131,7 @@
 }
 
 .orders-table tbody tr:last-child td {
-    border-bottom: none; 
+    border-bottom: none;
 }
 
 .order-id {
@@ -132,7 +140,8 @@
     cursor: pointer;
 }
 
-.status-delivered, .status-pending {
+.status-delivered,
+.status-pending {
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 12px;
@@ -145,7 +154,7 @@
 }
 
 .status-pending {
-    background-color: #F44336; 
+    background-color: #F44336;
 }
 
 .btn-detail {
