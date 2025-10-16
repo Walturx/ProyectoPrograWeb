@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import HeaderHome from "../components/HeaderHome";
 import Navbar from '../components/navBarHome';
 import Resumen from '../components/Resumen';
@@ -57,3 +59,4 @@ function PagoQR() {
 }
 
 export default PagoQR;
+
