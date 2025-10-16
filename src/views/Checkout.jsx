@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import React, { useContext, useState } from "react";
 import HeaderHome from '../components/HeaderHome';
 import NavBarHome from '../components/navBarHome';
@@ -108,3 +110,4 @@ function Checkout() {
   );
 }
 export default Checkout;
+

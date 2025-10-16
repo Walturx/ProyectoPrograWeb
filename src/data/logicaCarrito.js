@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import { useMemo } from "react";
 
 export const useCalculoCarrito = (productos) => {
@@ -22,3 +24,4 @@ export const useCalculoCarrito = (productos) => {
 
   return { total, contador, descuento };
 };
+
