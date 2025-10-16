@@ -83,6 +83,23 @@
   font-weight: 700;
 }
 
+.guardados-seccion {
+  width: 85%;
+  margin: 40px auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.guardados-seccion h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
 /* =========================================================
    DIRECCIONES EN 2 COLUMNAS
 ========================================================= */
@@ -334,6 +351,7 @@
   font-weight: bold;
   color: #000000;
 }
+
 
 
 
