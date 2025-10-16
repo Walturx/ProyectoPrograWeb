@@ -45,7 +45,7 @@ return(
                         <td>{o.Ord_Fecha_Ord}</td>
                         <td>S/{o.Ord_Total}</td>
                         <td className="delivered">{o.Ord_Estado}</td>
-                        <td><button className="detail-btn" onClick={() => navigate('/Detalles_Orden')}>Ver detalle</button></td>
+                        <td><button className="detail-btn" onClick={() => navigate('/admin/Detalles_Orden')}>Ver detalle</button></td>
                         </tr>
                         </>
                     ))
@@ -56,7 +56,7 @@ return(
                     <td>20/01/2025</td>
                     <td>S/199.00</td>
                     <td className="delivered">Entregado</td>
-                    <td><button className="detail-btn" onClick={() => navigate('/Detalles_Orden')}>Ver detalle</button></td>
+                    <td><button className="detail-btn" onClick={() => navigate('/admin/Detalles_Orden')}>Ver detalle</button></td>
                 </tr>
                 <tr>
                     <td>#1234</td>

@@ -6,7 +6,7 @@ import usuarios from '../data/usuarios_B';
 function TablaUsuarios({onUsuario}) {
 
     const irATodos_Usuarios = () => {
-    navigate("/usuarios"); 
+    navigate("/admin/usuarios"); 
     };  
 
     const [estado, setEstado] = useState(usuarios)

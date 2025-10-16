@@ -18,7 +18,7 @@ function Dashboard() {
 
 
     const irATodos_Ordenes = () => {
-    navigate("/ordenes");
+    navigate("/admin/ordenes");
     };
     const iraProductos = () =>(
         navigate('/productos')

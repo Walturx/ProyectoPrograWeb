@@ -94,7 +94,7 @@ root.render(
 
               {/* Mantenimiento de Órdenes */}
               <Route path="/admin/ordenes" element={<AdminRoute><Todas_Ordenes /></AdminRoute>} />
-              <Route path="/admin/orden/:ordenId" element={<AdminRoute><Detalles_Ordenes /></AdminRoute>} />
+              <Route path="/admin/Detalles_Orden" element={<AdminRoute><Detalles_Ordenes /></AdminRoute>} />
 
               {/* Mantenimiento de Categorías */}
               <Route path="/admin/categorias" element={<AdminRoute><ListadoCategoriasPage /></AdminRoute>} />

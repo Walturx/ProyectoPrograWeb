@@ -96,7 +96,7 @@ function Usuarios() {
             <td>{u.Us_Fecha_Reg}</td>
             { u.Us_Estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
             <td>  <button onClick={()=> cambiarEstado(u.Us_ID, u.Us_Estado)}> {u.Us_Estado === 1 ? "Desactivar" : "Activar"}</button>
-                  <button onClick= {() => navigate(`/detalles_Usuario/${u.Us_ID}`)}> Ver Detalles</button> </td>
+                  <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.Us_ID}`)}> Ver Detalles</button> </td>
             </tr>
             ))
             ): (<tr>
