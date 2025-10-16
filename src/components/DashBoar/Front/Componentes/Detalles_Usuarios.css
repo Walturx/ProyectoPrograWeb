@@ -42,9 +42,9 @@
 }
 
 .usuario-foto img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
+  width: 240px;
+  height: 240px;
+  border-radius: 90%;
   object-fit: cover;
 }
 
@@ -74,4 +74,12 @@ th, td {
 
 .btn-verdetalle:hover {
   background-color: #16a34a;
+}
+
+.barra{
+  display: flex;
+}
+
+.barra button{
+  margin-left: 633px;
 }

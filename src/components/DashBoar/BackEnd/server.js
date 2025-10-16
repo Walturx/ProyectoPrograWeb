@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/usuarios", (req, res) => {
+  
   connection.query("SELECT * FROM usuarios", (err, results) => {
     if (err) {
       res.status(500).send("Error al obtener usuarios");

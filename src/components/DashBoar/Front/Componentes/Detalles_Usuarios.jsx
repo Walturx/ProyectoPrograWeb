@@ -28,14 +28,19 @@ function Detalles_Usuarios() {
   }
     return(
     <>      <div className="container">
-            <h2>Detalles de usuario</h2>
+                <br />
+                <div className="barra">
+                    <h2>Detalles de usuario</h2> 
+                    <button>Cambiar contraseña</button>
+                </div>
+                <br />
             <div className="order-card">
             <div className="usuario-info">
               <div>
-              <h1><strong>{Usuario.Us_Name}</strong></h1>
-              <p>Correo: {Usuario.Us_Correo}</p>
-              <p>Fecha de registro: {Usuario.Us_Fecha_Reg}</p>
-              { Usuario.Us_Estado === 1 ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   
+              <h1><strong>{Usuario.Us_Name}</strong></h1> <br />
+              <p>Correo: {Usuario.Us_Correo}</p> <br />
+              <p>Fecha de registro: {Usuario.Us_Fecha_Reg}</p> <br />
+              { Usuario.Us_Estado === 1 ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   <br />
               </div>
               
               <div className="usuario-foto">
@@ -44,7 +49,8 @@ function Detalles_Usuarios() {
             </div>
             
             <div className="usuario_ordenes">
-            <h1>Útimas Órdenes</h1>
+              <br />
+              <h1>Útimas Órdenes</h1>
             <table>
             <thead>
               <tr>
