@@ -1,3 +1,5 @@
+// Codigo hecho por Samantha Rodriguez
+
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContexto";
@@ -49,6 +51,7 @@ function Resumen({ productosSeleccionados, total, descuento, onGuardarParaDespue
 }
 
 export default Resumen;
+
 
 
 
