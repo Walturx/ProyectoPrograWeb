@@ -16,6 +16,10 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
+
+    const irATodos_Ordenes = () => {
+    navigate("/ordenes");
+    };
     const iraProductos = () =>(
         navigate('/productos')
     )
@@ -53,7 +57,7 @@ function Dashboard() {
                     <h3>Listado de ordenes</h3>
                     <div className="botonOrden">
                     <button className="Desactivar" onClick={iraProductos}>Ver productos</button>
-                    <button className="Desactivar">Ver todas las ordenes</button>
+                    <button className="Desactivar" onClick={irATodos_Ordenes}>Ver todas las ordenes</button>
                     </div>
                 </div>
             </div>

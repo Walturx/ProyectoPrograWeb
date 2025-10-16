@@ -5,6 +5,10 @@ import usuarios from '../data/usuarios_B';
 
 function TablaUsuarios({onUsuario}) {
 
+    const irATodos_Usuarios = () => {
+    navigate("/usuarios"); 
+    };  
+
     const [estado, setEstado] = useState(usuarios)
 
     const CambiarEstado = (id) => {
@@ -19,7 +23,7 @@ function TablaUsuarios({onUsuario}) {
         <div>
             <div class="tablas_cab">
                 <h3>Usuarios registrados</h3>
-                <button>Ver todos los usuarios</button>
+                <button onClick={irATodos_Usuarios}>Ver todos los usuarios</button>
             </div>
             <table class="TbUsuarios">
                 <thead>
