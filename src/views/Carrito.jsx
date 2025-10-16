@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import '../assets/estilos.css';
-import HeaderMain from '../components/Header';
-import Navbar from '../components/NavBarHome';
+import HeaderHome from '../components/HeaderHome';
+import NavBarHome from '../components/navBarHome';
 import Resumen from '../components/Resumen';
 import Producto from "../components/Producto";
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from '../logic/logicaCarrito';
-
+import { useCalculoCarrito } from '../data/logicaCarrito';
+import Footer from '../components/footer'
 function Carrito() {
   const { productos, setProductos, restaurarProductos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
+    console.log("Productos en carrito:", productos);
 
 
   const handleCantidadChange = (id, cantidad) => {
@@ -30,8 +31,8 @@ function Carrito() {
 
   return (
     <>
-      <HeaderMain />
-      <Navbar />
+      <HeaderHome />
+      <NavBarHome />
 
       <div className="titulo-pagina">
         <h2>Carro</h2>
@@ -64,7 +65,10 @@ function Carrito() {
           total={total}
           descuento={descuento}
         />
+        
       </main>
+                        <Footer/>
+
     </>
   );
 }

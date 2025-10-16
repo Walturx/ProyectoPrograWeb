@@ -1,18 +1,18 @@
-import HeaderMain from '../components/Header'
-import Navbar from '../components/NavBarHome'
+import HeaderHome from "../components/HeaderHome";
+import Navbar from '../components/navBarHome'
 import Resumen from '../components/Resumen'
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from '../logic/logicaCarrito';
+import { useCalculoCarrito } from '../data/logicaCarrito';
 import React, { useContext } from 'react';
 import QR from "../assets/qr.png";
-
+import Footer from "../components/footer"
 
 function PagoQR() {
   const { productos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
   return (
     <>
-      <HeaderMain />
+      <HeaderHome />
       <Navbar />
 
       <div className="titulo-pagina">
@@ -40,6 +40,8 @@ function PagoQR() {
           descuento={descuento}
         />
       </main>
+                                <Footer/>
+
     </>
   );
 }

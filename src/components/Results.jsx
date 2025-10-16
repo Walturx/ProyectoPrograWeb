@@ -1,12 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { useContext } from "react";
-import { PriceContext } from "../data/priceState";
+import { CarritoContext } from "../context/CarritoContexto";
 
 function Results({busqueda}) {
-    // const { busqueda } = useParams();
-    const { addPrice } = useContext(PriceContext);
-
+    const { agregarProducto } = useContext(CarritoContext)
     const resultados = productos.filter((p) =>
         p.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
@@ -41,7 +39,7 @@ function Results({busqueda}) {
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        addPrice(item.precio);
+                                        agregarProducto(item);
                                     }}
                                     className="mt-4 flex items-center bg-green-600 text-white rounded-md hover:bg-green-700 transition px-4 py-2"
                                 >

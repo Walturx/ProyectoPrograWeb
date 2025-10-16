@@ -1,18 +1,18 @@
-import HeaderMain from '../components/Header'
+import HeaderHome from "../components/HeaderHome";
 import Navbar from '../components/NavBarHome'
 import Resumen from '../components/Resumen'
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from '../logic/logicaCarrito';
+import { useCalculoCarrito } from '../data/logicaCarrito';
 import React, { useContext } from 'react';
 import Tarjeta from "../assets/tarjeta.webp";
-
+import Footer from "../components/footer"
 
 function PagoTarjeta() {
   const { productos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
   return (
     <>
-      <HeaderMain />
+      <HeaderHome />
       <Navbar />
 
       <div className="titulo-pagina">
@@ -57,6 +57,8 @@ function PagoTarjeta() {
           descuento={descuento}
         />
       </main>
+                                <Footer/>
+
     </>
   );
 }

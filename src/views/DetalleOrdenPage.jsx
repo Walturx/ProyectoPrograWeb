@@ -8,11 +8,11 @@ import DetalleOrden from "../components/DetalleOrden/DetalleOrden";
 
 export default function DetalleOrdenPage() {
   return (
-    <div >
+    <div className="flex flex-col min-h-screen">
       <HeaderHome />
       <NavBarHome />
 
-      <main >
+      <main className="flex-grow">
         <DetalleOrden />
       </main>
 

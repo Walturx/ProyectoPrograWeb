@@ -1,13 +1,13 @@
-import HeaderMain from '../components/Header';
+import HeaderHome from "../components/HeaderHome";
 import Navbar from '../components/NavBarHome';
 import Resumen from '../components/Resumen';
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from '../logic/logicaCarrito';
+import { useCalculoCarrito } from '../data/logicaCarrito';
 import React, { useContext } from 'react';
-import { useMetodoPagoHandler } from '../logic/redireccionPago';
+import { useMetodoPagoHandler } from '../data/redireccionPago';
 import PagoQR from "../assets/pago-qr.png";
 import PagoTarjeta from "../assets/pago-tarjeta.png";
-
+import Footer from "../components/footer"
 
 function MetodoPago() {
   const { productos } = useContext(CarritoContext);
@@ -16,7 +16,7 @@ function MetodoPago() {
 
   return (
     <>
-      <HeaderMain />
+      <HeaderHome />
       <Navbar />
 
       <div className="titulo-pagina">
@@ -63,7 +63,10 @@ function MetodoPago() {
           total={total}
           descuento={descuento}
         />
+
       </main>
+                                <Footer/>
+
     </>
   );
 }

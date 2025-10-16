@@ -1,13 +1,13 @@
-import HeaderMain from "../components/Header";
-import Navbar from "../components/NavBarHome";
+import HeaderHome from "../components/HeaderHome";
+import Navbar from "../components/navBarHome";
 import Resumen from "../components/Resumen";
 import Producto from "../components/Producto";
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from "../logic/logicaCarrito";
+import { useCalculoCarrito } from "../data/logicaCarrito";
 import { EnvioContext } from "../context/EnvioContext";
 import { useContext, useEffect } from 'react';
-import { obtenerFechaEntrega } from "../logic/fechaEnvio";
-
+import { obtenerFechaEntrega } from "../data/fechaEnvio";
+import Footer from "../components/footer"
 function Pedido() {
   const { productos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
@@ -16,7 +16,7 @@ function Pedido() {
 
   return (
     <>
-      <HeaderMain />
+      <HeaderHome />
       <Navbar />
 
       <main className="pedido-completado">
@@ -71,6 +71,8 @@ function Pedido() {
           </aside>
         </div>
       </main>
+      <Footer />
+
     </>
   );
 }

@@ -2,10 +2,12 @@ import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { useContext } from "react";
 import { PriceContext } from "../data/priceState";
+import { CarritoContext } from "../context/CarritoContexto";
 function ProductoDetalle() {
   const { addPrice } = useContext(PriceContext);
   const { id } = useParams();
   const producto = productos.find((p) => p.id === parseInt(id));
+    const { agregarProducto } = useContext(CarritoContext);
 
   if (!producto) {
     return (
@@ -37,7 +39,9 @@ function ProductoDetalle() {
           <div className="flex items-center space-x-20">
             <p className="mt-20 text-green-500 text-xl font-semibold">S/{producto.precio}</p>
             <button
-              onClick={() => addPrice(producto.precio)}
+              onClick={() => {;
+                agregarProducto(producto); 
+              }}
               className=" mt-20  flex items-center bg-green-600 text-white rounded-md hover:bg-blue-100 transition px-4 py-2">
 
               <svg

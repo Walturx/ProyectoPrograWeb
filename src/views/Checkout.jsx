@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react";
-import HeaderMain from "../components/Header";
-import Navbar from "../components/NavBarHome";
+import HeaderHome from '../components/HeaderHome';
+import NavBarHome from '../components/navBarHome';
 import Resumen from "../components/Resumen";
 import { CarritoContext } from "../context/CarritoContexto";
-import { useCalculoCarrito } from "../logic/logicaCarrito";
+import { useCalculoCarrito } from "../data/logicaCarrito";
 import { EnvioContext } from "../context/EnvioContext";
 import { useNavigate } from "react-router-dom";
 import "../assets/estilos.css";
+
+import Footer from '../components/footer';
 
 function Checkout() {
   const { productos } = useContext(CarritoContext);
@@ -36,8 +38,8 @@ function Checkout() {
 
   return (
     <>
-      <HeaderMain />
-      <Navbar />
+      <HeaderHome />
+      <NavBarHome />
 
       <div className="titulo-pagina">
         <h2>Checkout</h2>
@@ -97,8 +99,11 @@ function Checkout() {
           </form>
 
           <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
+
         </div>
       </main>
+                        <Footer/>
+
     </>
   );
 }

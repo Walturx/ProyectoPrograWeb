@@ -2,6 +2,7 @@ import React from "react";
 import HeaderHome from "../components/HeaderHome";
 import NavBarHome from "../components/navBarHome";
 import CambiarClave from "../components/CambiarClave/CambiarClave";
+import Footer from "../components/footer"
 
 export default function CambiarClavePage() {
   return (
@@ -9,10 +10,10 @@ export default function CambiarClavePage() {
       <HeaderHome />
       <NavBarHome />
 
-      <main>
+      <main >
         <CambiarClave />
       </main>
-
+    <Footer/>
     </div>
   );
 }

@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import 'swiper/css';
 import { useContext } from "react";
-import { PriceContext } from "../data/priceState";
+import { CarritoContext } from "../context/CarritoContexto";
 function Productos() {
-    const {addPrice} = useContext(PriceContext);
+    const {agregarProducto} = useContext(CarritoContext)
     return (
         <div className="flex flex-col items-left space-y-8 m-4">
             <h1 className="text-3xl font-bold text-black">Lo más vendido</h1>
@@ -30,7 +30,10 @@ function Productos() {
                                 S/{item.precio.toFixed(2)}
                             </p>
                             <button
-                                onClick={() => addPrice(item.precio)}
+                                onClick={() => {
+                                    agregarProducto(item);
+                                }
+                                }
                                 className=" mt-20  flex items-center bg-green-600 text-white rounded-md hover:bg-blue-100 transition px-4 py-2">
 
                                 <svg
