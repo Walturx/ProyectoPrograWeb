@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'; 
 import { useUser } from '../../context/UserContext';
+import './ResetPassword.css';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
