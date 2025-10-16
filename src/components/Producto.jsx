@@ -1,3 +1,4 @@
+// Codigo hecho por Samantha Rodriguez
 function Producto({
   id,
   nombre,
@@ -37,3 +38,4 @@ function Producto({
 }
 
 export default Producto;
+
