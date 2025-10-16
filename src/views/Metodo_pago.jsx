@@ -1,5 +1,5 @@
 import HeaderHome from "../components/HeaderHome";
-import Navbar from '../components/NavBarHome';
+import Navbar from '../components/navBarHome';
 import Resumen from '../components/Resumen';
 import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from '../data/logicaCarrito';

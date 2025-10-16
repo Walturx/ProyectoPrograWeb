@@ -4,7 +4,10 @@
 import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { categorias } from "../data/categoria";
+import { useContext } from "react";
+import { CarritoContext } from "../context/CarritoContexto";
 function CatSearch() {
+    const { agregarProducto } = useContext(CarritoContext)
     const { categoria } = useParams();
     const CatProd = productos.filter((p) => p.categoria === categoria);
 
@@ -55,7 +58,11 @@ function CatSearch() {
                                         <h4 className="font-bold text-gray-800">{p.nombre}</h4>
                                         <p className="text-green-700 font-semibold">S/{p.precio.toFixed(2)}</p>
 
-                                        <button className=" mt-5  flex items-center bg-green-600 text-white rounded-md hover:bg-blue-100 transition px-4 py-2">
+                                        <button
+                                            onClick={() => {
+                                                ;
+                                                agregarProducto(p);
+                                            }} className=" mt-5  flex items-center bg-green-600 text-white rounded-md hover:bg-blue-100 transition px-4 py-2">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
@@ -75,6 +82,7 @@ function CatSearch() {
                                                 />
                                             </svg>
                                             Agregar al carrito
+
                                         </button>
                                     </div>
 

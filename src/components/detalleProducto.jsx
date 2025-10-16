@@ -1,10 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/productos";
 import { useContext } from "react";
-import { PriceContext } from "../data/priceState";
 import { CarritoContext } from "../context/CarritoContexto";
 function ProductoDetalle() {
-  const { addPrice } = useContext(PriceContext);
   const { id } = useParams();
   const producto = productos.find((p) => p.id === parseInt(id));
     const { agregarProducto } = useContext(CarritoContext);

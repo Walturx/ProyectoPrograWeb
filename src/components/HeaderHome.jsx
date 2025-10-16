@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PriceContext } from '../data/priceState';
 import { productos } from '../data/productos';
 import { useContext } from "react";
 import { list } from 'postcss';

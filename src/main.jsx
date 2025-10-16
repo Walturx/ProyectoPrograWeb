@@ -6,7 +6,6 @@ import Carrito from "./views/Carrito"
 import ProductoPage from "./views/productPage";
 import CatPage from "./views/categoriasPage";
 import "./assets/index.css";
-import { StatePrice } from "./data/priceState";
 import Results from "./components/Results";
 import SearchPage from "./views/searchPage";
 import { CarritoProvider } from "./context/CarritoContexto";
@@ -29,7 +28,6 @@ import { Navigate } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <StatePrice>
       <CarritoProvider>
         <EnvioProvider>
           <Router>
@@ -59,6 +57,5 @@ root.render(
 
       </CarritoProvider>
 
-    </StatePrice>
   </React.StrictMode>
 );
