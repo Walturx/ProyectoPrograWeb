@@ -43,9 +43,6 @@ function Carrito() {
           {productos.length === 0 ? (
             <div className="carrito-vacio">
               🛒 Tu carrito está vacío
-              <button className="btn-restaurar" onClick={restaurarProductos}>
-                Restaurar productos
-              </button>
             </div>
           ) : (
             productos.map((producto) => (
@@ -74,3 +71,4 @@ function Carrito() {
 }
 
 export default Carrito;
+

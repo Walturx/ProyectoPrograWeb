@@ -30,21 +30,21 @@ function PagoTarjeta() {
 
           <form className="tarjeta-form">
             <label>Número de tarjeta</label>
-            <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" />
+            <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" required />
 
             <label>Nombre del titular</label>
-            <input type="text" placeholder="Nombre" />
+            <input type="text" placeholder="Nombre" required  />
 
             <aside className="fecha-cvv">
               <label>Fecha de vencimiento</label>
-              <input type="text" placeholder="MM/AA" />
+              <input type="text" placeholder="MM/AA" required  />
               <label>CVV</label>
-              <input type="text" placeholder="123" />
+              <input type="text" placeholder="123" required />
             </aside>
 
 
             <a href="/pedido">
-              <button type="button" className="btn btn-pago">
+              <button type="submit" className="btn btn-pago">
                 Realizar pago
               </button>
             </a>
@@ -62,4 +62,5 @@ function PagoTarjeta() {
     </>
   );
 }
+
 export default PagoTarjeta;

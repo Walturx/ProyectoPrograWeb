@@ -26,11 +26,6 @@ export const CarritoProvider = ({ children }) => {
     setProductosEnCarrito([]);
   };
 
-  const restaurarProductos = () => {
-    
-    setProductosEnCarrito([]);
-  };
-
   const agregarProducto = (producto) => {
     setProductosEnCarrito((prev) => {
       const existe = prev.find((p) => p.id === producto.id);
@@ -53,10 +48,12 @@ export const CarritoProvider = ({ children }) => {
         setProductos: setProductosEnCarrito,
         agregarProducto,
         vaciarCarrito,
-        restaurarProductos,
       }}
     >
       {children}
     </CarritoContext.Provider>
   );
 };
+
+
+
