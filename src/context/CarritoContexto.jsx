@@ -11,13 +11,12 @@ export const CarritoProvider = ({ children }) => {
         return data;
       }
     }
-    return []; 
+    return [];
   };
 
   const [productosEnCarrito, setProductosEnCarrito] = useState(inicial);
 
   useEffect(() => {
-    
     const filtrados = productosEnCarrito.filter(p => p.cantidad > 0);
     localStorage.setItem("mi_carrito_productos", JSON.stringify(filtrados));
   }, [productosEnCarrito]);
@@ -32,11 +31,11 @@ export const CarritoProvider = ({ children }) => {
       if (existe) {
         return prev.map((p) =>
           p.id === producto.id
-            ? { ...p, cantidad: p.cantidad + 1 , seleccionado: true }
+            ? { ...p, cantidad: p.cantidad + 1, seleccionado: true }
             : p
         );
       } else {
-        return [...prev, { ...producto, cantidad: 1 , seleccionado: true}];
+        return [...prev, { ...producto, cantidad: 1, seleccionado: true }];
       }
     });
   };
@@ -54,6 +53,8 @@ export const CarritoProvider = ({ children }) => {
     </CarritoContext.Provider>
   );
 };
+
+
 
 
 
