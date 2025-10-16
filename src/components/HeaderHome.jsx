@@ -5,16 +5,27 @@ import { list } from 'postcss';
 import { Link, useNavigate } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from "../data/logicaCarrito";
+
+import { useUser } from '../context/UserContext';
+
 function HeaderHome() {
   const { productos } = useContext(CarritoContext);
-const { total } = useCalculoCarrito(productos);
+  const { total } = useCalculoCarrito(productos);
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState('');
+
+  const { user, logout } = useUser();
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && busqueda.trim() !== "") {
       navigate(`/search/${busqueda}`);
     }
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  }
   return (
     <header className="flex items-center justify-between bg-white-500 px-8 py-4 shadow-md h-30">
       <div className="flex items-center">
@@ -67,13 +78,33 @@ c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25
         </div>
       </Link>
 
-      <div className="flex items-center space-x-2 ">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-          alt="user"
-          className="w-10 h-10 rounded-full border-2 border-white"
-        />
-        <span className="text-grey font-medium">Walter</span>
+      <div className="flex items-center space-x-4">
+        {user ? (
+          <>
+            <Link to="/dashboard" title="Mi Perfil">
+              <img
+                src={user.imagen}
+                alt={user.nombre}
+                className="w-10 h-10 rounded-full border-2 border-green-500 hover:opacity-80"
+              />
+            </Link>
+            <span className="text-gray-700 font-medium">Hola, {user.nombre}</span>
+            <button 
+              onClick={handleLogout} 
+              className="bg-red-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-red-600 transition-colors"
+            >
+              Cerrar Sesión
+            </button>
+          </>
+        ) : (
+
+          <Link 
+            to="/" 
+            className="bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700 transition-colors"
+          >
+            Iniciar Sesión
+          </Link>
+        )}
       </div>
     </header>
   );
