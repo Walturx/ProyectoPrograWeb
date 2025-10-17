@@ -28,7 +28,7 @@ export default function EditarCategoria() {
     alert("Categoría actualizada con éxito");
 
     // navegar de regreso al listado
-    navigate(`/usuario/${usuarioId}/listadoCategorias`);
+    navigate(`/admin/${usuarioId}/categorias`);
   };
 
   return (

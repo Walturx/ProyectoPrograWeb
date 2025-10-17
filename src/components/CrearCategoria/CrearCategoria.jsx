@@ -40,7 +40,7 @@ export default function CrearCategoria() {
     alert("Categoría creada exitosamente 👍");//mensaje confirmado la creacion de categoria 
 
     // Redirigir al listado
-    navigate(`/usuario/${usuarioId}/listadoCategorias`); 
+    navigate(`/admin/${usuarioId}/categorias`); 
   };
 
   return (
@@ -71,7 +71,7 @@ export default function CrearCategoria() {
           <button
             type="button"
             className="btn-cancelar"
-            onClick={() => navigate(`/usuario/${usuarioId}/listadoCategorias`)}//si se cancela la creacion de categoria ,te regresa a la ruta del listado
+            onClick={() => navigate(`/admin/${usuarioId}/categorias`)}//si se cancela la creacion de categoria ,te regresa a la ruta del listado
           >
             Cancelar
           </button>

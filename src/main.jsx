@@ -89,17 +89,17 @@ root.render(
               
               {/* Mantenimiento de Usuarios */}
               <Route path="/admin/usuarios" element={<AdminRoute><Usuarios /></AdminRoute>} />
-              <Route path="/admin/usuario/:usuarioId" element={<AdminRoute><DetalleUsuarioPage /></AdminRoute>} />
-              <Route path="/admin/detalles_usuario/:id" element={<AdminRoute><Detalles_Usuarios /></AdminRoute>} />
+              <Route path="/usuario/:usuarioId" element={<DetalleUsuarioPage />} />//rado
+              <Route path="/admin/detalles_usuario/:id" element={<AdminRoute><Detalles_Usuarios /></AdminRoute>} /> 
 
               {/* Mantenimiento de Órdenes */}
               <Route path="/admin/ordenes" element={<AdminRoute><Todas_Ordenes /></AdminRoute>} />
               <Route path="/admin/Detalles_Orden" element={<AdminRoute><Detalles_Ordenes /></AdminRoute>} />
 
               {/* Mantenimiento de Categorías */}
-              <Route path="/admin/categorias" element={<AdminRoute><ListadoCategoriasPage /></AdminRoute>} />
-              <Route path="/admin/categorias/crear" element={<AdminRoute><CrearCategoriaPage /></AdminRoute>} />
-              <Route path="/admin/categorias/editar/:id" element={<AdminRoute><EditarCategoriaPage /></AdminRoute>} />
+              <Route path="/admin/:usuarioId/categorias" element={<AdminRoute><ListadoCategoriasPage /></AdminRoute>} />
+              <Route path="/admin/:usuarioId/categorias/crear" element={<AdminRoute><CrearCategoriaPage /></AdminRoute>} />
+              <Route path="/admin/:usuarioId/categorias/editar/:id" element={<AdminRoute><EditarCategoriaPage /></AdminRoute>} />
 
             </Routes>
           </Router>

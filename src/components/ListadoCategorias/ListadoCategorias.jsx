@@ -45,7 +45,7 @@ export default function ListadoCategorias() {
 
   // Función para navegar al formulario de edición
   const handleEditar = (id) => {
-    navigate(`/usuario/${usuarioId}/listadoCategorias/editar/${id}`);
+    navigate(`/admin/${usuarioId}/categorias/editar/${id}`);
   };
 
   return (
@@ -64,7 +64,7 @@ export default function ListadoCategorias() {
           <button style={{ background: "#28a745",color: "white",padding: "6px 12px",borderRadius: "4px", }} onClick={handleBuscar}>Buscar 🔍</button>
           <button
             id="btn-agregar"
-            onClick={() => navigate(`/usuario/${usuarioId}/listadoCategorias/crearCategoria`)}
+            onClick={() => navigate(`/admin/${usuarioId}/categorias/crear`)}
           >
             (+) Agregar categoría
           </button>
