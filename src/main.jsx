@@ -89,7 +89,7 @@ root.render(
               
               {/* Mantenimiento de Usuarios */}
               <Route path="/admin/usuarios" element={<AdminRoute><Usuarios /></AdminRoute>} />
-              <Route path="/usuario/:usuarioId" element={<DetalleUsuarioPage />} />//rado
+              <Route path="/usuario/:usuarioId" element={ <ProtectedRoute> <DetalleUsuarioPage /> </ProtectedRoute>} />
               <Route path="/admin/detalles_usuario/:id" element={<AdminRoute><Detalles_Usuarios /></AdminRoute>} /> 
 
               {/* Mantenimiento de Órdenes */}

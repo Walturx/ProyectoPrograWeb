@@ -41,7 +41,7 @@ function ModProd(){
                                 <option key={index} value={cat}>{cat}</option>
                             ))}
                         </select>
-                        <button type="button">+</button><br /><br />
+                        <button type="button" onClick={() => navigate(`/admin/${2}/categorias`)}>+</button><br /><br />
                             
                         <label for="GETDescripcion">Descripción</label><br />
                         <textarea id="GETDescription" placeholder='Descripcion del producto...' value={resultado.descripcion}></textarea>
