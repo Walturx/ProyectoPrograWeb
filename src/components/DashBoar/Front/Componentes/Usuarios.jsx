@@ -63,8 +63,8 @@ function Usuarios() {
     }
   };
 
-  const paginaActual = Math.floor(inferior / 5) + 1;
-  const totalPaginas = Math.ceil(usuariosFiltrados.length / 5);
+  const paginaActual = Math.floor(inferior / 8) + 1;
+  const totalPaginas = Math.ceil(usuariosFiltrados.length / 8);
 
 
   return (

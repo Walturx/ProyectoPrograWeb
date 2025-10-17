@@ -14,7 +14,7 @@ function Lista_Prod() {
     const navigate = useNavigate();
 
     const iraAgregProd = () => (
-        navigate('/agregprod')
+        navigate('/admin/productos/agregar')
     )
 
 
@@ -56,7 +56,7 @@ function Lista_Prod() {
                                     <td class="tdAdmin">{v.descripcion}</td>
                                     <td class="tdAdmin"><b>{v.categoria}</b></td>
                                     <td class="tdAdmin">{v.stock}</td>
-                                    <td class="tdAdmin"><button class="Acciones" onClick={()=> navigate(`/modprod/${v.id}`)}>✏️</button><button class="Acciones">🗑️</button></td>
+                                    <td class="tdAdmin"><button class="Acciones" onClick={()=> navigate(`/admin/productos/modificar/${v.id}`)}>✏️</button><button class="Acciones">🗑️</button></td>
                                     <hr />
                                 </tr> 
                             )

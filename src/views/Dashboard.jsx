@@ -21,7 +21,7 @@ function Dashboard() {
     navigate("/admin/ordenes");
     };
     const iraProductos = () =>(
-        navigate('/productos')
+        navigate('/admin/productos')
     )
 
     const[usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);

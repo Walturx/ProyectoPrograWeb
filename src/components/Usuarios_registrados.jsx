@@ -2,9 +2,10 @@
 
 import React, { useContext, useState } from 'react';
 import usuarios from '../data/usuarios_B';
+import { useNavigate } from 'react-router-dom';
 
 function TablaUsuarios({onUsuario}) {
-
+    const navigate = useNavigate();
     const irATodos_Usuarios = () => {
     navigate("/admin/usuarios"); 
     };  

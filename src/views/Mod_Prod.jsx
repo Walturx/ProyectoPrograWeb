@@ -12,7 +12,7 @@ function ModProd(){
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        navigate('/productos');
+        navigate('/admin/productos');
     };
 
     const{id}=useParams();
