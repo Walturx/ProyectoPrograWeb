@@ -50,7 +50,7 @@ function HeaderHome() {
           onKeyDown={handleKeyPress}
         />
         <button className="hover:bg-blue-700 px-3 py-1 rounded-full"
-          onClick={() => busqueda.trim() && navigate('/search/${busqueda}')}
+          onClick={() => busqueda.trim() && navigate(`/search/${busqueda}`)}
         >
 
 

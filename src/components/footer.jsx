@@ -61,7 +61,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Políticas y condiciones */}
+
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Políticas y condiciones</h3>
                         <ul className="space-y-2 text-sm text-gray-300">

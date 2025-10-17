@@ -13,7 +13,7 @@ import Footer from "../components/footer";
 function PagoQR() {
   const { productos, vaciarCarrito } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
-  const navigate = useNavigate(); // ✅ Define navigate
+  const navigate = useNavigate(); 
 
   const handleFinalizarCompra = () => {
     localStorage.setItem("pedido_final", JSON.stringify(productos));
