@@ -1,3 +1,5 @@
+//Codigo hecho por Walter Melendez 20231805
+
 export const productos = [
     // Consolas (id 1-5)
     {

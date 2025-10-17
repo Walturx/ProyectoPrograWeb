@@ -1,3 +1,5 @@
+//Codigo hecho por Jarol Yagami 20234801
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './Detalles_Usuarios.css'

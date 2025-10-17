@@ -14,7 +14,7 @@ function Productos() {
             <h1 className="text-3xl font-bold text-black">Lo más vendido</h1>
 
             <div className="flex justify-center gap-10 flex-wrap">
-                {productos.map((item) => (
+                {productos.slice(0,10).map((item) => (
                     <Link
                         key={item.id}
                         to={`/producto/${item.id}`}

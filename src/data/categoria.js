@@ -1,3 +1,4 @@
+//Codigo hecho por Walter Melendez 20231805
 
 export const categorias = [
   {

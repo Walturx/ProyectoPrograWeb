@@ -1,3 +1,5 @@
+//Codigo hecho por Jarol Yagami 20234801
+
 import React from 'react';
 import './Dash.css';
 
