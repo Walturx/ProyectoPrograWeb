@@ -1,4 +1,4 @@
-// hecho por Jean Carlo Rado-(202235056)
+//hecho por Jean Carlo Rado-(202235056)
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -12,10 +12,14 @@ export default function ListadoCategorias() {
 
   const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
 
+  // Estado para búsqueda y lista filtrada
   const [busqueda, setBusqueda] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState(categorias);
 
-  if (!usuario || usuario.admin !== 1) {
+  // Validación: solo admin puede ver
+  const isAdmin = usuario.admin === 1 || usuario.admin === true;
+
+  if (!usuario || !isAdmin){
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
         <p>Acceso denegado. Solo administradores.</p>
@@ -32,32 +36,43 @@ export default function ListadoCategorias() {
     );
   }
 
-  // 🔎 Buscar coincidencia EXACTA
+  // Función para filtrar categorías por nombre exacto (case-insensitive)
   const handleBuscar = () => {
+    const texto = busqueda.trim().toLowerCase();
+    if (texto === "") {
+      // si está vacío, no filtramos nada
+      setListaFiltrada(categorias);
+      return;
+    }
+
     const filtrado = categorias.filter(
-      (cat) =>
-        cat.categoria.toLowerCase() === busqueda.toLowerCase()
+      (cat) => cat.categoria.toLowerCase() === texto
     );
     setListaFiltrada(filtrado);
   };
 
-  // 🔄 Restaurar lista completa
+  // Ver todas: resetear filtro y limpiar input
   const handleVerTodas = () => {
-    setListaFiltrada(categorias);
     setBusqueda("");
+    setListaFiltrada(categorias);
   };
 
-  // 🗑 Eliminar categoría
+  // Función para eliminar categoría (mock: borra de array original y de la vista)
   const handleEliminar = (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar esta categoría?"))
-      return;
+    if (!window.confirm("¿Seguro que deseas eliminar esta categoría?")) return;
 
+    // eliminar del array mock original (categorias)
     const idx = categorias.findIndex((cat) => cat.id === id);
-    if (idx !== -1) categorias.splice(idx, 1);
+    if (idx !== -1) {
+      categorias.splice(idx, 1);
+    }
 
-    setListaFiltrada((prev) => prev.filter((cat) => cat.id !== id));
+    // actualizar vista (listaFiltrada)
+    const nuevasCategorias = listaFiltrada.filter((cat) => cat.id !== id);
+    setListaFiltrada(nuevasCategorias);
   };
 
+  // Función para navegar al formulario de edición
   const handleEditar = (id) => {
     navigate(`/admin/${usuarioId}/categorias/editar/${id}`);
   };
@@ -81,25 +96,30 @@ export default function ListadoCategorias() {
               color: "white",
               padding: "6px 12px",
               borderRadius: "4px",
+              marginRight: "8px",
             }}
             onClick={handleBuscar}
           >
             Buscar 🔍
           </button>
 
-          
           <button
             style={{
               background: "#28a745",
               color: "white",
               padding: "6px 12px",
               borderRadius: "4px",
-              marginLeft: "10px",
+              marginRight: "8px",
             }}
             onClick={handleVerTodas}
           >
-            Ver todas ↺
+            Ver todas
           </button>
+
+        
+
+
+
 
           <button
             id="btn-agregar"
@@ -114,16 +134,36 @@ export default function ListadoCategorias() {
         <table id="tabla-categorias">
           <thead>
             <tr>
+              <th>Imagen</th>
               <th>Nombre</th>
               <th>Descripción</th>
               <th>Acciones</th>
             </tr>
           </thead>
-
           <tbody>
             {listaFiltrada.length > 0 ? (
               listaFiltrada.map((cat) => (
                 <tr key={cat.id}>
+                  <td>
+                    {cat.imagenCat ? (
+                      <img
+                        src={cat.imagenCat}
+                        alt={cat.categoria}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    ) : (
+                      <span
+                        style={{ fontSize: "12px", color: "#777" }}
+                      >
+                        Sin imagen
+                      </span>
+                    )}
+                  </td>
                   <td>{cat.categoria}</td>
                   <td>{cat.descripcion || "Sin descripción"}</td>
                   <td>
@@ -144,7 +184,10 @@ export default function ListadoCategorias() {
               ))
             ) : (
               <tr>
-                <td colSpan={3} style={{ textAlign: "center" }}>
+                <td
+                  colSpan={4}
+                  style={{ textAlign: "center" }}
+                >
                   No hay categorías que coincidan
                 </td>
               </tr>

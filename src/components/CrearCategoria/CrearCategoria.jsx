@@ -1,4 +1,4 @@
-// hecho por Jean Carlo Rado-(202235056)
+//hecho por Jean Carlo Rado-(202235056)
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -22,41 +22,30 @@ export default function CrearCategoria() {
   }
 
   // Estados para el formulario
-  const [categoria, setCategoria] = useState("");
+  const [categoriaNombre, setCategoriaNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState("");
 
   // Guardar categoría
   const handleGuardar = (e) => {
     e.preventDefault();
 
-    const nombreLimpio = categoria.trim();
-
-    if (!nombreLimpio) {
-      alert("El nombre de la categoría es obligatorio.");
+    if (!categoriaNombre.trim()) {
+      alert("El nombre de la categoría es obligatorio");
       return;
     }
 
-    // Validación simple de duplicados por nombre
-    const yaExiste = categorias.some(
-      (cat) => cat.categoria.toLowerCase() === nombreLimpio.toLowerCase()
-    );
-    if (yaExiste) {
-      alert("Ya existe una categoría con ese nombre.");
-      return;
-    }
-
-    // Calcular nuevo id (por si el array está vacío)
+    // Nuevo id incremental (mock)
     const nuevoId =
       categorias.length > 0
         ? categorias[categorias.length - 1].id + 1
         : 1;
 
-    // Agregar nueva categoría al array mock
     categorias.push({
-      id: nuevoId,
-      categoria: nombreLimpio,
+      categoria: categoriaNombre,
       descripcion,
-      imagenCat: "",
+      imagenCat: imagen || "",
+      id: nuevoId,
     });
 
     alert("Categoría creada exitosamente 👍");
@@ -73,8 +62,8 @@ export default function CrearCategoria() {
           <label>Nombre de la categoría</label>
           <input
             type="text"
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
+            value={categoriaNombre}
+            onChange={(e) => setCategoriaNombre(e.target.value)}
             placeholder="Ej: Consolas"
           />
         </div>
@@ -88,6 +77,34 @@ export default function CrearCategoria() {
           ></textarea>
         </div>
 
+        <div className="form-group">
+          <label>URL de imagen</label>
+          <input
+            type="text"
+            value={imagen}
+            onChange={(e) => setImagen(e.target.value)}
+            placeholder="https://mi-imagen.com/categoria.png"
+          />
+        </div>
+
+        {imagen && (
+          <div style={{ marginTop: "10px" }}>
+            <p style={{ fontSize: "12px", color: "#555" }}>
+              Vista previa:
+            </p>
+            <img
+              src={imagen}
+              alt="Vista previa"
+              style={{
+                width: "80px",
+                height: "80px",
+                objectFit: "cover",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+        )}
+
         <div className="acciones-form">
           <button type="submit" className="btn-guardar">
             Guardar
@@ -95,7 +112,9 @@ export default function CrearCategoria() {
           <button
             type="button"
             className="btn-cancelar"
-            onClick={() => navigate(`/admin/${usuarioId}/categorias`)}
+            onClick={() =>
+              navigate(`/admin/${usuarioId}/categorias`)
+            }
           >
             Cancelar
           </button>
