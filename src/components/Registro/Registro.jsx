@@ -33,7 +33,7 @@ const Registro = () => {
             email: email, 
             dni: dni,
             password: password,
-            admin: 0, // Rol 
+            admin: false, // Rol predeterminado usuario simple
             estado: "Activo",
             fechaRegistro: "16/10/2025",
             imagen: "https://i.pravatar.cc/150?img=3",
