@@ -10,12 +10,19 @@ const AdminRoute = ({ children }) => {
 
     const usuario = JSON.parse(usuarioString);
 
-    if (usuario.admin !== 1) {
-        
+    // ACEPTA cualquier formato de admin:
+    // 1, true, "1", "true"
+    const isAdmin =
+        usuario.admin === 1 ||
+        usuario.admin === true ||
+        usuario.admin === "1" ||
+        usuario.admin === "true";
+
+    if (!isAdmin) {
         return <Navigate to="/home" replace />;
     }
 
-    return children; 
+    return children;
 };
 
 export default AdminRoute;
