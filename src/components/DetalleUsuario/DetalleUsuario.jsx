@@ -1,4 +1,4 @@
-//hecho por Jean Carlo Rado-(202235056)
+// hecho por Jean Carlo Rado-(202235056)
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,47 +11,74 @@ import "./DetalleUsuario.css";
 export default function DetalleUsuario() {
   const { usuarioId } = useParams();
   const navigate = useNavigate();
-  const [busquedaId, setBusquedaId] = useState(""); // estado para el input de busqueda..al principio no hay nada pero al escribir e darle click a su boton se actualiza
+  const [busquedaId, setBusquedaId] = useState("");
 
   // Buscar usuario
-  const usuario = usuarios.find(u => u.id === parseInt(usuarioId));
+  const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
   if (!usuario) return <p>Usuario no encontrado</p>;
 
   // Filtrar órdenes del usuario y calcular monto
   const ordenesUsuario = ordenes
-    .filter(o => o.idUsuario === usuario.id)
-    .map(orden => {
+    .filter((o) => o.idUsuario === usuario.id)
+    .map((orden) => {
       const monto = orden.productos.reduce((sum, item) => {
-        const prod = productos.find(p => p.id === item.idProducto);
+        const prod = productos.find(
+          (p) => p.id === item.idProducto
+        );
+        if (!prod) return sum;
         return sum + prod.precio * item.cantidad;
       }, 0);
-      return { ...orden, monto }; // Copia orden y agrega monto total
+      return { ...orden, monto };
     });
 
-  // Estado inicial: mostrar todas las órdenes--al filtrar con el boton solo dara la orden q encuentra con el filter
-  const [ordenesFiltradas, setOrdenesFiltradas] = useState(ordenesUsuario);
+  // Estado inicial: mostrar todas las órdenes
+  const [ordenesFiltradas, setOrdenesFiltradas] =
+    useState(ordenesUsuario);
 
-  // Función que se ejecuta al presionar el botón buscar
+  // Buscar por ID de orden
   const handleBuscar = () => {
+    if (!busquedaId.trim()) {
+      alert("Ingrese un ID de orden.");
+      return;
+    }
+
     const id = parseInt(busquedaId);
-    const encontrada = ordenesUsuario.find(o => o.id === id);
+    if (isNaN(id)) {
+      alert("Ingrese un ID válido.");
+      return;
+    }
+
+    const encontrada = ordenesUsuario.find((o) => o.id === id);
     if (encontrada) {
-      setOrdenesFiltradas([encontrada]); // mostrar solo esa orden
+      setOrdenesFiltradas([encontrada]);
     } else {
       alert("Error. Orden no encontrada");
-      setOrdenesFiltradas([]); // limpiar la tabla si no se encuentra
+      setOrdenesFiltradas([]);
     }
+  };
+
+  const handleVerTodas = () => {
+    setOrdenesFiltradas(ordenesUsuario);
+    setBusquedaId("");
   };
 
   return (
     <>
       <div id="detalle-usuario">
         {/* Título y botón Cambiar Contraseña */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{fontSize: "30px"}}>Detalles de Usuario</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ fontSize: "30px" }}>Detalles de Usuario</h2>
           <button
             className="btn-ver"
-            onClick={() => navigate(`/usuario/${usuario.id}/cambiar-clave`)} // Ruta para cambiar clave
+            onClick={() =>
+              navigate(`/usuario/${usuario.id}/cambiar-clave`)
+            }
           >
             Cambiar Contraseña
           </button>
@@ -60,11 +87,21 @@ export default function DetalleUsuario() {
         {/* Datos de usuario e imagen */}
         <div id="info-usuario">
           <div id="datos-usuario">
-            <p><b>Nombre:</b> {usuario.nombre}</p>
-            <p><b>Email:</b> {usuario.email}</p>
-            <p><b>Fecha de registro:</b> {usuario.fechaRegistro}</p>
-            <p><b>Telefono:</b> {usuario.telefono}</p>
-            <p><b>Estado:</b> {usuario.estado}</p>
+            <p>
+              <b>Nombre:</b> {usuario.nombre}
+            </p>
+            <p>
+              <b>Email:</b> {usuario.email}
+            </p>
+            <p>
+              <b>Fecha de registro:</b> {usuario.fechaRegistro}
+            </p>
+            <p>
+              <b>Telefono:</b> {usuario.telefono}
+            </p>
+            <p>
+              <b>Estado:</b> {usuario.estado}
+            </p>
           </div>
 
           <div id="imagen-usuario">
@@ -76,13 +113,20 @@ export default function DetalleUsuario() {
         <div style={{ marginTop: "20px" }}>
           <input
             type="number"
-            placeholder="Buscar orden por ID..." // placeholder 
+            placeholder="Buscar orden por ID..."
             value={busquedaId}
             onChange={(e) => setBusquedaId(e.target.value)}
             style={{ padding: "5px", marginRight: "10px" }}
           />
           <button className="btn-ver" onClick={handleBuscar}>
             Buscar 🔍
+          </button>
+          <button
+            className="btn-ver"
+            style={{ marginLeft: "10px" }}
+            onClick={handleVerTodas}
+          >
+            Ver todas
           </button>
         </div>
 
@@ -96,11 +140,11 @@ export default function DetalleUsuario() {
                 <th>Fecha</th>
                 <th>Monto</th>
                 <th>Acciones</th>
-              </tr> 
+              </tr>
             </thead>
             <tbody>
               {ordenesFiltradas.length > 0 ? (
-                ordenesFiltradas.map(orden => (
+                ordenesFiltradas.map((orden) => (
                   <tr key={orden.id}>
                     <td>{orden.id}</td>
                     <td>{orden.fecha}</td>
@@ -108,7 +152,11 @@ export default function DetalleUsuario() {
                     <td>
                       <button
                         className="btn-ver"
-                        onClick={() => navigate(`/usuario/${usuario.id}/orden/${orden.id}`)} // Ruta a detalles de orden
+                        onClick={() =>
+                          navigate(
+                            `/usuario/${usuario.id}/orden/${orden.id}`
+                          )
+                        }
                       >
                         Ver Detalles
                       </button>
@@ -117,7 +165,10 @@ export default function DetalleUsuario() {
                 ))
               ) : (
                 <tr>
-                  <td style={{ textAlign: "center" }} colSpan={4}>{/* colspan hace q la tabla ocupe las 4 columnas */}
+                  <td
+                    style={{ textAlign: "center" }}
+                    colSpan={4}
+                  >
                     No hay órdenes para este usuario
                   </td>
                 </tr>

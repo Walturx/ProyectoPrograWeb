@@ -1,4 +1,4 @@
-//hecho por Jean Carlo Rado-(202235056)
+// hecho por Jean Carlo Rado-(202235056)
 
 import { useParams } from "react-router-dom";
 import { ordenes } from "../../data/ordenes";
@@ -10,26 +10,30 @@ export default function DetalleOrden() {
   const { ordenId } = useParams();
 
   // Buscar la orden por ID
-  const orden = ordenes.find(o => o.id === parseInt(ordenId));
+  const orden = ordenes.find((o) => o.id === parseInt(ordenId));
   if (!orden) return <p>Orden no encontrada</p>;
 
   // Calcular monto total de la orden
-  const monto = orden.productos.reduce((sum, item) => {//método de los arrays que se utiliza para acumular un valor a partir de todos los elementos del array,donde el valor inicial del sum es 0.
-    const prod = productos.find(p => p.id === item.idProducto);
+  const monto = orden.productos.reduce((sum, item) => {
+    const prod = productos.find((p) => p.id === item.idProducto);
+    if (!prod) return sum; // si no se encuentra el producto, lo ignora
     return sum + prod.precio * item.cantidad;
   }, 0);
 
   // Productos con datos completos y total por producto
-  const productosConTotal = orden.productos.map(item => {
-    const prod = productos.find(p => p.id === item.idProducto);
-    return {
-      ...item,
-      nombre: prod.nombre,
-      categoria: prod.categoria,
-      imagen: prod.imagen,
-      total: prod.precio * item.cantidad
-    };
-  });
+  const productosConTotal = orden.productos
+    .map((item) => {
+      const prod = productos.find((p) => p.id === item.idProducto);
+      if (!prod) return null;
+      return {
+        ...item,
+        nombre: prod.nombre,
+        categoria: prod.categoria,
+        imagen: prod.imagen,
+        total: prod.precio * item.cantidad,
+      };
+    })
+    .filter(Boolean); // elimina nulls por si algún producto no existe o no lo llega a encontrar
 
   return (
     <>
@@ -45,13 +49,17 @@ export default function DetalleOrden() {
               <div id="info-orden">
                 <p>
                   <strong>Estado:</strong>{" "}
-                  <span className={`estado ${orden.estado.toLowerCase()}`}>{/* construye el classname con un prop buildingEJ: estado entregado-porque como puede haber mas de un estado(pendiente,cancelado,entregado) */}
+                  <span
+                    className={`estado ${orden.estado.toLowerCase()}`}
+                  >
                     {orden.estado}
                   </span>
                 </p>
                 <p>
                   <strong>Monto total:</strong>{" "}
-                  <span className="monto">S/ {monto.toFixed(2)}</span>
+                  <span className="monto">
+                    S/ {monto.toFixed(2)}
+                  </span>
                 </p>
               </div>
             </div>
@@ -71,7 +79,7 @@ export default function DetalleOrden() {
                 </thead>
                 <tbody>
                   {productosConTotal.map((p, idx) => (
-                    <tr key={idx}> {/*idx es la posicion del elemento en el array*/}
+                    <tr key={idx}>
                       <td className="producto-id">
                         <div className="img-codigo">
                           <img
@@ -79,7 +87,9 @@ export default function DetalleOrden() {
                             src={p.imagen}
                             alt={p.nombre}
                           />
-                          <div className="codigo">#{p.idProducto}</div>
+                          <div className="codigo">
+                            #{p.idProducto}
+                          </div>
                         </div>
                       </td>
                       <td>{p.nombre}</td>

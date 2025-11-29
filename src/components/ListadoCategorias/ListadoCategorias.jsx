@@ -1,4 +1,4 @@
-//hecho por Jean Carlo Rado-(202235056)
+// hecho por Jean Carlo Rado-(202235056)
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -10,9 +10,8 @@ export default function ListadoCategorias() {
   const { usuarioId } = useParams();
   const navigate = useNavigate();
 
-  const usuario = usuarios.find(u => u.id === parseInt(usuarioId));
+  const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
 
-  // Estado para búsqueda y lista filtrada
   const [busqueda, setBusqueda] = useState("");
   const [listaFiltrada, setListaFiltrada] = useState(categorias);
 
@@ -23,34 +22,48 @@ export default function ListadoCategorias() {
         <img
           src="https://media.tenor.com/hYVsWvkpdrMAAAAM/you-didnt-say-the-magic-word-ah-ah.gif"
           alt="Acceso Denegado"
-          style={{ width: "760px", margin: "40px auto", borderRadius: "8px" }}
+          style={{
+            width: "760px",
+            margin: "40px auto",
+            borderRadius: "8px",
+          }}
         />
       </div>
-    ); 
+    );
   }
 
-  // Función para filtrar categorías por nombre
+  // 🔎 Buscar coincidencia EXACTA
   const handleBuscar = () => {
-    const filtrado = categorias.filter(cat =>
-      cat.categoria.toLowerCase().includes(busqueda.toLowerCase())
+    const filtrado = categorias.filter(
+      (cat) =>
+        cat.categoria.toLowerCase() === busqueda.toLowerCase()
     );
     setListaFiltrada(filtrado);
   };
 
-  // Función para eliminar categoría
-  const handleEliminar = (id) => {
-    const nuevasCategorias = listaFiltrada.filter(cat => cat.id !== id);
-    setListaFiltrada(nuevasCategorias);
+  // 🔄 Restaurar lista completa
+  const handleVerTodas = () => {
+    setListaFiltrada(categorias);
+    setBusqueda("");
   };
 
-  // Función para navegar al formulario de edición
+  // 🗑 Eliminar categoría
+  const handleEliminar = (id) => {
+    if (!window.confirm("¿Seguro que deseas eliminar esta categoría?"))
+      return;
+
+    const idx = categorias.findIndex((cat) => cat.id === id);
+    if (idx !== -1) categorias.splice(idx, 1);
+
+    setListaFiltrada((prev) => prev.filter((cat) => cat.id !== id));
+  };
+
   const handleEditar = (id) => {
     navigate(`/admin/${usuarioId}/categorias/editar/${id}`);
   };
 
   return (
     <>
-
       <div id="listado-categorias">
         <h2>Listado de Categorías</h2>
 
@@ -59,12 +72,40 @@ export default function ListadoCategorias() {
             type="text"
             placeholder="Buscar por nombre..."
             value={busqueda}
-            onChange={e => setBusqueda(e.target.value)}
+            onChange={(e) => setBusqueda(e.target.value)}
           />
-          <button style={{ background: "#28a745",color: "white",padding: "6px 12px",borderRadius: "4px", }} onClick={handleBuscar}>Buscar 🔍</button>
+
+          <button
+            style={{
+              background: "#28a745",
+              color: "white",
+              padding: "6px 12px",
+              borderRadius: "4px",
+            }}
+            onClick={handleBuscar}
+          >
+            Buscar 🔍
+          </button>
+
+          
+          <button
+            style={{
+              background: "#28a745",
+              color: "white",
+              padding: "6px 12px",
+              borderRadius: "4px",
+              marginLeft: "10px",
+            }}
+            onClick={handleVerTodas}
+          >
+            Ver todas ↺
+          </button>
+
           <button
             id="btn-agregar"
-            onClick={() => navigate(`/admin/${usuarioId}/categorias/crear`)}
+            onClick={() =>
+              navigate(`/admin/${usuarioId}/categorias/crear`)
+            }
           >
             (+) Agregar categoría
           </button>
@@ -78,21 +119,32 @@ export default function ListadoCategorias() {
               <th>Acciones</th>
             </tr>
           </thead>
+
           <tbody>
             {listaFiltrada.length > 0 ? (
-              listaFiltrada.map(cat => (
+              listaFiltrada.map((cat) => (
                 <tr key={cat.id}>
                   <td>{cat.categoria}</td>
                   <td>{cat.descripcion || "Sin descripción"}</td>
                   <td>
-                    <button className="btn-editar" onClick={() => handleEditar(cat.id)}>Editar ✏️</button> 
-                    <button className="btn-eliminar" onClick={() => handleEliminar(cat.id)}>Eliminar 🗑️</button>
+                    <button
+                      className="btn-editar"
+                      onClick={() => handleEditar(cat.id)}
+                    >
+                      Editar ✏️
+                    </button>
+                    <button
+                      className="btn-eliminar"
+                      onClick={() => handleEliminar(cat.id)}
+                    >
+                      Eliminar 🗑️
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={4} style={{ textAlign: "center" }}>
+                <td colSpan={3} style={{ textAlign: "center" }}>
                   No hay categorías que coincidan
                 </td>
               </tr>
