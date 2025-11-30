@@ -1,19 +1,46 @@
-//hecho por Jean Carlo Rado-(202235056)
+//hecho por Jean Carlo Rado-(202235056) [adaptado a backend]
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { categorias } from "../../data/categoria";
-import { usuarios } from "../../data/usuarios";
+import { createCategoria, getUsuarioById } from "../services/api";
 import "./CrearCategoria.css";
 
 export default function CrearCategoria() {
   const { usuarioId } = useParams();
   const navigate = useNavigate();
 
-  const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
+  const [usuario, setUsuario] = useState(null);
+  const [cargandoUsuario, setCargandoUsuario] = useState(true);
 
-  // Validación: solo admin puede crear
-  if (!usuario || usuario.admin !== 1) {
+  const [categoriaNombre, setCategoriaNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState("");
+
+  useEffect(() => {
+    const cargarUsuario = async () => {
+      try {
+        const user = await getUsuarioById(usuarioId);
+        setUsuario(user);
+      } catch (error) {
+        console.error("Error obteniendo usuario:", error);
+      } finally {
+        setCargandoUsuario(false);
+      }
+    };
+    cargarUsuario();
+  }, [usuarioId]);
+
+  if (cargandoUsuario) {
+    return <p style={{ textAlign: "center", marginTop: "50px" }}>Cargando...</p>;
+  }
+
+  if (!usuario) {
+    return <p style={{ textAlign: "center", marginTop: "50px" }}>Usuario no encontrado.</p>;
+  }
+
+  const isAdmin = usuario.admin === 1 || usuario.admin === true;
+
+  if (!isAdmin) {
     return (
       <p style={{ textAlign: "center", marginTop: "50px" }}>
         Acceso denegado. Solo administradores.
@@ -21,13 +48,7 @@ export default function CrearCategoria() {
     );
   }
 
-  // Estados para el formulario
-  const [categoriaNombre, setCategoriaNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState("");
-
-  // Guardar categoría
-  const handleGuardar = (e) => {
+  const handleGuardar = async (e) => {
     e.preventDefault();
 
     if (!categoriaNombre.trim()) {
@@ -35,23 +56,19 @@ export default function CrearCategoria() {
       return;
     }
 
-    // Nuevo id incremental (mock)
-    const nuevoId =
-      categorias.length > 0
-        ? categorias[categorias.length - 1].id + 1
-        : 1;
+    try {
+      await createCategoria({
+        categoria: categoriaNombre,
+        descripcion,
+        imagenCat: imagen || "",
+      });
 
-    categorias.push({
-      categoria: categoriaNombre,
-      descripcion,
-      imagenCat: imagen || "",
-      id: nuevoId,
-    });
-
-    alert("Categoría creada exitosamente 👍");
-
-    // Redirigir al listado
-    navigate(`/admin/${usuarioId}/categorias`);
+      alert("Categoría creada exitosamente 👍");
+      navigate(`/admin/${usuarioId}/categorias`);
+    } catch (error) {
+      console.error("Error al crear categoría:", error);
+      alert(error.message || "No se pudo crear la categoría");
+    }
   };
 
   return (
@@ -89,9 +106,7 @@ export default function CrearCategoria() {
 
         {imagen && (
           <div style={{ marginTop: "10px" }}>
-            <p style={{ fontSize: "12px", color: "#555" }}>
-              Vista previa:
-            </p>
+            <p style={{ fontSize: "12px", color: "#555" }}>Vista previa:</p>
             <img
               src={imagen}
               alt="Vista previa"
@@ -112,9 +127,7 @@ export default function CrearCategoria() {
           <button
             type="button"
             className="btn-cancelar"
-            onClick={() =>
-              navigate(`/admin/${usuarioId}/categorias`)
-            }
+            onClick={() => navigate(`/admin/${usuarioId}/categorias`)}
           >
             Cancelar
           </button>

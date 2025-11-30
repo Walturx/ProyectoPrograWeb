@@ -1,39 +1,43 @@
-// hecho por Jean Carlo Rado-(202235056)
+// hecho por Jean Carlo Rado-(202235056) [adaptado a backend]
 
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ordenes } from "../../data/ordenes";
-import { productos } from "../../data/productos";
-
+import { getOrdenById } from "../services/api";
 import "./DetalleOrden.css";
 
 export default function DetalleOrden() {
   const { ordenId } = useParams();
 
-  // Buscar la orden por ID
-  const orden = ordenes.find((o) => o.id === parseInt(ordenId));
+  const [orden, setOrden] = useState(null);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const cargarOrden = async () => {
+      try {
+        setCargando(true);
+        const data = await getOrdenById(ordenId);
+        setOrden(data);
+      } catch (err) {
+        console.error("Error al obtener detalle de orden:", err);
+        setError("No se pudo cargar la orden.");
+      } finally {
+        setCargando(false);
+      }
+    };
+    cargarOrden();
+  }, [ordenId]);
+
+  if (cargando) return <p>Cargando detalle de orden...</p>;
+  if (error) return <p>{error}</p>;
   if (!orden) return <p>Orden no encontrada</p>;
 
-  // Calcular monto total de la orden
-  const monto = orden.productos.reduce((sum, item) => {
-    const prod = productos.find((p) => p.id === item.idProducto);
-    if (!prod) return sum; // si no se encuentra el producto, lo ignora
-    return sum + prod.precio * item.cantidad;
-  }, 0);
+  const items = orden.items || [];
 
-  // Productos con datos completos y total por producto
-  const productosConTotal = orden.productos
-    .map((item) => {
-      const prod = productos.find((p) => p.id === item.idProducto);
-      if (!prod) return null;
-      return {
-        ...item,
-        nombre: prod.nombre,
-        categoria: prod.categoria,
-        imagen: prod.imagen,
-        total: prod.precio * item.cantidad,
-      };
-    })
-    .filter(Boolean); // elimina nulls por si algún producto no existe o no lo llega a encontrar
+  const monto = items.reduce(
+    (sum, item) => sum + Number(item.precioUnitario) * item.cantidad,
+    0
+  );
 
   return (
     <>
@@ -50,16 +54,16 @@ export default function DetalleOrden() {
                 <p>
                   <strong>Estado:</strong>{" "}
                   <span
-                    className={`estado ${orden.estado.toLowerCase()}`}
+                    className={`estado ${
+                      (orden.estado || "").toLowerCase()
+                    }`}
                   >
                     {orden.estado}
                   </span>
                 </p>
                 <p>
                   <strong>Monto total:</strong>{" "}
-                  <span className="monto">
-                    S/ {monto.toFixed(2)}
-                  </span>
+                  <span className="monto">S/ {monto.toFixed(2)}</span>
                 </p>
               </div>
             </div>
@@ -78,26 +82,40 @@ export default function DetalleOrden() {
                   </tr>
                 </thead>
                 <tbody>
-                  {productosConTotal.map((p, idx) => (
+                  {items.map((item, idx) => (
                     <tr key={idx}>
                       <td className="producto-id">
                         <div className="img-codigo">
-                          <img
-                            className="img-producto"
-                            src={p.imagen}
-                            alt={p.nombre}
-                          />
+                          {item.imagen && (
+                            <img
+                              className="img-producto"
+                              src={item.imagen}
+                              alt={item.nombre}
+                            />
+                          )}
                           <div className="codigo">
-                            #{p.idProducto}
+                            #{item.idProducto}
                           </div>
                         </div>
                       </td>
-                      <td>{p.nombre}</td>
-                      <td>{p.categoria}</td>
-                      <td>{p.cantidad}</td>
-                      <td>S/ {p.total.toFixed(2)}</td>
+                      <td>{item.nombre}</td>
+                      <td>{/* No viene categoría, se puede dejar vacío o texto */}</td>
+                      <td>{item.cantidad}</td>
+                      <td>
+                        S/{" "}
+                        {(
+                          Number(item.precioUnitario) * item.cantidad
+                        ).toFixed(2)}
+                      </td>
                     </tr>
                   ))}
+                  {items.length === 0 && (
+                    <tr>
+                      <td colSpan={5} style={{ textAlign: "center" }}>
+                        No hay productos en esta orden.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

@@ -1,20 +1,43 @@
 //Codigo hecho por Walter Melendez 20231805
 
 import { Link } from "react-router-dom";
-import { productos } from "../data/productos";
+import { useState, useEffect, useContext } from "react";
+import { getProductos } from "./services/api";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import 'swiper/css';
-import { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContexto";
+
+
 function Productos() {
-    const {agregarProducto} = useContext(CarritoContext)
+    const { agregarProducto } = useContext(CarritoContext)
+    const [productos, setProductos] = useState([])
+    const [loading, setloading] = useState(true)
+
+    useEffect(() => {
+        const cargarProductor = async () => {
+            try {
+                setloading(true)
+                const data = await getProductos()
+                setProductos(data)
+            } catch (error) {
+                console.error("Error cargando productos:", error)
+            } finally {
+                setloading(false)
+            }
+        }
+        cargarProductor()
+    }, [])
+    if (loading) return <p className="p-10 text-xl">Cargando productos...</p>;
+    if (!productos.length) return <p className="p-10">No hay productos disponibles.</p>;
+
     return (
         <div className="flex flex-col items-left space-y-8 m-4">
             <h1 className="text-3xl font-bold text-black">Lo más vendido</h1>
 
             <div className="flex justify-center gap-10 flex-wrap">
-                {productos.slice(0,10).map((item) => (
+                {productos.slice(0, 10).map((item) => (
                     <Link
                         key={item.id}
                         to={`/producto/${item.id}`}
@@ -29,8 +52,9 @@ function Productos() {
                             <h2 className="text-lg font-bold text-gray-800">{item.nombre}</h2>
                             <p className="text-sm text-gray-600 mt-1">{item.categoria}</p>
                             <p className="m-1 text-green-700 font-semibold text-left">
-                                S/{item.precio.toFixed(2)}
+                                S/{Number(item.precio).toFixed(2)}
                             </p>
+
                             <button
                                 onClick={() => {
                                     agregarProducto(item);

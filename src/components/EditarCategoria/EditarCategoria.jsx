@@ -1,40 +1,58 @@
-//hecho por Jean Carlo Rado-(202235056)
 
-import { useState } from "react";
+//hecho por Jean Carlo Rado-(202235056) [adaptado a backend]
+
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { categorias } from "../../data/categoria";
+import {
+  getCategoriaById,
+  updateCategoria,
+} from "../services/api";
 import "./EditarCategoria.css";
 
 export default function EditarCategoria() {
   const { usuarioId, id } = useParams();
   const navigate = useNavigate();
 
-  // buscar la categoría por id
-  const categoria = categorias.find(
-    (cat) => cat.id === parseInt(id)
-  );
+  const [cargando, setCargando] = useState(true);
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState("");
 
-  if (!categoria) return <p>Categoría no encontrada</p>;
+  useEffect(() => {
+    const cargarCategoria = async () => {
+      try {
+        const cat = await getCategoriaById(id);
+        setNombre(cat.categoria);
+        setDescripcion(cat.descripcion || "");
+        setImagen(cat.imagenCat || "");
+      } catch (error) {
+        console.error("Error al obtener categoría:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
+    cargarCategoria();
+  }, [id]);
 
-  // estado para cada campo
-  const [nombre, setNombre] = useState(categoria.categoria);
-  const [descripcion, setDescripcion] = useState(
-    categoria.descripcion || ""
-  );
-  const [imagen, setImagen] = useState(categoria.imagenCat || "");
+  if (cargando) return <p>Cargando categoría...</p>;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // actualizar los datos de la categoría (mock)
-    categoria.categoria = nombre;
-    categoria.descripcion = descripcion;
-    categoria.imagenCat = imagen;
+    try {
+      await updateCategoria({
+        id: parseInt(id),
+        categoria: nombre,
+        descripcion,
+        imagenCat: imagen,
+      });
 
-    alert("Categoría actualizada con éxito");
-
-    // navegar de regreso al listado
-    navigate(`/admin/${usuarioId}/categorias`);
+      alert("Categoría actualizada con éxito");
+      navigate(`/admin/${usuarioId}/categorias`);
+    } catch (error) {
+      console.error("Error al actualizar categoría:", error);
+      alert(error.message || "No se pudo actualizar la categoría");
+    }
   };
 
   return (
@@ -65,9 +83,7 @@ export default function EditarCategoria() {
 
         {imagen && (
           <div style={{ marginTop: "10px" }}>
-            <p style={{ fontSize: "12px", color: "#555" }}>
-              Vista previa:
-            </p>
+            <p style={{ fontSize: "12px", color: "#555" }}>Vista previa:</p>
             <img
               src={imagen}
               alt="Vista previa"
