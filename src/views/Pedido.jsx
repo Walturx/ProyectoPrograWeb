@@ -8,17 +8,26 @@ import { useCalculoCarrito } from "../data/logicaCarrito";
 import { EnvioContext } from "../context/EnvioContext";
 import { useContext, useEffect, useState } from 'react';
 import { obtenerFechaEntrega } from "../data/fechaEnvio";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
 
 function Pedido() {
+  const navigate = useNavigate();
   const { datosEnvio } = useContext(EnvioContext);
   const [productosFinal, setProductosFinal] = useState([]); // estado para los productos del pedido
   const fechaFormateada = obtenerFechaEntrega(2);
 
   useEffect(() => {
+    const idOrden = localStorage.getItem("orden_id");
+    if (!idOrden) {
+      navigate("/home");
+      return;
+    }
+
     const pedidoGuardado = JSON.parse(localStorage.getItem("pedido_final")) || [];
     setProductosFinal(pedidoGuardado);
   }, []);
+
 
   const { total, contador, descuento } = useCalculoCarrito(productosFinal);
 

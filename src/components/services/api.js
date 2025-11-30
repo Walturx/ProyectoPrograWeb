@@ -94,3 +94,99 @@ export const getOrdenById = async (id) => {
   if (!res.ok) throw new Error("Error al obtener detalle de orden");
   return res.json();
 };
+
+export const crearOrden = async (ordenData) => {
+  const res = await fetch(`${API_URL}/orden`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ordenData),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear orden");
+
+  return data;
+};
+
+
+// ---------- CARRITO DE COMPRA ----------
+export const getCarritoByUsuario = async (idusuario) => {
+  const res = await fetch(`${API_URL}/carrito/usuario/${idusuario}`);
+  if (!res.ok) throw new Error("Error al obtener carrito del usuario");
+  return res.json();
+};
+
+export const crearCarrito = async (idusuario) => {
+  const res = await fetch(`${API_URL}/carrito`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idusuario }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear carrito");
+
+  return data;
+};
+
+export const eliminarCarrito = async (idcarrito) => {
+  const res = await fetch(`${API_URL}/carrito/${idcarrito}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar carrito");
+
+  return data;
+};
+
+// ---------- ITEMS DEL CARRITO ----------
+export const getItemsDeCarrito = async (idcarrito) => {
+  const res = await fetch(`${API_URL}/itemcarrito/carrito/${idcarrito}`);
+  if (!res.ok) throw new Error("Error al obtener items del carrito");
+  return res.json(); // { success, data }
+};
+
+export const agregarItemCarrito = async ({ idcarrito, idproducto, cantidad }) => {
+  const res = await fetch(`${API_URL}/itemcarrito`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idcarrito, idproducto, cantidad }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al agregar item");
+
+  return data;
+};
+
+export const eliminarItemCarrito = async (iditem) => {
+  const res = await fetch(`${API_URL}/itemcarrito/${iditem}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar item");
+
+  return data;
+};
+
+// ---------- ITEMS DE LA ORDEN ----------
+export const getItemsDeOrden = async (idorden) => {
+  const res = await fetch(`${API_URL}/itemorden/${idorden}`);
+  if (!res.ok) throw new Error("Error al obtener items de la orden");
+  return res.json();
+};
+
+export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, preciounitario }) => {
+  const res = await fetch(`${API_URL}/itemorden`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idorden, idproducto, cantidad, preciounitario }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear item");
+
+  return data;
+};
