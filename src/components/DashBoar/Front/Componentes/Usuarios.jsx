@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import './Usuarios.css'
 import { useNavigate } from "react-router-dom";
-import { getUsuarios, getUsuarioById } from "../../../services/api";
+import { getUsuarios, getUsuarioById , cambiarEstadoUsuario} from "../../../services/api";
 
 function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -26,16 +26,10 @@ function Usuarios() {
 
   //Estado
   const cambiarEstado = async(id, estadoActual)=>{
-  const nuevoEstado = estadoActual === 1? 0:1;
+  const nuevoEstado = estadoActual === "activo"? "desactivado":"activo";
 
   try {
-    const res = await fetch(`http://localhost:3005/usuario/${id}/estado`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Us_Estado: nuevoEstado })
-    });
-
-    if (!res.ok) throw new Error("Error al actualizar estado");
+    await cambiarEstadoUsuario(id, nuevoEstado);
 
     setUsuarios(usuarios.map(u =>
       u.id === id ? { ...u, estado: nuevoEstado } : u
@@ -103,8 +97,11 @@ function Usuarios() {
               <p> {u.nombre}</p></td>
 
             <td>{u.fecharegistro}</td>
-            { u.estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
-            <td>  <button onClick={()=> cambiarEstado(u.id, u.estado)}> {u.estado === 1 ? "Desactivar" : "Activar"}</button>
+
+            { u.estado === "activo" ? <td>Activado</td> : <td>Desactivado</td> }   
+
+            <td className="botones"> 
+                  <button onClick={()=> cambiarEstado(u.id, u.estado)}> {u.estado === "activo" ? "Desactivar" : "Activar"}</button>
                   <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.id}`)}> Ver Detalles</button> </td>
             </tr>
             ))

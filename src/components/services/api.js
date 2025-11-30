@@ -74,6 +74,16 @@ export const getUsuarioById = async (id) => {
   return res.json();
 };
 
+export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
+  const res = await fetch(`${API_URL}/usuario/${id}/estado`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ estado: nuevoEstado })
+  });
+  if (!res.ok) throw new Error("Error al actualizar estado");
+  return await res.json(); 
+};
+
 // Cambiar contraseña
 export const cambiarPasswordUsuario = async (id, passwordActual, passwordNueva) => {
   const res = await fetch(`${API_URL}/usuario/${id}/password`, {
