@@ -5,7 +5,7 @@ const AdminRoute = ({ children }) => {
     const usuarioString = localStorage.getItem("usuario");
 
     if (!usuarioString) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/login" replace />;
     }
 
     const usuario = JSON.parse(usuarioString);

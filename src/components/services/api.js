@@ -100,3 +100,54 @@ export const getOrdenById = async (id) => {
   if (!res.ok) throw new Error("Error al obtener detalle de orden");
   return res.json();
 };
+
+// Crear nueva orden
+export const createOrden = async (orden) => {
+  try {
+    const res = await fetch(`${API_URL}/orden`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orden),
+    });
+
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("El servidor backend no está disponible. Asegúrate de que esté corriendo en el puerto 3005.");
+    }
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Error al crear orden");
+    return data;
+  } catch (error) {
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("No se puede conectar al servidor backend. Verifica que esté corriendo en http://localhost:3005");
+    }
+    throw error;
+  }
+};
+
+// Crear nuevo usuario (registro)
+export const createUsuario = async (usuario) => {
+  try {
+    const res = await fetch(`${API_URL}/usuario`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuario),
+    });
+
+    // Verificar si la respuesta es JSON
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("El servidor backend no está disponible. Asegúrate de que esté corriendo en el puerto 3005.");
+    }
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Error al crear usuario");
+    return data;
+  } catch (error) {
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("No se puede conectar al servidor backend. Verifica que esté corriendo en http://localhost:3005");
+    }
+    throw error;
+  }
+};
