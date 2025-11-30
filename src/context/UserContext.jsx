@@ -5,11 +5,11 @@ import { usuarios } from "../data/usuarios";
 const UserContext = createContext()
 
 export function UserProvider({ children }) {
-    const [ user, setUser ] = useState(null)
+    const [user, setUser] = useState(null)
 
     const login = (emailUsuario, password) => {
-        const resultado = usuarios.find((u) => u.email.toLowerCase() === emailUsuario.toLowerCase() 
-                                        && u.password === password);
+        const resultado = usuarios.find((u) => u.email.toLowerCase() === emailUsuario.toLowerCase()
+            && u.password === password);
 
         if (resultado) {
             setUser(resultado);
@@ -53,8 +53,8 @@ export function UserProvider({ children }) {
 
         if (usuarioEncontrado) {
             if (usuarioEncontrado.password === newPassword) {
-            alert("La nueva contraseña no puede ser igual a la anterior.");
-            return false;
+                alert("La nueva contraseña no puede ser igual a la anterior.");
+                return false;
             }
             usuarioEncontrado.password = newPassword;
             console.log("Contraseña actualizada para:", emailUsuario);
@@ -75,12 +75,12 @@ export function UserProvider({ children }) {
 
     return (
         <UserContext.Provider value={value}>
-            { children }
+            {children}
         </UserContext.Provider>
     )
 }
 
-export function useUser () {
+export function useUser() {
     const context = useContext(UserContext)
     return context;
 }

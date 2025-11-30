@@ -21,7 +21,7 @@ const Login = () => {
             if (usuarioLogueado.admin === 1) {
                 navigate('/dashboard-admin');
             } else {
-                navigate(`/`);
+                navigate('/home');
             }
         } else {
             alert('Usuario o password incorrecto!');

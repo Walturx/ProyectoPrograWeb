@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import './Usuarios.css'
 import { useNavigate } from "react-router-dom";
+import { getUsuarios, getUsuarioById } from "../../../services/api";
 
 function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -11,10 +12,16 @@ function Usuarios() {
 
   //datos
   useEffect(() => {
-    fetch("http://localhost:5000/usuarios")
-      .then(res => res.json())
-      .then(data => setUsuarios(data))
-      .catch(err => console.error("Error de carga de usuarios...",err));
+    const cargarUsuarios = async () => {
+      try {
+        const data = await getUsuarios(); 
+        setUsuarios(data);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
+
+    cargarUsuarios();
   }, []);
 
   //Estado
@@ -90,15 +97,15 @@ function Usuarios() {
         </thead>
         <tbody>
             {usuariosFiltrados.length > 0 ? ( usuariosPaginados.map((u) => (
-            <tr key={u.Us_ID}>
+            <tr key={u.id}>
             <td className="usuario-foto2">
-              <img src={`https://randomuser.me/api/portraits/men/${u.Us_ID}.jpg`} alt="foto" /> 
-              <p> {u.Us_Name}</p></td>
+              <img src={`https://randomuser.me/api/portraits/men/${u.id}.jpg`} alt="foto" /> 
+              <p> {u.nombre}</p></td>
 
-            <td>{u.Us_Fecha_Reg}</td>
-            { u.Us_Estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
-            <td>  <button onClick={()=> cambiarEstado(u.Us_ID, u.Us_Estado)}> {u.Us_Estado === 1 ? "Desactivar" : "Activar"}</button>
-                  <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.Us_ID}`)}> Ver Detalles</button> </td>
+            <td>{u.fecharegistro}</td>
+            { u.estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
+            <td>  <button onClick={()=> cambiarEstado(u.Us_ID, u.estado)}> {u.estado === 1 ? "Desactivar" : "Activar"}</button>
+                  <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.id}`)}> Ver Detalles</button> </td>
             </tr>
             ))
             ): (<tr>
