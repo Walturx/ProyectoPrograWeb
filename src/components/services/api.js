@@ -62,6 +62,12 @@ export const deleteCategoria = async (id) => {
 };
 
 // ---------- USUARIOS ----------
+export const getUsuarios = async () => {
+  const res = await fetch(`${API_URL}/usuario`);
+  if (!res.ok) throw new Error("Error al obtener usuarios");
+  return res.json();
+};
+
 export const getUsuarioById = async (id) => {
   const res = await fetch(`${API_URL}/usuario/${id}`);
   if (!res.ok) throw new Error("Error al obtener usuario");
