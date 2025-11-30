@@ -8,7 +8,6 @@ import TablaUsuarios from "../components/Usuarios_registrados";
 import '../views/Dashboard.css'
 import InfoUsuarios from "../components/Detalle_usuario"
 import TablaOrdenes from "../components/TablaOrdenes";
-import Nav from "../components/Barra_nav"
 import ListaOrden from "../components/Listado_ordenes";
 import { Navigate, useNavigate } from "react-router-dom";
 

@@ -5,7 +5,6 @@ import HeaderHome from '../components/HeaderHome';
 import NavBarHome from '../components/navBarHome';
 import productos from "../data/productos_B";
 import "./tablas.css"
-import Nav from "../components/Barra_nav";
 import { Navigate, useNavigate } from "react-router-dom";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 
@@ -140,7 +139,6 @@ function Lista_Prod() {
                 </button>
             </div>
 
-            <Nav />
 
             <DeleteConfirmationModal
                 isOpen={isModalOpen}
