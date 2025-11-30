@@ -1,20 +1,15 @@
-//HECHO POR ANDRES BEJAR 20230352
-
 import React, { useState } from "react";
 import HeaderHome from '../components/HeaderHome';
 import NavBarHome from '../components/navBarHome';
 import productos from "../data/productos_B";
 import "./tablas.css"
 import { Navigate, useNavigate } from "react-router-dom";
-import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 
 
 function Lista_Prod() {
 
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [productToDelete, setProductToDelete] = useState(null);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -25,22 +20,8 @@ function Lista_Prod() {
         setCurrentPage(1); // Reset to first page on search
     };
 
-    const handleDeleteClick = (producto) => {
-        setProductToDelete(producto);
-        setIsModalOpen(true);
-    };
-
-    const handleConfirmDelete = () => {
-        // Here you would typically call an API to delete the product
-        console.log("Deleting product:", productToDelete.nombre);
-        setIsModalOpen(false);
-        setProductToDelete(null);
-        // For now, we'll just close the modal as we don't have a backend connected for deletion in this context
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setProductToDelete(null);
+    const handleDeleteClick = (id) => {
+        navigate(`/admin/productos/eliminar/${id}`);
     };
 
     const filteredProductos = productos.filter((producto) =>
@@ -105,7 +86,7 @@ function Lista_Prod() {
                                     <td className="tdAdmin">{v.stock}</td>
                                     <td className="tdAdmin">
                                         <button className="Acciones" onClick={() => navigate(`/admin/productos/modificar/${v.id}`)}>✏️</button>
-                                        <button className="Acciones" onClick={() => handleDeleteClick(v)}>🗑️</button>
+                                        <button className="Acciones" onClick={() => handleDeleteClick(v.id)}>🗑️</button>
                                     </td>
                                 </tr>
                             )
@@ -138,14 +119,6 @@ function Lista_Prod() {
                     &gt;
                 </button>
             </div>
-
-
-            <DeleteConfirmationModal
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-                onConfirm={handleConfirmDelete}
-                productName={productToDelete?.nombre}
-            />
         </div>
     )
 
