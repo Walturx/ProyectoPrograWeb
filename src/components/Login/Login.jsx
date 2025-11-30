@@ -21,7 +21,7 @@ const Login = () => {
             if (usuarioLogueado.admin === 1) {
                 navigate('/dashboard-admin');
             } else {
-               navigate(`/usuario/${usuarioLogueado.id}`);
+                navigate(`/`);
             }
         } else {
             alert('Usuario o password incorrecto!');
@@ -36,7 +36,7 @@ const Login = () => {
                     <h2>Iniciar sesión</h2>
                     <div className="grupo">
                         <p>Correo</p>
-                        <input type="email" id="login-email" placeholder="usuario@gmail.com" 
+                        <input type="email" id="login-email" placeholder="usuario@gmail.com"
                             value={usuario} onChange={(e) => setUsuario(e.target.value)} />
                     </div>
                     <div className="grupo">

@@ -28,7 +28,7 @@ import ResetPasswordPage from "./views/ResetPasswordPage";
 import UserDashboardPage from "./views/UserDashboardPage";
 import Carrito from "./views/Carrito";
 import Checkout from './views/Checkout';
-import MetodoPago from './views/Metodo_Pago';
+import MetodoPago from "./views/Metodo_pago";
 import PagoQR from './views/Pago_qr';
 import PagoTarjeta from './views/Pago_Tarjeta';
 import Pedido from './views/Pedido';
@@ -60,7 +60,8 @@ root.render(
           <Router>
             <Routes>
               {/* === 1. RUTAS PÚBLICAS === */}
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/registro" element={<RegistroPage />} />
               <Route path="/olvide-password" element={<OlvidePasswordPage />} />
               <Route path="/reset-password/:email" element={<ResetPasswordPage />} />
@@ -86,11 +87,11 @@ root.render(
               <Route path="/admin/productos" element={<AdminRoute><ListaProductoPage /></AdminRoute>} />
               <Route path="/admin/productos/agregar" element={<AdminRoute><AgregarProductoPage /></AdminRoute>} />
               <Route path="/admin/productos/modificar/:id" element={<AdminRoute><ModProductoPage /></AdminRoute>} />
-              
+
               {/* Mantenimiento de Usuarios */}
               <Route path="/admin/usuarios" element={<AdminRoute><Usuarios /></AdminRoute>} />
-              <Route path="/usuario/:usuarioId" element={ <ProtectedRoute> <DetalleUsuarioPage /> </ProtectedRoute>} />
-              <Route path="/admin/detalles_usuario/:id" element={<AdminRoute><Detalles_Usuarios /></AdminRoute>} /> 
+              <Route path="/usuario/:usuarioId" element={<ProtectedRoute> <DetalleUsuarioPage /> </ProtectedRoute>} />
+              <Route path="/admin/detalles_usuario/:id" element={<AdminRoute><Detalles_Usuarios /></AdminRoute>} />
 
               {/* Mantenimiento de Órdenes */}
               <Route path="/admin/ordenes" element={<AdminRoute><Todas_Ordenes /></AdminRoute>} />
