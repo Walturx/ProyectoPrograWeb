@@ -62,10 +62,26 @@ export const deleteCategoria = async (id) => {
 };
 
 // ---------- USUARIOS ----------
+export const getUsuarios = async () => {
+  const res = await fetch(`${API_URL}/usuario`);
+  if (!res.ok) throw new Error("Error al obtener usuarios");
+  return res.json();
+};
+
 export const getUsuarioById = async (id) => {
   const res = await fetch(`${API_URL}/usuario/${id}`);
   if (!res.ok) throw new Error("Error al obtener usuario");
   return res.json();
+};
+
+export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
+  const res = await fetch(`${API_URL}/usuario/${id}/estado`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ estado: nuevoEstado })
+  });
+  if (!res.ok) throw new Error("Error al actualizar estado");
+  return await res.json(); 
 };
 
 // Cambiar contraseña
@@ -95,19 +111,29 @@ export const getOrdenById = async (id) => {
   return res.json();
 };
 
-export const crearOrden = async (ordenData) => {
-  const res = await fetch(`${API_URL}/orden`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(ordenData),
-  });
+export const createOrden = async (orden) => {
+  try {
+    const res = await fetch(`${API_URL}/orden`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orden),
+    });
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Error al crear orden");
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("El servidor backend no está disponible. Asegúrate de que esté corriendo en el puerto 3005.");
+    }
 
-  return data;
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Error al crear orden");
+    return data;
+  } catch (error) {
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("No se puede conectar al servidor backend. Verifica que esté corriendo en http://localhost:3005");
+    }
+    throw error;
+  }
 };
-
 
 // ---------- CARRITO DE COMPRA ----------
 export const getCarritoByUsuario = async (idusuario) => {
@@ -189,4 +215,37 @@ export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, precioun
   if (!res.ok) throw new Error(data.message || "Error al crear item");
 
   return data;
+};
+
+export const getOrdenByIdUsuario = async (id) => {
+  console.log("pivote api ordenes")
+  const res = await fetch(`${API_URL}/orden/usuario/${id}`);
+  if (!res.ok) throw new Error("Error al obtener órdenes");
+  return res.json();
+};
+
+// Crear nuevo usuario (registro)
+export const createUsuario = async (usuario) => {
+  try {
+    const res = await fetch(`${API_URL}/usuario`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuario),
+    });
+
+    // Verificar si la respuesta es JSON
+    const contentType = res.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("El servidor backend no está disponible. Asegúrate de que esté corriendo en el puerto 3005.");
+    }
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Error al crear usuario");
+    return data;
+  } catch (error) {
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("No se puede conectar al servidor backend. Verifica que esté corriendo en http://localhost:3005");
+    }
+    throw error;
+  }
 };

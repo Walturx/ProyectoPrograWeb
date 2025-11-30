@@ -1,5 +1,4 @@
-
-.button {
+td.botones button {
     background-color: #38b000;
     color: white;
     border: none;
@@ -22,3 +21,8 @@
 .usuario-foto2{
     display: flex;
 }
+.buscador{    
+background: #ffffff;
+  border-radius: 100px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }

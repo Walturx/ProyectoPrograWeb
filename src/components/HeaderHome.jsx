@@ -24,8 +24,9 @@ function HeaderHome() {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    navigate("/login");
   }
+
   return (
     <header className="flex items-center justify-between bg-white-500 px-8 py-4 shadow-md h-30">
       <div className="flex items-center">
@@ -54,8 +55,8 @@ function HeaderHome() {
         >
 
 
-         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
           </svg>
 
         </button>
@@ -92,8 +93,8 @@ c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25
               />
             </Link>
             <span className="text-gray-700 font-medium">Hola, {user.nombre}</span>
-            <button 
-              onClick={handleLogout} 
+            <button
+              onClick={handleLogout}
               className="bg-red-500 text-white px-3 py-1 rounded-md text-sm font-semibold hover:bg-red-600 transition-colors"
             >
               Cerrar Sesión
@@ -101,8 +102,8 @@ c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25
           </>
         ) : (
 
-          <Link 
-            to="/" 
+          <Link
+            to="/login"
             className="bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700 transition-colors"
           >
             Iniciar Sesión

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import './Usuarios.css'
 import { useNavigate } from "react-router-dom";
+import { getUsuarios , cambiarEstadoUsuario} from "../../services/api";
 
 function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -11,27 +12,27 @@ function Usuarios() {
 
   //datos
   useEffect(() => {
-    fetch("http://localhost:5000/usuarios")
-      .then(res => res.json())
-      .then(data => setUsuarios(data))
-      .catch(err => console.error("Error de carga de usuarios...",err));
+    const cargarUsuarios = async () => {
+      try {
+        const data = await getUsuarios(); 
+        setUsuarios(data);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
+
+    cargarUsuarios();
   }, []);
 
   //Estado
   const cambiarEstado = async(id, estadoActual)=>{
-  const nuevoEstado = estadoActual === 1? 0:1;
+  const nuevoEstado = estadoActual === "activo"? "desactivado":"activo";
 
   try {
-    const res = await fetch(`http://localhost:5000/usuarios/${id}/estado`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Us_Estado: nuevoEstado })
-    });
-
-    if (!res.ok) throw new Error("Error al actualizar estado");
+    await cambiarEstadoUsuario(id, nuevoEstado);
 
     setUsuarios(usuarios.map(u =>
-      u.Us_ID === id ? { ...u, Us_Estado: nuevoEstado } : u
+      u.id === id ? { ...u, estado: nuevoEstado } : u
     ));
   } catch (err) {
     console.error(err);
@@ -40,7 +41,7 @@ function Usuarios() {
 
   //busqueda
   const usuariosFiltrados = usuarios.filter((u) =>
-    u.Us_Name.toLowerCase().includes(busqueda.toLowerCase())
+    (u?.nombre?.toLowerCase() ?? "").includes(busqueda.toLowerCase())
   );
 
 
@@ -48,25 +49,25 @@ function Usuarios() {
 
 
   const [inferior, setInferior] = useState(0);
-  const [superior, setSuperior] = useState(8);
+  const [superior, setSuperior] = useState(4);
   const usuariosPaginados = usuariosFiltrados.slice(inferior, superior);
   
   const siguientePagina = () => {
     if (superior < usuariosFiltrados.length) {
-      setInferior(inferior + 8);
-      setSuperior(superior + 8);
+      setInferior(inferior + 4);
+      setSuperior(superior + 4);
     }
   };
 
   const anteriorPagina = () => {
     if (inferior > 0) {
-      setInferior(inferior - 8);
-      setSuperior(superior - 8);
+      setInferior(inferior - 4);
+      setSuperior(superior - 4);
     }
   };
 
-  const paginaActual = Math.floor(inferior / 8) + 1;
-  const totalPaginas = Math.ceil(usuariosFiltrados.length / 8);
+  const paginaActual = Math.floor(inferior / 4) + 1;
+  const totalPaginas = Math.ceil(usuariosFiltrados.length / 4);
 
 
   return (
@@ -90,15 +91,18 @@ function Usuarios() {
         </thead>
         <tbody>
             {usuariosFiltrados.length > 0 ? ( usuariosPaginados.map((u) => (
-            <tr key={u.Us_ID}>
+            <tr key={u.id}>
             <td className="usuario-foto2">
-              <img src={`https://randomuser.me/api/portraits/men/${u.Us_ID}.jpg`} alt="foto" /> 
-              <p> {u.Us_Name}</p></td>
+              <img src={`https://randomuser.me/api/portraits/men/${u.id}.jpg`} alt="foto" /> 
+              <p> {u.nombre}</p></td>
 
-            <td>{u.Us_Fecha_Reg}</td>
-            { u.Us_Estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
-            <td>  <button onClick={()=> cambiarEstado(u.Us_ID, u.Us_Estado)}> {u.Us_Estado === 1 ? "Desactivar" : "Activar"}</button>
-                  <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.Us_ID}`)}> Ver Detalles</button> </td>
+            <td>{u.fecharegistro}</td>
+
+            { u.estado === "activo" ? <td>Activado</td> : <td>Desactivado</td> }   
+
+            <td className="botones"> 
+                  <button onClick={()=> cambiarEstado(u.id, u.estado)}> {u.estado === "activo" ? "Desactivar" : "Activar"}</button>
+                  <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.id}`)}> Ver Detalles</button> </td>
             </tr>
             ))
             ): (<tr>

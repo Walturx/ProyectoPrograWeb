@@ -3,26 +3,41 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './Detalles_Usuarios.css'
+import { getUsuarioById, getOrdenByIdUsuario} from "../../services/api";
 
 function Detalles_Usuarios() {
   const {id} = useParams();
   const [Usuario, setUsuario] = useState(null);
-  const [error, setError] = useState(null);
+  const [Ordenes, setOrdenes] = useState([]);
 
-   useEffect(() => {
-    if (!id) return; 
+useEffect(() => {
+    const cargarUsuario = async () => {
+      try {
+        const data = await getUsuarioById(id); 
+        setUsuario(data);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
 
-    fetch(`http://localhost:5000/usuarios/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener usuario");
-        return res.json();
-      })
-      .then((data) => setUsuario(data))
-      .catch((err) => {
-        console.error(err);
-        setError("No se pudo cargar el usuario");
-      });
+    cargarUsuario();
+  }, []);
+
+  useEffect(() => {
+    console.log("pivote conponente detalles")
+    const cargarOrdenes = async () => {
+      try {
+        const data = await getOrdenByIdUsuario(id); 
+        setOrdenes(data);
+      } catch (error) {
+        console.error("Error al obtener Ordenes...:", error);
+        setOrdenes([]);
+      }
+    };
+
+    cargarOrdenes();
   }, [id]);
+
 
 
   if (!Usuario) {
@@ -39,10 +54,10 @@ function Detalles_Usuarios() {
             <div className="order-card">
             <div className="usuario-info">
               <div>
-              <h1><strong>{Usuario.Us_Name}</strong></h1> <br />
-              <p>Correo: {Usuario.Us_Correo}</p> <br />
-              <p>Fecha de registro: {Usuario.Us_Fecha_Reg}</p> <br />
-              { Usuario.Us_Estado === 1 ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   <br />
+              <h1><strong>{Usuario.nombre}</strong></h1> <br />
+              <p>Correo: {Usuario.email}</p> <br />
+              <p>Fecha de registro: {Usuario.fecharegistro}</p> <br />
+              { Usuario.estado === 'activo' ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   <br />
               </div>
               
               <div className="usuario-foto">
@@ -63,16 +78,18 @@ function Detalles_Usuarios() {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <tr key={n}>
-                  <td className="id">#{Math.floor(1000 + Math.random() * 9000)}</td>
-                  <td>20/0{n}/2025</td>
-                  <td>S/{199.0}</td>
+              {Ordenes.length > 0 ? ( Ordenes.map((Orden) => (
+                <tr key={Orden.id}>
+                  <td className="id"> #{Orden.id} </td>
+                  <td>{Orden.fecha}</td>
+                  <td>S/{Orden.total}</td>
                   <td>
                     <button className="btn-verdetalle">Ver detalle</button>
                   </td>
                 </tr>
-              ))}
+              ))):(<tr>
+                    <td colSpan="4">No hay órdenes</td>
+                  </tr>)}
             </tbody>
           </table>
             </div>
