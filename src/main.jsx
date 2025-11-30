@@ -32,9 +32,6 @@ import MetodoPago from "./views/Metodo_pago";
 import PagoQR from './views/Pago_qr';
 import PagoTarjeta from './views/Pago_Tarjeta';
 import Pedido from './views/Pedido';
-import Detalles_Ordenes from './components/DashBoar/Front/Componentes/Detalles_Ordenes';
-import Detalles_Usuarios from './components/DashBoar/Front/Componentes/Detalles_Usuarios';
-import Usuarios from './components/DashBoar/Front/Componentes/Usuarios';
 
 // --- ADMIN PAGES ---
 import ListaProductoPage from "./views/Lista_Prod";
