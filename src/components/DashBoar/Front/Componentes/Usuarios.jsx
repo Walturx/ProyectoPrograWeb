@@ -29,7 +29,7 @@ function Usuarios() {
   const nuevoEstado = estadoActual === 1? 0:1;
 
   try {
-    const res = await fetch(`http://localhost:5000/usuarios/${id}/estado`, {
+    const res = await fetch(`http://localhost:3005/usuario/${id}/estado`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ Us_Estado: nuevoEstado })
@@ -38,7 +38,7 @@ function Usuarios() {
     if (!res.ok) throw new Error("Error al actualizar estado");
 
     setUsuarios(usuarios.map(u =>
-      u.Us_ID === id ? { ...u, Us_Estado: nuevoEstado } : u
+      u.id === id ? { ...u, estado: nuevoEstado } : u
     ));
   } catch (err) {
     console.error(err);
@@ -47,7 +47,7 @@ function Usuarios() {
 
   //busqueda
   const usuariosFiltrados = usuarios.filter((u) =>
-    u.Us_Name.toLowerCase().includes(busqueda.toLowerCase())
+    (u?.nombre?.toLowerCase() ?? "").includes(busqueda.toLowerCase())
   );
 
 
@@ -104,7 +104,7 @@ function Usuarios() {
 
             <td>{u.fecharegistro}</td>
             { u.estado === 1 ? <td>Activado</td> : <td>Desactivado</td> }   
-            <td>  <button onClick={()=> cambiarEstado(u.Us_ID, u.estado)}> {u.estado === 1 ? "Desactivar" : "Activar"}</button>
+            <td>  <button onClick={()=> cambiarEstado(u.id, u.estado)}> {u.estado === 1 ? "Desactivar" : "Activar"}</button>
                   <button onClick= {() => navigate(`/admin/detalles_Usuario/${u.id}`)}> Ver Detalles</button> </td>
             </tr>
             ))
