@@ -48,7 +48,6 @@ function Dashboard() {
             <div className="tablas">
                 <div className="tablas_dash">
                     <TablaUsuarios onUsuario={setUsuarioSeleccionado} />
-                    <Nav />
                 </div>
                 <div className="tablas_dash">
                     <h3>Detalle Usuario</h3>
@@ -58,7 +57,6 @@ function Dashboard() {
                             <InfoUsuarios id={usuarioSeleccionado} />) : (<InfoUsuarios id={0} />)}
                         <TablaOrdenes />
                     </div>
-                    <Nav />
                 </div>
             </div>
             <div>
@@ -72,9 +70,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
-
             <ListaOrden />
-            <Nav />
         </>
     )
 }

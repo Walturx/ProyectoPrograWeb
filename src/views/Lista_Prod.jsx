@@ -17,8 +17,13 @@ function Lista_Prod() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 7;
+
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset to first page on search
     };
 
     const handleDeleteClick = (producto) => {
@@ -42,6 +47,14 @@ function Lista_Prod() {
     const filteredProductos = productos.filter((producto) =>
         producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Logica de paginacion
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredProductos.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredProductos.length / itemsPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const iraAgregProd = () => (
         navigate('/admin/productos/agregar')
@@ -81,7 +94,7 @@ function Lista_Prod() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredProductos.map((v) => {
+                        {currentItems.map((v) => {
                             return (
                                 <tr key={v.id}>
                                     <td><img src={v.imagen} alt="" /></td>
@@ -102,13 +115,29 @@ function Lista_Prod() {
                 </table>
             </div>
             <div className="Pagination">
-                <span className="Page-btn">&lt;</span>
-                <span className="Page-btn active">1</span>
-                <span className="Page-btn">2</span>
-                <span className="Page-btn">3</span>
-                <span className="Page-btn">...</span>
-                <span className="Page-btn">10</span>
-                <span className="Page-btn">&gt;</span>
+                <button
+                    className="Page-btn"
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt;
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i + 1}
+                        onClick={() => paginate(i + 1)}
+                        className={`Page-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+                <button
+                    className="Page-btn"
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    &gt;
+                </button>
             </div>
 
             <Nav />
