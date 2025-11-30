@@ -13,7 +13,9 @@ export default function CrearCategoria() {
   const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
 
   // Validación: solo admin puede crear
-  if (!usuario || usuario.admin !== 1) {
+    const isAdmin = usuario.admin === 1 || usuario.admin === true;
+
+  if (!usuario || !isAdmin) {
     return (
       <p style={{ textAlign: "center", marginTop: "50px" }}>
         Acceso denegado. Solo administradores.
