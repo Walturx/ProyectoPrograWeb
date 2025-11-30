@@ -1,28 +1,51 @@
 //Codigo hecho por Walter Melendez 20231805
 
 import { Link } from "react-router-dom";
-import { categorias } from "../data/categoria";
-
+import { getCategorias } from "./services/api";
+import { useEffect, useState } from "react";
 
 function Categorias() {
+    const [categorias, setCategorias] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const cargarDatos = async () => {
+            try {
+                setLoading(true);
+                const data = await getCategorias();
+                setCategorias(data);
+            } catch (error) {
+                console.error("Error cargando categorías:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        cargarDatos();
+    }, []);
+
+    if (loading) return <p className="p-10 text-xl">Cargando Categorias...</p>;
+    if (!categorias.length) return <p className="p-10">No hay Categorias disponibles.</p>;
+
     return (
         <div className="flex flex-col items-left space-y-5">
             <h1 className="text-3xl font-bold text-black-800 m-4">Categorías</h1>
 
-            <div className="flex justify-center gap-10 flex-wrap   ">
+            <div className="flex justify-center gap-10 flex-wrap">
                 {categorias.map((item) => (
-                    <Link key={item.categoria} to={`/categorias/${item.categoria}`}
-                        className="flex flex-col items-center space-y-2 hover:scale-105">
-
-                        <div className="w-50 h-50 rounded-full overflow-hidden shadow-md bg-green-700 flex items-center justify-center ">
+                    <Link
+                        key={item.id}
+                        to={`/categorias/${item.categoria}`}
+                        className="flex flex-col items-center space-y-2 hover:scale-105"
+                    >
+                        <div className="w-50 h-50 rounded-full overflow-hidden shadow-md bg-green-700 flex items-center justify-center">
                             <img
                                 src={item.imagenCat}
                                 alt={item.categoria}
-                                className="w-35 h-30 "
+                                className="w-35 h-30"
                             />
                         </div>
 
-                        <span className="text-center  font-bold text-gray-700">
+                        <span className="text-center font-bold text-gray-700">
                             {item.categoria}
                         </span>
                     </Link>

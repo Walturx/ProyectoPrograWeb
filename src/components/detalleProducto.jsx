@@ -1,32 +1,51 @@
 //Codigo hecho por Walter Melendez 20231805
 
 import { useParams, Link } from "react-router-dom";
-import { productos } from "../data/productos";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CarritoContext } from "../context/CarritoContexto";
+import { getProductoById, getProductos, getCategorias } from "./services/api";
 function ProductoDetalle() {
   const { id } = useParams();
-  const producto = productos.find((p) => p.id === parseInt(id));
-    const { agregarProducto } = useContext(CarritoContext);
+  const { agregarProducto } = useContext(CarritoContext);
+  const [producto, setProducto] = useState(null);
+  const [similares, setSimilares] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [categorias, setCategorias] = useState([]);
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        setLoading(true);
 
-  if (!producto) {
-    return (
-      <div className="text-center p-10">
-        <h2 className="text-2xl font-bold">Producto no encontrado</h2>
-        <Link to="/" className="text-green-600 underline">
-          Volver a productos
-        </Link>
-      </div>
-    );
-  }
-  const similares = productos.filter(
-    (p) => p.categoria === producto.categoria && p.id !== producto.id
-  );
+        const dataProducto = await getProductoById(id);
+        setProducto(dataProducto);
 
+        const todos = await getProductos();
+        const filtrados = todos.filter(p => p.idcategoria === dataProducto.idcategoria && p.id !== dataProducto.id);
+        setSimilares(filtrados);
+
+        const dataCategorias = await getCategorias();
+        setCategorias(dataCategorias);
+      } catch (error) {
+        console.error("Error cargando productos:", error)
+      } finally {
+        setLoading(false);
+      }
+
+    }
+    cargarDatos();
+
+  }, [id]);
+  const categoriaNombre = categorias.find(c => c.id === producto.idcategoria)?.categoria || "";
+
+  if (loading) return <p className="p-10 text-xl">Cargando producto...</p>;
+  if (!producto) return <p className="p-10">Producto no encontrado</p>;
 
   return (
     <div className=" p-10 justify-center items-center flex flex-col mb-20">
-      <h1 className="text-[22px] font-bold mb-4 w-full ml-10  ">{`${producto.categoria} > ${producto.nombre}`}</h1>
+      <h1 className="text-[22px] font-bold mb-4 w-full ml-10">
+        {`${categoriaNombre} > ${producto.nombre}`}
+      </h1>
+
       <div className="flex items-center rounded-lg border-blue-500 w-250 h-110 p-6  bg-white shadow-md">
         <img
           src={producto.imagen}
@@ -37,10 +56,11 @@ function ProductoDetalle() {
           <h2 className="text-[30px] font-bold mb-2">{producto.nombre}</h2>
           <p className="text-gray-600 text-[20px] mt-7">{producto.descripcion}</p>
           <div className="flex items-center space-x-20">
-            <p className="mt-20 text-green-500 text-xl font-semibold">S/{producto.precio}</p>
+            <p className="mt-20 text-green-500 text-xl font-semibold"> S/{Number(producto.precio).toFixed(2)}</p>
             <button
-              onClick={() => {;
-                agregarProducto(producto); 
+              onClick={() => {
+                ;
+                agregarProducto(producto);
               }}
               className=" mt-20  flex items-center bg-green-600 text-white rounded-md hover:bg-blue-100 transition px-4 py-2">
 
@@ -92,7 +112,10 @@ function ProductoDetalle() {
                 <img src={p.imagen} alt={p.nombre} className="w-40 h-40 mx-auto object-cover " />
                 <div className="p-3">
                   <h4 className="font-bold text-gray-800">{p.nombre}</h4>
-                  <p className="text-green-700 font-semibold">S/{p.precio.toFixed(2)}</p>
+                  <p className="text-green-700 font-semibold">
+                    S/{Number(p.precio).toFixed(2)}
+                  </p>
+
 
                   <button
                     onClick={() => addPrice(producto.precio)}
