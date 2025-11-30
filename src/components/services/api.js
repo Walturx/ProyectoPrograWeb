@@ -81,7 +81,7 @@ export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
     body: JSON.stringify({ estado: nuevoEstado })
   });
   if (!res.ok) throw new Error("Error al actualizar estado");
-  return await res.json(); 
+  return await res.json();
 };
 
 // Cambiar contraseña
@@ -161,3 +161,40 @@ export const createUsuario = async (usuario) => {
     throw error;
   }
 };
+// ---------- ADMIN ----------
+export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock }) => {
+  const res = await fetch(`${API_URL}/admin/productos/agregar`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre, presentacion, categoria, descripcion, imagen, stock }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear producto");
+  return data;
+};
+
+export const updateProducto = async ({ id, nombre, presentacion, categoria, descripcion, imagen, stock }) => {
+  const res = await fetch(`${API_URL}/admin/productos/modificar/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, nombre, presentacion, categoria, descripcion, imagen, stock }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al actualizar producto");
+  return data;
+};
+
+export const deleteProducto = async (id) => {
+  const res = await fetch(`${API_URL}/admin/productos/eliminar/${id}`, {
+    method: "DELETE",
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar producto");
+  return data;
+};
+
+export const AllProductos = async () => {
+  const res = await fetch(`${API_URL}/admin/productos`);
+  if (!res.ok) throw new Error("Error al obtener productos");
+  return res.json();
+}

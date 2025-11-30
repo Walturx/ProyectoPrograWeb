@@ -32,13 +32,18 @@ import MetodoPago from "./views/Metodo_pago";
 import PagoQR from './views/Pago_qr';
 import PagoTarjeta from './views/Pago_Tarjeta';
 import Pedido from './views/Pedido';
-import CambiarClavePage from "./views/CambiarClavePage";
-import DetalleOrdenPage from "./views/DetalleOrdenPage";
-// Admin
-import DashboardAdminPage from "./views/Dashboard";
+import Detalles_Ordenes from './components/DashBoar/Front/Componentes/Detalles_Ordenes';
+import Detalles_Usuarios from './components/DashBoar/Front/Componentes/Detalles_Usuarios';
+import Usuarios from './components/DashBoar/Front/Componentes/Usuarios';
+
+// --- ADMIN PAGES ---
 import ListaProductoPage from "./views/Lista_Prod";
 import AgregarProductoPage from "./views/Agregar_Prod";
 import ModProductoPage from "./views/Mod_Prod";
+import DeleteProductPage from "./views/DeleteProductPage";
+import DashboardAdminPage from "./views/Dashboard";
+import DetalleOrdenPage from "./views/DetalleOrdenPage";
+import CambiarClavePage from "./views/CambiarClavePage";
 import DetalleUsuarioPage from "./views/DetalleUsuarioPage";
 import ListadoCategoriasPage from "./views/ListadoCategoriasPage";
 import CrearCategoriaPage from "./views/CrearCategoriaPage";
@@ -48,7 +53,6 @@ import Todas_Ordenes from "./views/TodasOrdenesAdminPage";
 import Detalles_Ordenes from "./views/DetallesOrdenesAdminPage";
 import Detalles_Usuarios from "./views/DetallesUsuarioAdminPage";
 import Usuarios from "./views/ListadoUsuariosPage";
-
 import "./assets/index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -87,6 +91,7 @@ root.render(
               <Route path="/admin/productos" element={<AdminRoute><ListaProductoPage /></AdminRoute>} />
               <Route path="/admin/productos/agregar" element={<AdminRoute><AgregarProductoPage /></AdminRoute>} />
               <Route path="/admin/productos/modificar/:id" element={<AdminRoute><ModProductoPage /></AdminRoute>} />
+              <Route path="/admin/productos/eliminar/:id" element={<AdminRoute><DeleteProductPage /></AdminRoute>} />
 
               {/* Mantenimiento de Usuarios */}
               <Route path="/admin/usuarios" element={<AdminRoute><Usuarios /></AdminRoute>} />

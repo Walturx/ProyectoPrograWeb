@@ -1,38 +1,66 @@
-//HECHO POR ANDRES BEJAR 20230352
-
-import React from "react";
+import React, { useState } from "react";
 import HeaderHome from '../components/HeaderHome';
 import NavBarHome from '../components/navBarHome';
 import productos from "../data/productos_B";
 import "./tablas.css"
-import Nav from "../components/Barra_nav";
 import { Navigate, useNavigate } from "react-router-dom";
- 
+
 
 function Lista_Prod() {
 
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 7;
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset to first page on search
+    };
+
+    const handleDeleteClick = (id) => {
+        navigate(`/admin/productos/eliminar/${id}`);
+    };
+
+    const filteredProductos = productos.filter((producto) =>
+        producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Logica de paginacion
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredProductos.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredProductos.length / itemsPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const iraAgregProd = () => (
         navigate('/admin/productos/agregar')
     )
 
 
-    return(
+    return (
         <div >
-            <HeaderHome/>
-            <NavBarHome/>
+            <HeaderHome />
+            <NavBarHome />
             <h2>Listado de productos</h2>
-            <div class="CabeLista">
-                <input  class="Busca" type="text" placeholder="Buscar un producto..."/>
-                <div >
-                    <button class="Botones">Buscar</button>
-                    <button class="Botones">Categorias</button>
-                    <button class="Botones" onClick={iraAgregProd}>Agregar producto</button>
+            <div className="CabeLista">
+                <input
+                    className="Busca"
+                    type="text"
+                    placeholder="Buscar un producto..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+                <div className="Botones-container">
+                    <button className="Botones">Categorias</button>
+                    <button className="Botones" onClick={iraAgregProd}>+ Agregar producto</button>
                 </div>
             </div>
             <div className="ListaProductos">
-                <table class="TbProductos">
+                <table className="TbProductos">
                     <thead>
                         <tr>
                             <th></th>
@@ -46,29 +74,54 @@ function Lista_Prod() {
                         </tr>
                     </thead>
                     <tbody>
-                        {productos.map((v)=>{
-                            return(
+                        {currentItems.map((v) => {
+                            return (
                                 <tr key={v.id}>
                                     <td><img src={v.imagen} alt="" /></td>
-                                    <td class="ID"><b>#{v.id}</b></td>
-                                    <td class="tdAdmin">{v.nombre}</td>
-                                    <td class="tdAdmin">{v.presentacion}</td>
-                                    <td class="tdAdmin">{v.descripcion}</td>
-                                    <td class="tdAdmin"><b>{v.categoria}</b></td>
-                                    <td class="tdAdmin">{v.stock}</td>
-                                    <td class="tdAdmin"><button class="Acciones" onClick={()=> navigate(`/admin/productos/modificar/${v.id}`)}>✏️</button><button class="Acciones">🗑️</button></td>
-                                    <hr />
-                                </tr> 
+                                    <td className="ID"><b>#{v.id}</b></td>
+                                    <td className="tdAdmin">{v.nombre}</td>
+                                    <td className="tdAdmin">{v.presentacion}</td>
+                                    <td className="tdAdmin">{v.descripcion}</td>
+                                    <td className="tdAdmin"><b>{v.categoria}</b></td>
+                                    <td className="tdAdmin">{v.stock}</td>
+                                    <td className="tdAdmin">
+                                        <button className="Acciones" onClick={() => navigate(`/admin/productos/modificar/${v.id}`)}>✏️</button>
+                                        <button className="Acciones" onClick={() => handleDeleteClick(v.id)}>🗑️</button>
+                                    </td>
+                                </tr>
                             )
                         })}
                     </tbody>
                 </table>
             </div>
-           
-            <Nav/>
+            <div className="Pagination">
+                <button
+                    className="Page-btn"
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt;
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i + 1}
+                        onClick={() => paginate(i + 1)}
+                        className={`Page-btn ${currentPage === i + 1 ? 'active' : ''}`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+                <button
+                    className="Page-btn"
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    &gt;
+                </button>
+            </div>
         </div>
     )
-    
+
 }
 
 export default Lista_Prod;
