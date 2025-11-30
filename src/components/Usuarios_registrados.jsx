@@ -4,11 +4,11 @@ import React, { useContext, useState } from 'react';
 import usuarios from '../data/usuarios_B';
 import { useNavigate } from 'react-router-dom';
 
-function TablaUsuarios({onUsuario}) {
+function TablaUsuarios({ onUsuario }) {
     const navigate = useNavigate();
     const irATodos_Usuarios = () => {
-    navigate("/admin/usuarios"); 
-    };  
+        navigate("/admin/usuarios");
+    };
 
     const [estado, setEstado] = useState(usuarios)
 
@@ -18,15 +18,15 @@ function TablaUsuarios({onUsuario}) {
             )
         )
     }
-    
+
 
     return (
         <div>
-            <div class="tablas_cab">
+            <div className="tablas_cab">
                 <h3>Usuarios registrados</h3>
-                <button onClick={irATodos_Usuarios}>Ver todos los usuarios</button>
+                <button className="btn-solid" onClick={irATodos_Usuarios}>Ver todos los usuarios</button>
             </div>
-            <table class="TbUsuarios">
+            <table className="TbUsuarios">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -38,21 +38,25 @@ function TablaUsuarios({onUsuario}) {
                 <tbody>
                     {estado.map((v) => (
 
-                                <tr key={v.id}>
+                        <tr key={v.id}>
 
-                                <td>
-                                    <img src={v.imagen} /></td>
-                                <td>{v.nombre}</td>
-                                <td style={{color: v.estado ? "green" : "red"}}>
-                                    {v.estado ?"Activo" : "Inactivo"}
-                                </td>
-                                <td><button 
-                                onClick={()=> CambiarEstado(v.id)} className={v.estado? "Desactivar": "Activar"}>
-                                    {v.estado ?"Desactivar" : "Activar"}
+                            <td>
+                                <img src={v.imagen} /></td>
+                            <td>{v.nombre}</td>
+                            <td className={v.estado ? "text-green" : "text-red"}>
+                                {v.estado ? "Activo" : "Inactivo"}
+                            </td>
+                            <td className="acciones-btns">
+                                <button
+                                    onClick={() => CambiarEstado(v.id)}
+                                    className="btn-solid"
+                                    style={{ backgroundColor: v.estado ? "#22c55e" : "#22c55e" }}
+                                >
+                                    {v.estado ? "Desactivar" : "Activar"}
                                 </button>
-                                    <button className="Desactivar" onClick={() => onUsuario(v.id-1)}>Ver detalle</button>
-                                    </td>
-                            </tr>
+                                <button className="btn-outline" onClick={() => onUsuario(v.id - 1)}>Ver detalle</button>
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </table>

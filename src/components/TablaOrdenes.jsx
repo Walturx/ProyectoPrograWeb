@@ -3,10 +3,10 @@
 import React from "react";
 import ordenes from "../data/ordenes_B"
 
-function TablaOrdenes(){
-    return(
-        <table>
-            <thead> 
+function TablaOrdenes() {
+    return (
+        <table className="TablaOrdenes">
+            <thead>
                 <tr>
                     <th>#ID</th>
                     <th>Fecha</th>
@@ -14,8 +14,8 @@ function TablaOrdenes(){
                 </tr>
             </thead>
             <tbody>
-                {ordenes.map((v)=>{
-                    return(
+                {ordenes.map((v) => {
+                    return (
                         <tr>
                             <td className="ID">#{v.id}</td>
                             <td>{v.fecha}</td>
