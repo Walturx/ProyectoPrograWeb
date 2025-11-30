@@ -1,21 +1,39 @@
-// hecho por Jean Carlo Rado-(202235056)
-import { useState } from "react";
+// hecho por Jean Carlo Rado-(202235056) [adaptado a backend]
+
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { usuarios } from "../../data/usuarios"; // base de datos de usuario
+import { getUsuarioById, cambiarPasswordUsuario } from "../services/api";
 import "./CambiarClave.css";
 
 export default function CambiarClave() {
-  const { usuarioId } = useParams(); // obtener el id desde la URL
+  const { usuarioId } = useParams();
   const navigate = useNavigate();
 
-  const usuario = usuarios.find((u) => u.id === parseInt(usuarioId));
+  const [usuario, setUsuario] = useState(null);
+  const [cargando, setCargando] = useState(true);
+
+  const [actual, setActual] = useState("");
+  const [nueva, setNueva] = useState("");
+  const [confirmar, setConfirmar] = useState("");
+
+  useEffect(() => {
+    const cargarUsuario = async () => {
+      try {
+        const user = await getUsuarioById(usuarioId);
+        setUsuario(user);
+      } catch (error) {
+        console.error("Error al obtener usuario:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
+    cargarUsuario();
+  }, [usuarioId]);
+
+  if (cargando) return <p>Cargando...</p>;
   if (!usuario) return <p>Usuario no encontrado</p>;
 
-  const [actual, setActual] = useState(""); // contraseña actual
-  const [nueva, setNueva] = useState(""); // nueva contraseña
-  const [confirmar, setConfirmar] = useState(""); // confirmar nueva contraseña
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (nueva !== confirmar) {
@@ -23,8 +41,8 @@ export default function CambiarClave() {
       return;
     }
 
-    if (actual !== usuario.password) {
-      alert("Contraseña actual incorrecta.");
+    if (!actual.trim()) {
+      alert("Ingresa tu contraseña actual.");
       return;
     }
 
@@ -33,18 +51,19 @@ export default function CambiarClave() {
       return;
     }
 
-    
-    usuario.password = nueva;
+    try {
+      await cambiarPasswordUsuario(usuario.id, actual, nueva);
+      alert("Contraseña cambiada con éxito");
 
-    alert("Contraseña cambiada con éxito");
+      setActual("");
+      setNueva("");
+      setConfirmar("");
 
-    // limpiar campos
-    setActual("");
-    setNueva("");
-    setConfirmar("");
-
-    // regresar a la página de detalle del usuario 
-    navigate(`/usuario/${usuarioId}`);
+      navigate(`/usuario/${usuarioId}`);
+    } catch (error) {
+      console.error("Error al cambiar contraseña:", error);
+      alert(error.message || "No se pudo cambiar la contraseña.");
+    }
   };
 
   return (
@@ -86,3 +105,4 @@ export default function CambiarClave() {
     </div>
   );
 }
+ 
