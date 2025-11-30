@@ -1,42 +1,40 @@
-// Sidebar.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
-export default function Sidebar({ open, onClose }) {
+import {
+  Sidebar,
+  SidebarBody,
+  SidebarLink
+} from "../ui/sidebar-adaptado"; // ⬅ tu nuevo sistema
+
+export default function SidebarApp({ open, setOpen }) {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  if (!open) return null;
-
   const go = (path) => {
     navigate(path);
-    if (onClose) onClose();
+    if (setOpen) setOpen(false); // cierra en mobile
   };
 
-  // admin puede venir como 1, true, "1", etc.
   const isAdmin =
     user && (user.admin === 1 || user.admin === true || user.admin === "1");
 
   return (
-    <div className="fixed inset-0 z-50 flex">
-      {/* Fondo oscuro para cerrar al hacer click */}
-      <div className="fixed inset-0 bg-black/40" onClick={onClose} />
+    <Sidebar open={open} setOpen={setOpen}>
+      <SidebarBody className="p-4">
 
-      {/* Panel lateral */}
-      <aside className="relative bg-white w-72 h-full shadow-xl p-4 overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-800">Menú</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-800"
-          >
-            ✕
-          </button>
+        {/* ================================
+              HEADER (solo en mobile)
+        ================================= */}
+        <div className="md:hidden mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-bold">Menú</h2>
+          <button onClick={() => setOpen(false)}>✕</button>
         </div>
 
-        {/* Info de usuario */}
+        {/* ================================
+                USER INFO
+        ================================= */}
         {user && (
           <div className="flex items-center gap-3 mb-4 border-b pb-3">
             {user.imagen && (
@@ -55,193 +53,116 @@ export default function Sidebar({ open, onClose }) {
           </div>
         )}
 
-        {/* ===== GENERAL / TIENDA (basado en rutas públicas) ===== */}
-        <p className="text-xs text-gray-500 uppercase mb-1">General</p>
+        {/* ================================
+                GENERAL
+        ================================= */}
+        <SectionTitle text="General" />
 
-        <button
-          className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-          onClick={() => go("/home")}
-        >
-          🏠 Página principal
-        </button>
+        <SidebarLink onClick={() => go("/home")}>🏠 Página principal</SidebarLink>
 
-        {/* Alguna categoría por defecto */}
-        <button
-          className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-          onClick={() => go("/categorias/Consolas")}
-        >
+        <SidebarLink onClick={() => go("/categorias/Consolas")}>
           🧩 Categorías (tienda)
-        </button>
+        </SidebarLink>
 
-        {/* El detalle de producto y /search/:busqueda se acceden desde cards / barra de búsqueda */}
-        <br />
-
-        {/* ===== MI COMPRA (todas son ProtectedRoute en main.jsx) ===== */}
+        {/* ================================
+                MI COMPRA
+        ================================= */}
         {user && (
           <>
-            <p className="text-xs text-gray-500 uppercase mb-1">
-              Mi compra
-            </p>
+            <SectionTitle text="Mi compra" />
 
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/carrito")}
-            >
-              🛒 Carrito
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/checkout")}
-            >
-              ✅ Checkout
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/metodo-pago")}
-            >
-              💳 Método de pago
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/pago-qr")}
-            >
-              📱 Pago QR
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/pago-tarjeta")}
-            >
+            <SidebarLink onClick={() => go("/carrito")}>🛒 Carrito</SidebarLink>
+            <SidebarLink onClick={() => go("/checkout")}>✅ Checkout</SidebarLink>
+            <SidebarLink onClick={() => go("/metodo-pago")}>💳 Método de pago</SidebarLink>
+            <SidebarLink onClick={() => go("/pago-qr")}>📱 Pago QR</SidebarLink>
+            <SidebarLink onClick={() => go("/pago-tarjeta")}>
               🧾 Pago con tarjeta
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-3"
-              onClick={() => go("/pedido")}
-            >
+            </SidebarLink>
+            <SidebarLink onClick={() => go("/pedido")}>
               📦 Pedido completo
-            </button>
+            </SidebarLink>
           </>
         )}
 
-        {/* ===== MI CUENTA (Usuario registrado) ===== */}
+        {/* ================================
+                MI CUENTA
+        ================================= */}
         {user && (
           <>
-            <p className="text-xs text-gray-500 uppercase mb-1">
-              Mi cuenta
-            </p>
+            <SectionTitle text="Mi cuenta" />
 
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/dashboard")}
-            >
+            <SidebarLink onClick={() => go("/dashboard")}>
               👤 Panel de usuario
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go(`/usuario/${user.id}`)}
-            >
+            </SidebarLink>
+            <SidebarLink onClick={() => go(`/usuario/${user.id}`)}>
               📄 Mis datos
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
+            </SidebarLink>
+            <SidebarLink
               onClick={() => go(`/usuario/${user.id}/cambiar-clave`)}
             >
               🔑 Cambiar contraseña
-            </button>
-
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-3"
-              onClick={() => go("/pedido")}
-            >
-              📦 Mis órdenes
-            </button>
-
-            {/* El detalle de una orden específica:
-                /usuario/:usuarioId/orden/:ordenId
-                se accede desde la lista, no hace falta botón directo aquí.
-            */}
+            </SidebarLink>
+            <SidebarLink onClick={() => go("/pedido")}>📦 Mis órdenes</SidebarLink>
           </>
         )}
 
-        {/* ===== ADMINISTRACIÓN (solo si es admin) ===== */}
+        {/* ================================
+                ADMIN
+        ================================= */}
         {isAdmin && (
           <>
-            <p className="text-xs text-gray-500 uppercase mb-1">
-              Administración
-            </p>
+            <SectionTitle text="Administración" />
 
-            {/* Dashboard Admin */}
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/dashboard-admin")}
-            >
+            <SidebarLink onClick={() => go("/dashboard-admin")}>
               📊 Dashboard Admin
-            </button>
+            </SidebarLink>
 
-            {/* Productos */}
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/admin/productos")}
-            >
+            <SidebarLink onClick={() => go("/admin/productos")}>
               🎮 Lista de productos
-            </button>
+            </SidebarLink>
 
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/admin/productos/agregar")}
-            >
+            <SidebarLink onClick={() => go("/admin/productos/agregar")}>
               ➕ Agregar producto
-            </button>
-            {/* /admin/productos/modificar/:id se entra desde la lista */}
+            </SidebarLink>
 
-            {/* Usuarios */}
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/admin/usuarios")}
-            >
+            <SidebarLink onClick={() => go("/admin/usuarios")}>
               👥 Lista de usuarios
-            </button>
-            {/* /admin/detalles_usuario/:id se entra desde tabla Usuarios */}
+            </SidebarLink>
 
-            {/* Órdenes */}
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/admin/ordenes")}
-            >
+            <SidebarLink onClick={() => go("/admin/ordenes")}>
               📑 Lista de órdenes
-            </button>
+            </SidebarLink>
 
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
-              onClick={() => go("/admin/Detalles_Orden")}
-            >
+            <SidebarLink onClick={() => go("/admin/Detalles_Orden")}>
               📘 Detalle de orden (Admin)
-            </button>
+            </SidebarLink>
 
-            {/* Categorías */}
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
+            <SidebarLink
               onClick={() => go(`/admin/${user.id}/categorias`)}
             >
               🗂 Lista de categorías
-            </button>
+            </SidebarLink>
 
-            <button
-              className="w-full text-left px-2 py-1 rounded-md text-sm hover:bg-gray-100 mb-1"
+            <SidebarLink
               onClick={() => go(`/admin/${user.id}/categorias/crear`)}
             >
               ➕ Agregar categoría
-            </button>
-            {/* /admin/:usuarioId/categorias/editar/:id se entra desde la tabla */}
+            </SidebarLink>
           </>
         )}
-      </aside>
-    </div>
-  ); 
+      </SidebarBody>
+    </Sidebar>
+  );
+}
+
+/* ============================================
+    HELPERS
+=============================================== */
+
+function SectionTitle({ text }) {
+  return (
+    <p className="text-xs text-gray-500 uppercase mb-1 mt-2 pl-2">
+      {text}
+    </p>
+  );
 }

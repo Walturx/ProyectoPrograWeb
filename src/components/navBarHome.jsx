@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./SideBar";
+import SidebarNuevo from "./Sidebar1";
 import { useUser } from "../context/UserContext";
 
 function NavBarHome() {
@@ -55,7 +55,9 @@ function NavBarHome() {
       </nav>
 
       {/* Sidebar */}
-      <Sidebar open={sidebarOpen} onClose={cerrarSidebar} />
+      <SidebarNuevo open={sidebarOpen} setOpen={setSidebarOpen} />
+
+
     </>
   );
 }
