@@ -3,26 +3,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './Detalles_Usuarios.css'
+import { getUsuarioById } from "../../services/api";
 
 function Detalles_Usuarios() {
   const {id} = useParams();
   const [Usuario, setUsuario] = useState(null);
-  const [error, setError] = useState(null);
 
-   useEffect(() => {
-    if (!id) return; 
+useEffect(() => {
+    const cargarUsuario = async () => {
+      try {
+        const data = await getUsuarioById(id); 
+        setUsuario(data);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
 
-    fetch(`http://localhost:5000/usuarios/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener usuario");
-        return res.json();
-      })
-      .then((data) => setUsuario(data))
-      .catch((err) => {
-        console.error(err);
-        setError("No se pudo cargar el usuario");
-      });
-  }, [id]);
+    cargarUsuario();
+  }, []);
 
 
   if (!Usuario) {
@@ -39,10 +37,10 @@ function Detalles_Usuarios() {
             <div className="order-card">
             <div className="usuario-info">
               <div>
-              <h1><strong>{Usuario.Us_Name}</strong></h1> <br />
-              <p>Correo: {Usuario.Us_Correo}</p> <br />
-              <p>Fecha de registro: {Usuario.Us_Fecha_Reg}</p> <br />
-              { Usuario.Us_Estado === 1 ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   <br />
+              <h1><strong>{Usuario.nombre}</strong></h1> <br />
+              <p>Correo: {Usuario.email}</p> <br />
+              <p>Fecha de registro: {Usuario.fecharegistro}</p> <br />
+              { Usuario.estado === 'activo' ? <p>Estado: Activo</p> : <p>Estado: Desactivado</p> }   <br />
               </div>
               
               <div className="usuario-foto">

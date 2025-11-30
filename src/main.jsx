@@ -44,10 +44,10 @@ import ListadoCategoriasPage from "./views/ListadoCategoriasPage";
 import CrearCategoriaPage from "./views/CrearCategoriaPage";
 import EditarCategoriaPage from "./views/EditarCategoriaPage";
 // Nuevas rutas de Admin que faltaban
-import Todas_Ordenes from './components/DashBoar/Front/Componentes/Todas_Ordenes';
-import Detalles_Ordenes from './components/DashBoar/Front/Componentes/Detalles_Ordenes';
-import Detalles_Usuarios from './components/DashBoar/Front/Componentes/Detalles_Usuarios';
-import Usuarios from './components/DashBoar/Front/Componentes/Usuarios';
+import Todas_Ordenes from "./views/TodasOrdenesAdminPage";
+import Detalles_Ordenes from "./views/DetallesOrdenesAdminPage";
+import Detalles_Usuarios from "./views/DetallesUsuarioAdminPage";
+import Usuarios from "./views/ListadoUsuariosPage";
 
 import "./assets/index.css";
 

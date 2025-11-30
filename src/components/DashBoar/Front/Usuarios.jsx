@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import './Usuarios.css'
 import { useNavigate } from "react-router-dom";
-import { getUsuarios, getUsuarioById , cambiarEstadoUsuario} from "../../../services/api";
+import { getUsuarios , cambiarEstadoUsuario} from "../../services/api";
 
 function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -49,25 +49,25 @@ function Usuarios() {
 
 
   const [inferior, setInferior] = useState(0);
-  const [superior, setSuperior] = useState(8);
+  const [superior, setSuperior] = useState(4);
   const usuariosPaginados = usuariosFiltrados.slice(inferior, superior);
   
   const siguientePagina = () => {
     if (superior < usuariosFiltrados.length) {
-      setInferior(inferior + 8);
-      setSuperior(superior + 8);
+      setInferior(inferior + 4);
+      setSuperior(superior + 4);
     }
   };
 
   const anteriorPagina = () => {
     if (inferior > 0) {
-      setInferior(inferior - 8);
-      setSuperior(superior - 8);
+      setInferior(inferior - 4);
+      setSuperior(superior - 4);
     }
   };
 
-  const paginaActual = Math.floor(inferior / 8) + 1;
-  const totalPaginas = Math.ceil(usuariosFiltrados.length / 8);
+  const paginaActual = Math.floor(inferior / 4) + 1;
+  const totalPaginas = Math.ceil(usuariosFiltrados.length / 4);
 
 
   return (
