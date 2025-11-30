@@ -111,6 +111,13 @@ export const getOrdenById = async (id) => {
   return res.json();
 };
 
+export const getOrdenByIdUsuario = async (id) => {
+  console.log("pivote api ordenes")
+  const res = await fetch(`${API_URL}/orden/usuario/${id}`);
+  if (!res.ok) throw new Error("Error al obtener órdenes");
+  return res.json();
+};
+
 // Crear nueva orden
 export const createOrden = async (orden) => {
   try {
