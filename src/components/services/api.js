@@ -5,7 +5,7 @@ const API_URL = "http://localhost:3005";
 export { API_URL };
 
 //para tener el token
-const getToken = ()=>{
+const getToken = () => {
   return localStorage.getItem("token");
 }
 
@@ -33,13 +33,13 @@ export const getCategoriaById = async (id) => {
   token = getToken();
 
   const res = await fetch(`${API_URL}/categoria/${id}`,
-  {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json", 
-      "Authorization": `Bearer ${token}` 
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
     }
-  }
   );
   if (!res.ok) throw new Error("Error al obtener categoría");
   return res.json();
@@ -78,43 +78,33 @@ export const deleteCategoria = async (id) => {
 
 // ---------- USUARIOS ----------
 export const getUsuarios = async () => {
-<<<<<<< HEAD
   const token = getToken();
 
-=======
-  const token = localStorage.getItem("token");
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   const res = await fetch(`${API_URL}/usuario`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-<<<<<<< HEAD
-      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+      "Authorization": `Bearer ${token}`
     },
   });
 
   const data = await res.json();
 
-=======
-      "Authorization": `Bearer ${token}`
-    }
-  });
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
-  if (!res.ok) throw new Error("Error al obtener usuarios");
+  // Es bueno incluir el mensaje de error del servidor si existe
+  if (!res.ok) throw new Error(data.message || "Error al obtener usuarios");
 
-  return data;
-
+  // Devuelve el array de datos, asumiendo que tu backend lo envía en data.data
+  return data.data || data;
 };
 
-
 export const getUsuarioById = async (id) => {
-  const token = localStorage.getItem("token"); // Recuperamos el token
+  const token = getToken();
 
   const res = await fetch(`${API_URL}/usuario/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+      "Authorization": `Bearer ${token}`
     }
   });
 
@@ -164,13 +154,13 @@ export const getOrdenes = async () => {
 };
 
 export const getOrdenById = async (id) => {
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
 
-  const res = await fetch(`${API_URL}/orden/${id}`,{
+  const res = await fetch(`${API_URL}/orden/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` 
+      "Authorization": `Bearer ${token}`
     }
   });
 
@@ -278,17 +268,18 @@ export const getItemsByOrden = async (id) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` 
+      "Authorization": `Bearer ${token}`
     }
   });
 
   if (!res.ok) {
-    if(res.status === 404) return [];
+    if (res.status === 404) return [];
     throw new Error("Error al obtener órdenes");
   }
   const data = await res.json();
 
-  return data.data;}
+  return data.data;
+}
 
 export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, preciounitario }) => {
   const res = await fetch(`${API_URL}/itemorden`, {
@@ -310,20 +301,14 @@ export const getOrdenByIdUsuario = async (id) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` 
+      "Authorization": `Bearer ${token}`
     }
   });
 
   if (!res.ok) {
-<<<<<<< HEAD
-    
-    
-    if(res.status === 404) return [];
-=======
     // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
     // Para que no rompa el front, devolvemos un array vacío.
     if (res.status === 404) return [];
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
     throw new Error("Error al obtener órdenes");
   }
 
