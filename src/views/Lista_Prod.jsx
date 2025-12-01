@@ -95,7 +95,7 @@ function Lista_Prod() {
                     onChange={handleSearch}
                 />
                 <div className="Botones-container">
-                    <button className="Botones">Categorias</button>
+
                     <button className="Botones" onClick={iraAgregProd}>+ Agregar producto</button>
                 </div>
             </div>
