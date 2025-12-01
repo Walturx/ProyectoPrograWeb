@@ -37,52 +37,8 @@ export const CarritoProvider = ({ children }) => {
     localStorage.setItem("mi_carrito_productos", JSON.stringify(filtrados));
   }, [productosEnCarrito, carritoBDId]);
 
-
-  // useEffect(() => {
-  //   if (!idusuario) return; 
-  //   const cargarCarritoDesdeBackend = async () => {
-  //     try {
-  //       // Si no hay usuario logueado, usar solo localStorage
-  //       if (!idusuario) {
-  //         setProductosEnCarrito(inicial());
-  //         return;
-  //       }
-
-  //       // 1) Buscar carrito del usuario
-  //       let res = await getCarritoByUsuario(idusuario);
-
-  //       let carritoId;
-  //       if (!res.data) {
-  //         // no existe -> crearlo
-  //         const creado = await crearCarrito(idusuario);
-  //         carritoId = creado.data.id;
-  //       } else {
-  //         carritoId = res.data.id;
-  //       }
-
-  //       setCarritoBDId(carritoId);
-
-  //       // 2) Cargar items de ese carrito
-  //       const itemsRes = await getItemsDeCarrito(carritoId);
-
-  //       const productosBD = (itemsRes.data || []).map((item) => ({
-  //         id: item.idproducto,
-  //         cantidad: item.cantidad,
-  //         seleccionado: true,
-  //       }));
-
-  //       setProductosEnCarrito(productosBD);
-  //     } catch (error) {
-  //       console.error("Backend caído → usando solo localStorage", error);
-  //       setProductosEnCarrito(inicial());
-  //     }
-  //   };
-
-  //   cargarCarritoDesdeBackend();
-  // }, [idusuario]);
-
   useEffect(() => {
-    if (!idusuario) return;  // ⛔ Evita ejecutar antes de tener usuario
+    if (!idusuario) return;  
 
     const cargarCarritoDesdeBackend = async () => {
       try {
@@ -99,14 +55,13 @@ export const CarritoProvider = ({ children }) => {
 
         setCarritoBDId(carritoId);
 
-        // 2) Cargar items
         const itemsRes = await getItemsDeCarrito(carritoId);
 
-        const productosBD = (itemsRes.data || []).map((item) => ({
-          id: item.idproducto,
-          cantidad: item.cantidad,
-          seleccionado: true,
-        }));
+        // const productosBD = (itemsRes.data || []).map((item) => ({
+        //   id: item.idproducto,
+        //   cantidad: item.cantidad,
+        //   seleccionado: true,
+        // }));
 
         setProductosEnCarrito(productosBD);
       } catch (error) {
@@ -116,7 +71,7 @@ export const CarritoProvider = ({ children }) => {
     };
 
     cargarCarritoDesdeBackend();
-  }, [idusuario]); // 👈 Se ejecuta cuando el usuario YA esté cargado
+  }, [idusuario]); 
 
 
 
