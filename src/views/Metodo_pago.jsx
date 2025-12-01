@@ -66,7 +66,7 @@ function MetodoPago() {
     };
 
     try {
-      const resp = await fetch("http://localhost:3005/orden", {
+      const resp = await fetch("https://proyecto-progra-web-back-end.vercel.app/orden", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

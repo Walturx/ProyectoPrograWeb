@@ -38,7 +38,7 @@ export const CarritoProvider = ({ children }) => {
   }, [productosEnCarrito, carritoBDId]);
 
   useEffect(() => {
-    if (!idusuario) return;  
+    if (!idusuario) return;
 
     const cargarCarritoDesdeBackend = async () => {
       try {
@@ -71,7 +71,7 @@ export const CarritoProvider = ({ children }) => {
     };
 
     cargarCarritoDesdeBackend();
-  }, [idusuario]); 
+  }, [idusuario]);
 
 
 
@@ -147,7 +147,7 @@ export const CarritoProvider = ({ children }) => {
     // BACKEND
     if (carritoBDId) {
       try {
-        await fetch(`http://localhost:3005/itemcarrito/carrito/${carritoBDId}`, {
+        await fetch(`https://proyecto-progra-web-back-end.vercel.app/itemcarrito/carrito/${carritoBDId}`, {
           method: "DELETE",
         });
       } catch (e) {
@@ -169,7 +169,7 @@ export const CarritoProvider = ({ children }) => {
         );
 
         if (item) {
-          await fetch(`http://localhost:3005/itemcarrito/${item.id}`, {
+          await fetch(`https://proyecto-progra-web-back-end.vercel.app/itemcarrito/${item.id}`, {
             method: "DELETE",
           });
         }

@@ -1,5 +1,4 @@
-
-.dash{
+.dash {
     margin: 30px;
 }
 
@@ -19,10 +18,11 @@
     margin: auto;
 }
 
-.dashboard h2{ 
+.dashboard h2 {
     color: white;
 }
-.dashboard p{
+
+.dashboard p {
     color: white;
 }
 
