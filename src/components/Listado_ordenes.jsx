@@ -1,12 +1,35 @@
 //HECHO POR ANDRES BEJAR 20230352
 
-import React, { useState } from "react";
-import ordenes from "../data/ordenes_B";
+import React, { useState, useEffect } from "react";
+import { getOrdenes } from "./services/api";
 
 function ListaOrden() {
+    const [ordenes, setOrdenes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 7;
+
+    // Cargar órdenes desde el backend
+    useEffect(() => {
+        const fetchOrdenes = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await getOrdenes();
+                setOrdenes(data || []);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error al cargar órdenes:', err);
+                setError(err.message || "Error al cargar órdenes");
+                setLoading(false);
+            }
+        };
+
+        fetchOrdenes();
+    }, []);
 
     // Pagination Logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -15,6 +38,61 @@ function ListaOrden() {
     const totalPages = Math.ceil(ordenes.length / itemsPerPage);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    // Formatear fecha
+    const formatearFecha = (fecha) => {
+        if (!fecha) return 'N/A';
+        const date = new Date(fecha);
+        return date.toLocaleDateString('es-PE', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+    };
+
+    // Formatear total
+    const formatearTotal = (total) => {
+        if (!total) return 'S/0.00';
+        return `S/${parseFloat(total).toFixed(2)}`;
+    };
+
+    // Determinar estado de la orden
+    const determinarEstado = (orden) => {
+        // El backend puede enviar 'estado' como boolean o string
+        if (typeof orden.estado === 'boolean') {
+            return orden.estado;
+        }
+        // Si es string, verificar valores comunes
+        if (typeof orden.estado === 'string') {
+            const estadoLower = orden.estado.toLowerCase();
+            return estadoLower === 'entregado' || estadoLower === 'completado' || estadoLower === 'true';
+        }
+        return false;
+    };
+
+    if (loading) {
+        return (
+            <div style={{ padding: '20px', textAlign: 'center' }}>
+                <p>Cargando órdenes...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div style={{ padding: '20px', textAlign: 'center' }}>
+                <p style={{ color: 'red' }}>Error: {error}</p>
+            </div>
+        );
+    }
+
+    if (ordenes.length === 0) {
+        return (
+            <div style={{ padding: '20px', textAlign: 'center' }}>
+                <p>No hay órdenes disponibles</p>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -30,13 +108,16 @@ function ListaOrden() {
                 </thead>
                 <tbody>
                     {currentItems.map((v) => {
+                        const estado = determinarEstado(v);
                         return (
                             <tr key={v.id}>
                                 <td className="ID">#{v.id}</td>
-                                <td>{v.usuario}</td>
-                                <td>{v.fecha}</td>
-                                <td>{v.total}</td>
-                                <td style={{ color: v.estado ? "green" : "red" }}>{v.estado ? "Entregado" : "No entregado"}</td>
+                                <td>{v.usuario || v.nombreusuario || `Usuario #${v.idusuario}`}</td>
+                                <td>{formatearFecha(v.fecha)}</td>
+                                <td>{formatearTotal(v.total)}</td>
+                                <td style={{ color: estado ? "green" : "red" }}>
+                                    {estado ? "Entregado" : "No entregado"}
+                                </td>
                             </tr>
                         )
                     })}
