@@ -69,7 +69,16 @@ export const getUsuarios = async () => {
 };
 
 export const getUsuarioById = async (id) => {
-  const res = await fetch(`${API_URL}/usuario/${id}`);
+  const token = localStorage.getItem("token"); // Recuperamos el token
+
+  const res = await fetch(`${API_URL}/usuario/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+    }
+  });
+
   if (!res.ok) throw new Error("Error al obtener usuario");
   return res.json();
 };
@@ -86,11 +95,17 @@ export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
 
 // Cambiar contraseña
 export const cambiarPasswordUsuario = async (id, passwordActual, passwordNueva) => {
+  const token = localStorage.getItem("token"); // Recuperamos el token
+
   const res = await fetch(`${API_URL}/usuario/${id}/password`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+    },
     body: JSON.stringify({ passwordActual, passwordNueva }),
   });
+
   const data = await res.json();
   if (!res.ok || data.success === false) {
     throw new Error(data.message || "Error al cambiar contraseña");
