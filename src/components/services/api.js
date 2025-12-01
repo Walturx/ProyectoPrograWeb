@@ -4,6 +4,11 @@ const API_URL = "http://localhost:3005";
 // Lo exporto por si algún componente lo quiere usar directo
 export { API_URL };
 
+//para tener el token
+const getToken = ()=>{
+  return localStorage.getItem("token");
+}
+
 // ---------- PRODUCTOS ----------
 export const getProductos = async () => {
   const res = await fetch(`${API_URL}/producto`);
@@ -25,7 +30,17 @@ export const getCategorias = async () => {
 };
 
 export const getCategoriaById = async (id) => {
-  const res = await fetch(`${API_URL}/categoria/${id}`);
+  token = getToken();
+
+  const res = await fetch(`${API_URL}/categoria/${id}`,
+  {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json", 
+      "Authorization": `Bearer ${token}` 
+    }
+  }
+  );
   if (!res.ok) throw new Error("Error al obtener categoría");
   return res.json();
 };
@@ -96,17 +111,34 @@ export const deleteCategoria = async (id) => {
 
 // ---------- USUARIOS ----------
 export const getUsuarios = async () => {
+<<<<<<< HEAD
+  const token = getToken();
+
+=======
   const token = localStorage.getItem("token");
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   const res = await fetch(`${API_URL}/usuario`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+<<<<<<< HEAD
+      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+    },
+  });
+
+  const data = await res.json();
+
+=======
       "Authorization": `Bearer ${token}`
     }
   });
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   if (!res.ok) throw new Error("Error al obtener usuarios");
-  return res.json();
+
+  return data;
+
 };
+
 
 export const getUsuarioById = async (id) => {
   const token = localStorage.getItem("token"); // Recuperamos el token
@@ -165,7 +197,16 @@ export const getOrdenes = async () => {
 };
 
 export const getOrdenById = async (id) => {
-  const res = await fetch(`${API_URL}/orden/${id}`);
+  const token = localStorage.getItem("token"); 
+
+  const res = await fetch(`${API_URL}/orden/${id}`,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` 
+    }
+  });
+
   if (!res.ok) throw new Error("Error al obtener detalle de orden");
   return res.json();
 };
@@ -263,6 +304,25 @@ export const getItemsDeOrden = async (idorden) => {
   return res.json();
 };
 
+export const getItemsByOrden = async (id) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/itemorden/orden/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` 
+    }
+  });
+
+  if (!res.ok) {
+    if(res.status === 404) return [];
+    throw new Error("Error al obtener órdenes");
+  }
+  const data = await res.json();
+
+  return data.data;}
+
 export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, preciounitario }) => {
   const res = await fetch(`${API_URL}/itemorden`, {
     method: "POST",
@@ -277,20 +337,26 @@ export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, precioun
 };
 
 export const getOrdenByIdUsuario = async (id) => {
-  const token = localStorage.getItem("token"); // Recuperamos el token guardado en el Login
+  const token = localStorage.getItem("token");
 
   const res = await fetch(`${API_URL}/orden/usuario/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}` // ¡Importante! Enviamos el token para que el backend nos deje pasar
+      "Authorization": `Bearer ${token}` 
     }
   });
 
   if (!res.ok) {
+<<<<<<< HEAD
+    
+    
+    if(res.status === 404) return [];
+=======
     // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
     // Para que no rompa el front, devolvemos un array vacío.
     if (res.status === 404) return [];
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
     throw new Error("Error al obtener órdenes");
   }
 
