@@ -133,7 +133,7 @@ function Productos() {
                                         const nombreCategoria = typeof cat === 'object' ? cat.categoria : cat;
                                         const idCategoria = typeof cat === 'object' ? cat.id : index; // O usar el nombre como valor
                                         return (
-                                            <option key={idCategoria} value={nombreCategoria}>
+                                            <option key={idCategoria} value={idCategoria}>
                                                 {nombreCategoria}
                                             </option>
                                         );

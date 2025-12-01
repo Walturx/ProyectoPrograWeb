@@ -420,10 +420,10 @@ export const createUsuario = async (usuario) => {
 
 // ---------- ADMIN PRODUCTOS ----------
 export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock, precio }) => {
-  const res = await fetch(`${API_URL}/productos/agregar`, {
+  const res = await fetch(`${API_URL}/producto`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, presentacion, categoria, descripcion, imagen, stock, precio }),
+    body: JSON.stringify({ nombre, presentacion, categoria, idCategoria:categoria,descripcion, imagen, stock, precio }),
   });
 
   // Verificar si la respuesta es JSON
