@@ -10,12 +10,14 @@ import { EnvioContext } from "../context/EnvioContext";
 import { useNavigate } from "react-router-dom";
 import Tarjeta from "../assets/tarjeta.webp";
 import Footer from "../components/footer";
+import { useUser } from '../context/UserContext';
 
 function PagoTarjeta() {
   const { productos, setProductos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
   const { datosEnvio } = useContext(EnvioContext);
   const navigate = useNavigate();
+  const { user } = useUser();
 
   // ESTADOS PARA CAPTURAR DATOS DEL FORM
   const [numeroTarjeta, setNumeroTarjeta] = useState("");
@@ -27,7 +29,7 @@ function PagoTarjeta() {
     e.preventDefault();
 
     const payload = {
-      idusuario: 1,
+      idusuario: user?.id,
       subtotal: total - descuento,
       total,
       metododeentrega: "Delivery",

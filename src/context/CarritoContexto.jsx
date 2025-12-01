@@ -1,6 +1,7 @@
 // Codigo hecho por Samantha Rodriguez
 
 import React, { createContext, useState, useEffect } from "react";
+import { useUser } from "./UserContext";
 import {
   getCarritoByUsuario,
   getItemsDeCarrito,
@@ -11,7 +12,8 @@ import {
 export const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
-  const idusuario = 1; // por ahora fijo
+  const { user } = useUser();
+  const idusuario = user ? user.id : null;
 
   const [carritoBDId, setCarritoBDId] = useState(null);
 
@@ -36,16 +38,60 @@ export const CarritoProvider = ({ children }) => {
   }, [productosEnCarrito, carritoBDId]);
 
 
+  // useEffect(() => {
+  //   if (!idusuario) return; 
+  //   const cargarCarritoDesdeBackend = async () => {
+  //     try {
+  //       // Si no hay usuario logueado, usar solo localStorage
+  //       if (!idusuario) {
+  //         setProductosEnCarrito(inicial());
+  //         return;
+  //       }
+
+  //       // 1) Buscar carrito del usuario
+  //       let res = await getCarritoByUsuario(idusuario);
+
+  //       let carritoId;
+  //       if (!res.data) {
+  //         // no existe -> crearlo
+  //         const creado = await crearCarrito(idusuario);
+  //         carritoId = creado.data.id;
+  //       } else {
+  //         carritoId = res.data.id;
+  //       }
+
+  //       setCarritoBDId(carritoId);
+
+  //       // 2) Cargar items de ese carrito
+  //       const itemsRes = await getItemsDeCarrito(carritoId);
+
+  //       const productosBD = (itemsRes.data || []).map((item) => ({
+  //         id: item.idproducto,
+  //         cantidad: item.cantidad,
+  //         seleccionado: true,
+  //       }));
+
+  //       setProductosEnCarrito(productosBD);
+  //     } catch (error) {
+  //       console.error("Backend caído → usando solo localStorage", error);
+  //       setProductosEnCarrito(inicial());
+  //     }
+  //   };
+
+  //   cargarCarritoDesdeBackend();
+  // }, [idusuario]);
+
   useEffect(() => {
+    if (!idusuario) return;  // ⛔ Evita ejecutar antes de tener usuario
+
     const cargarCarritoDesdeBackend = async () => {
       try {
         // 1) Buscar carrito del usuario
-        let res = await getCarritoByUsuario(idusuario); 
+        let res = await getCarritoByUsuario(idusuario);
 
         let carritoId;
         if (!res.data) {
-          // no existe -> crearlo
-          const creado = await crearCarrito(idusuario); 
+          const creado = await crearCarrito(idusuario);
           carritoId = creado.data.id;
         } else {
           carritoId = res.data.id;
@@ -53,25 +99,25 @@ export const CarritoProvider = ({ children }) => {
 
         setCarritoBDId(carritoId);
 
-        // 2) Cargar items de ese carrito
-        const itemsRes = await getItemsDeCarrito(carritoId); 
+        // 2) Cargar items
+        const itemsRes = await getItemsDeCarrito(carritoId);
 
         const productosBD = (itemsRes.data || []).map((item) => ({
           id: item.idproducto,
           cantidad: item.cantidad,
           seleccionado: true,
-  
         }));
 
         setProductosEnCarrito(productosBD);
       } catch (error) {
-        console.error("Backend caído → usando solo localStorage", error);
-        setCarritosEnCarrito(inicial());
+        console.error("Backend caído → usando localStorage", error);
+        setProductosEnCarrito(inicial());
       }
     };
 
     cargarCarritoDesdeBackend();
-  }, []);
+  }, [idusuario]); // 👈 Se ejecuta cuando el usuario YA esté cargado
+
 
 
   const agregarProducto = async (producto) => {
@@ -140,7 +186,7 @@ export const CarritoProvider = ({ children }) => {
     setProductosEnCarrito([]);
     localStorage.removeItem("mi_carrito_productos");
 
-    
+
     setCarritoBDId(null);
 
     // BACKEND
