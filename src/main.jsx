@@ -30,7 +30,7 @@ import Carrito from "./views/Carrito";
 import Checkout from './views/Checkout';
 import MetodoPago from "./views/Metodo_pago";
 import PagoQR from './views/Pago_qr';
-import PagoTarjeta from './views/Pago_Tarjeta';
+import PagoTarjeta from './views/Pago_tarjeta';
 import Pedido from './views/Pedido';
 import CambiarClavePage from "./views/CambiarClavePage";
 import DetalleOrdenPage from "./views/DetalleOrdenPage";
