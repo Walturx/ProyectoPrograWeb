@@ -111,28 +111,18 @@ export const deleteCategoria = async (id) => {
 
 // ---------- USUARIOS ----------
 export const getUsuarios = async () => {
-<<<<<<< HEAD
   const token = getToken();
 
-=======
-  const token = localStorage.getItem("token");
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   const res = await fetch(`${API_URL}/usuario`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-<<<<<<< HEAD
       "Authorization": `Bearer ${token}` // ¡Agregamos el token!
     },
   });
 
   const data = await res.json();
 
-=======
-      "Authorization": `Bearer ${token}`
-    }
-  });
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   if (!res.ok) throw new Error("Error al obtener usuarios");
 
   return data;
@@ -348,15 +338,9 @@ export const getOrdenByIdUsuario = async (id) => {
   });
 
   if (!res.ok) {
-<<<<<<< HEAD
     
     
     if(res.status === 404) return [];
-=======
-    // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
-    // Para que no rompa el front, devolvemos un array vacío.
-    if (res.status === 404) return [];
->>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
     throw new Error("Error al obtener órdenes");
   }
 
