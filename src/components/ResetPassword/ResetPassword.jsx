@@ -1,13 +1,13 @@
 //Codigo hecho por Martín Tejada
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import './ResetPassword.css';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
     const { email } = useParams(); // Obtenemos el email de la URL
-    const { resetPassword } = useUser(); 
+    const { resetPassword } = useUser();
 
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,12 +15,12 @@ const ResetPassword = () => {
 
     const handleReset = async (e) => {
         e.preventDefault();
-        
+
         if (newPassword !== confirmPassword) {
             alert("Las contraseñas no coinciden.");
             return;
         }
-        
+
         if (!newPassword) {
             alert("Ingresa una contraseña.");
             return;
@@ -37,7 +37,7 @@ const ResetPassword = () => {
     };
 
     return (
-        <main className="containerRecuperar">
+        <main className="containerRecuperar containerRecuperarExtra">
             <div className="container1">
                 <h2>Recuperar contraseña para {email}</h2>
                 <form onSubmit={handleReset}>
@@ -50,7 +50,7 @@ const ResetPassword = () => {
                             placeholder="Nueva contraseña"
                         />
                     </div>
-                    
+
                     <div className="grupo">
                         <p>Repetir contraseña</p>
                         <input
@@ -61,9 +61,9 @@ const ResetPassword = () => {
                         />
                     </div>
 
-                    <button 
-                        type="submit" 
-                        className="btn-primary" 
+                    <button
+                        type="submit"
+                        className="btn-primary"
                         disabled={cargando}
                         style={{ marginTop: '5px' }}
                     >
