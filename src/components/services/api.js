@@ -455,7 +455,6 @@ export const updateProducto = async ({ id, nombre, presentacion, categoria, desc
   if (contentType && contentType.includes("application/json")) {
     data = await res.json();
   } else {
-    // Si no es JSON, leer como texto
     const text = await res.text();
     data = { message: text };
   }
@@ -465,7 +464,7 @@ export const updateProducto = async ({ id, nombre, presentacion, categoria, desc
 };
 
 export const deleteProducto = async (id) => {
-  const res = await fetch(`${API_URL}/producto/${id}`, {
+  const res = await fetch(`${API_URL}/producto`, {
     method: "DELETE",
   });
 

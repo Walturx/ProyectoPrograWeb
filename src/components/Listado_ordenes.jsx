@@ -8,7 +8,6 @@ function ListaOrden() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 7;
 

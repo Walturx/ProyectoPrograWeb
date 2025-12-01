@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import HeaderHome from '../components/HeaderHome';
 import NavBarHome from '../components/navBarHome';
 import { getProductoById, updateProducto } from '../components/services/api';
+import '../components/Form_prod.css';
 import categ from '../data/categorias';
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
@@ -127,16 +128,16 @@ function ModProd() {
                             </div>
 
                             <div className="Form-group">
-                            <label htmlFor="GETPrecio">Precio *</label>
-                            <input
-                                type="number"
-                                id="GETPrecio"
-                                name="precio"
-                                placeholder="Precio"
-                                value={formData.precio}
-                                onChange={handleChange}
-                                required
-                            />
+                                <label htmlFor="GETPrecio">Precio *</label>
+                                <input
+                                    type="number"
+                                    id="GETPrecio"
+                                    name="precio"
+                                    placeholder="Precio"
+                                    value={formData.precio}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="Form-group">

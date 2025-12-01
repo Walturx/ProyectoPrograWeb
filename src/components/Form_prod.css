@@ -48,6 +48,7 @@
 }
 
 .Form-group input[type="text"],
+.Form-group input[type="number"],
 .Form-group select,
 .Form-group textarea {
     width: 100%;
