@@ -1,4 +1,4 @@
-//Codigo hecho por Walter Melendez 20231805
+// Código hecho por Walter Melendez 20231805
 
 import { useParams, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -17,6 +17,8 @@ function CatSearch() {
         const cargarDatos = async () => {
             try {
                 setLoading(true);
+
+                // Traemos productos y categorías
                 const [allProductos, allCategorias] = await Promise.all([
                     getProductos(),
                     getCategorias(),
@@ -24,11 +26,27 @@ function CatSearch() {
 
                 setCategorias(allCategorias);
 
-                // Filtra productos por categoría que viene de la URL
-                const filtrados = allProductos.filter(
-                    (p) => p.categoria === categoria || p.idcategoria === allCategorias.find(c => c.categoria === categoria)?.id
+                // Normalizamos idCategoria → idcategoria
+                const normalizedProductos = allProductos.map(p => ({
+                    ...p,
+                    idcategoria: p.idCategoria
+                }));
+
+                // Encontramos el objeto de categoría por el slug (nombre)
+                const categoriaObj = allCategorias.find(c => c.categoria === categoria);
+
+                console.log("Slug URL:", categoria);
+                console.log("Categoria encontrada:", categoriaObj);
+
+                // Filtramos productos por categoría
+                const filtrados = normalizedProductos.filter(
+                    p => p.idcategoria === categoriaObj?.id
                 );
+
+                console.log("Productos filtrados:", filtrados);
+
                 setProductosCat(filtrados);
+
             } catch (error) {
                 console.error("Error cargando productos o categorías:", error);
             } finally {
@@ -56,8 +74,8 @@ function CatSearch() {
                                 <section
                                     key={c.id}
                                     className={`px-3 py-1 whitespace-nowrap cursor-pointer w-70 mb-5 text-[22px] mt-5 ${c.categoria === categoria
-                                            ? "bg-green-600 text-white"
-                                            : "bg-white-200 text-gray-700"
+                                        ? "bg-green-600 text-white"
+                                        : "bg-white-200 text-gray-700"
                                         }`}
                                 >
                                     <Link to={`/categorias/${c.categoria}`}>{c.categoria}</Link>
