@@ -218,16 +218,74 @@ export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, precioun
 };
 
 export const getOrdenByIdUsuario = async (id) => {
-  console.log("pivote api ordenes")
-  const res = await fetch(`${API_URL}/orden/usuario/${id}`);
-  if (!res.ok) throw new Error("Error al obtener órdenes");
+  const token = localStorage.getItem("token"); // Recuperamos el token guardado en el Login
+
+  const res = await fetch(`${API_URL}/orden/usuario/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Importante! Enviamos el token para que el backend nos deje pasar
+    }
+  });
+
+  if (!res.ok) {
+    // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
+    // Para que no rompa el front, devolvemos un array vacío.
+    if(res.status === 404) return [];
+    throw new Error("Error al obtener órdenes");
+  }
+  
   return res.json();
 };
+
+export const loginUsuario = async (credenciales) => {
+  // credenciales es un objeto: { email, password }
+  const res = await fetch(`${API_URL}/usuario/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credenciales),
+  });
+
+  const data = await res.json();
+  
+  // Si el backend devuelve error (status != 200), lanzamos el error
+  if (!res.ok) {
+    throw new Error(data.message || "Error al iniciar sesión");
+  }
+  
+  return data; // Retorna lo que envía tu backend: { success, token, usuario }
+};
+
+export const solicitarRecuperacion = async (email) => {
+  const res = await fetch(`${API_URL}/usuario/recuperar-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al solicitar recuperación");
+  return data;
+};
+
+// 2. Restablecer contraseña (Guarda la nueva contraseña)
+export const restablecerPassword = async (email, newPassword) => {
+  const res = await fetch(`${API_URL}/usuario/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, newPassword }),
+  });
+  
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al restablecer contraseña");
+  return data;
+};
+
 
 // Crear nuevo usuario (registro)
 export const createUsuario = async (usuario) => {
   try {
-    const res = await fetch(`${API_URL}/usuario`, {
+    const res = await fetch(`${API_URL}/usuario/registrar`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(usuario),
@@ -248,4 +306,5 @@ export const createUsuario = async (usuario) => {
     }
     throw error;
   }
+  
 };

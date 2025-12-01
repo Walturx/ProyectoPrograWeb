@@ -1,86 +1,97 @@
-//Codigo hecho por Martín Tejada
-import { createContext, useState, useContext } from 'react'
-import { usuarios } from "../data/usuarios";
+// Codigo hecho por Martin Tejada
+import { createContext, useState, useContext, useEffect } from 'react';
+import { loginUsuario, createUsuario, solicitarRecuperacion, restablecerPassword } from '../components/services/api';
 
-const UserContext = createContext()
+const UserContext = createContext();
 
 export function UserProvider({ children }) {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
 
-    const login = (emailUsuario, password) => {
-        const resultado = usuarios.find((u) => u.email.toLowerCase() === emailUsuario.toLowerCase()
-            && u.password === password);
+    // 1. Al cargar la página, verificamos si ya hay un usuario guardado en el navegador
+    useEffect(() => {
+        const usuarioGuardado = localStorage.getItem("usuario");
+        const tokenGuardado = localStorage.getItem("token");
+        
+        if (usuarioGuardado && tokenGuardado) {
+            setUser(JSON.parse(usuarioGuardado));
+        }
+    }, []);
 
-        if (resultado) {
-            setUser(resultado);
-            localStorage.setItem("usuario", JSON.stringify(resultado));
-            return resultado;
-        } else {
+    // 2. Función LOGIN conectada al Backend
+    const login = async (email, password) => {
+        try {
+            // Llamamos a la API
+            const data = await loginUsuario({ email, password });
+
+            if (data.success) {
+                // Guardamos los datos en el estado y en el navegador (LocalStorage)
+                setUser(data.usuario);
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+                return data.usuario;
+            } else {
+                alert(data.message); // Mensaje del backend (ej: "Contraseña incorrecta")
+                return null;
+            }
+        } catch (error) {
+            console.error("Error login:", error);
+            alert(error.message);
             return null;
         }
-    }
+    };
 
+    // 3. Función LOGOUT
     const logout = () => {
-        setUser(null)
-        localStorage.removeItem('usuario')
-    }
+        setUser(null);
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('token');
+        // Opcional: limpiar carrito del storage si lo usas
+        localStorage.removeItem('mi_carrito_productos');
+    };
 
-    const register = (newUser) => {
-        const existe = usuarios.find(u => u.email.toLowerCase() === newUser.email.toLowerCase());
-        if (existe) {
-            alert("El correo ya está registrado.");
+    // Mantenemos estas funciones vacías o simples para que no rompan otros componentes
+    // hasta que lleguemos a esa parte (Registro ya lo manejas directo en el componente)
+    const register = (newUser) => { return true; };
+    const recoverPassword = async (email) => {
+        try {
+            const data = await solicitarRecuperacion(email);
+            // El backend devuelve success: true si todo fue bien
+            return data.success;
+        } catch (error) {
+            console.error("Error recuperación:", error);
+            alert(error.message);
             return false;
         }
-
-        usuarios.push(newUser);
-        console.log("Nuevo usuario añadido:", newUser);
-        console.log("Lista de usuarios actualizada:", usuarios);
-        return true;
     };
 
-    const recoverPassword = (emailUsuario) => {
-        const existe = usuarios.find(u => u.email.toLowerCase() === emailUsuario.toLowerCase());
-        if (!existe) {
-            console.log(`Solicitud de recuperación para: ${emailUsuario}. Usuario no encontrado.`);
+    const resetPasswordCtx = async (email, newPassword) => {
+        try {
+            const data = await restablecerPassword(email, newPassword);
+            return data.success;
+        } catch (error) {
+            console.error("Error reset password:", error);
+            alert(error.message);
             return false;
         }
-        console.log(`Solicitud de recuperación para: ${emailUsuario}. Usuario encontrado: ${!!existe}`);
-        return true;
     };
-
-    const resetPassword = (emailUsuario, newPassword) => {
-        const usuarioEncontrado = usuarios.find(u => u.email.toLowerCase() === emailUsuario.toLowerCase());
-
-        if (usuarioEncontrado) {
-            if (usuarioEncontrado.password === newPassword) {
-                alert("La nueva contraseña no puede ser igual a la anterior.");
-                return false;
-            }
-            usuarioEncontrado.password = newPassword;
-            console.log("Contraseña actualizada para:", emailUsuario);
-            console.log("Lista de usuarios actualizada:", usuarios);
-            return true;
-        }
-        return false; // No se encontró el usuario
-    };
-
+    
     const value = {
         user,
         login,
         logout,
         register,
         recoverPassword,
-        resetPassword
+        resetPassword: resetPasswordCtx 
     };
 
     return (
         <UserContext.Provider value={value}>
             {children}
         </UserContext.Provider>
-    )
+    );
 }
 
 export function useUser() {
-    const context = useContext(UserContext)
+    const context = useContext(UserContext);
     return context;
 }
