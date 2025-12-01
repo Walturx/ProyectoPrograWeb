@@ -10,6 +10,8 @@ import { EnvioContext } from "../context/EnvioContext";
 import { useNavigate } from "react-router-dom";
 import QR from "../assets/qr.png";
 import Footer from "../components/footer";
+import { useUser } from '../context/UserContext';
+
 
 function PagoQR() {
 
@@ -17,11 +19,12 @@ function PagoQR() {
   const { total, contador, descuento } = useCalculoCarrito(productos);
   const { datosEnvio } = useContext(EnvioContext);
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const handleFinalizarCompra = async () => {
 
     const payload = {
-      idusuario: 1,
+      idusuario: user?.id,
       subtotal: total - descuento,
       total,
       metododeentrega: "Delivery",

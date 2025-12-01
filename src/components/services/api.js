@@ -78,18 +78,28 @@ export const deleteCategoria = async (id) => {
 
 // ---------- USUARIOS ----------
 export const getUsuarios = async () => {
+<<<<<<< HEAD
   const token = getToken();
 
+=======
+  const token = localStorage.getItem("token");
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   const res = await fetch(`${API_URL}/usuario`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+<<<<<<< HEAD
       "Authorization": `Bearer ${token}` // ¡Agregamos el token!
     },
   });
 
   const data = await res.json();
 
+=======
+      "Authorization": `Bearer ${token}`
+    }
+  });
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
   if (!res.ok) throw new Error("Error al obtener usuarios");
 
   return data;
@@ -113,13 +123,17 @@ export const getUsuarioById = async (id) => {
 };
 
 export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
+  const token = localStorage.getItem("token");
   const res = await fetch(`${API_URL}/usuario/${id}/estado`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
     body: JSON.stringify({ estado: nuevoEstado })
   });
   if (!res.ok) throw new Error("Error al actualizar estado");
-  return await res.json(); 
+  return await res.json();
 };
 
 // Cambiar contraseña
@@ -128,7 +142,7 @@ export const cambiarPasswordUsuario = async (id, passwordActual, passwordNueva) 
 
   const res = await fetch(`${API_URL}/usuario/${id}/password`, {
     method: "PUT",
-    headers: { 
+    headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}` // ¡Agregamos el token!
     },
@@ -301,12 +315,18 @@ export const getOrdenByIdUsuario = async (id) => {
   });
 
   if (!res.ok) {
+<<<<<<< HEAD
     
     
     if(res.status === 404) return [];
+=======
+    // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
+    // Para que no rompa el front, devolvemos un array vacío.
+    if (res.status === 404) return [];
+>>>>>>> 1766328154131e9c308976f78fbbb28d21b70a10
     throw new Error("Error al obtener órdenes");
   }
-  
+
   return res.json();
 };
 
@@ -319,12 +339,12 @@ export const loginUsuario = async (credenciales) => {
   });
 
   const data = await res.json();
-  
+
   // Si el backend devuelve error (status != 200), lanzamos el error
   if (!res.ok) {
     throw new Error(data.message || "Error al iniciar sesión");
   }
-  
+
   return data; // Retorna lo que envía tu backend: { success, token, usuario }
 };
 
@@ -334,7 +354,7 @@ export const solicitarRecuperacion = async (email) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
   });
-  
+
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Error al solicitar recuperación");
   return data;
@@ -347,7 +367,7 @@ export const restablecerPassword = async (email, newPassword) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, newPassword }),
   });
-  
+
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Error al restablecer contraseña");
   return data;
@@ -378,5 +398,42 @@ export const createUsuario = async (usuario) => {
     }
     throw error;
   }
-  
+
 };
+// ---------- ADMIN ----------
+export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock }) => {
+  const res = await fetch(`${API_URL}/admin/productos/agregar`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre, presentacion, categoria, descripcion, imagen, stock }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear producto");
+  return data;
+};
+
+export const updateProducto = async ({ id, nombre, presentacion, categoria, descripcion, imagen, stock }) => {
+  const res = await fetch(`${API_URL}/admin/productos/modificar/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, nombre, presentacion, categoria, descripcion, imagen, stock }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al actualizar producto");
+  return data;
+};
+
+export const deleteProducto = async (id) => {
+  const res = await fetch(`${API_URL}/admin/productos/eliminar/${id}`, {
+    method: "DELETE",
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar producto");
+  return data;
+};
+
+export const AllProductos = async () => {
+  const res = await fetch(`${API_URL}/admin/productos`);
+  if (!res.ok) throw new Error("Error al obtener productos");
+  return res.json();
+}
