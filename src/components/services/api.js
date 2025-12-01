@@ -423,7 +423,7 @@ export const createProducto = async ({ nombre, presentacion, categoria, descripc
   const res = await fetch(`${API_URL}/producto`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, presentacion, categoria, idCategoria:categoria,descripcion, imagen, stock, precio }),
+    body: JSON.stringify({ nombre, presentacion, categoria, idCategoria: categoria, descripcion, imagen, stock, precio }),
   });
 
   // Verificar si la respuesta es JSON
@@ -465,7 +465,7 @@ export const updateProducto = async ({ id, nombre, presentacion, categoria, desc
 };
 
 export const deleteProducto = async (id) => {
-  const res = await fetch(`${API_URL}/producto`, {
+  const res = await fetch(`${API_URL}/producto/${id}`, {
     method: "DELETE",
   });
 
