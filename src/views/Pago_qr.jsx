@@ -8,7 +8,7 @@ import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from '../data/logicaCarrito';
 import { EnvioContext } from "../context/EnvioContext";
 import { useNavigate } from "react-router-dom";
-import QR from "../assets/qr.png";
+import QR from "../assets/QR.png";
 import Footer from "../components/footer";
 import { useUser } from '../context/UserContext';
 
