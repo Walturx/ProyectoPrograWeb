@@ -1,24 +1,64 @@
 // Codigo hecho por Samantha Rodriguez
 
+import React, { useContext, useState } from 'react';
 import HeaderHome from "../components/HeaderHome";
 import Navbar from '../components/navBarHome';
 import Resumen from '../components/Resumen';
 import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from '../data/logicaCarrito';
-import React, { useContext } from 'react';
+import { EnvioContext } from "../context/EnvioContext";
 import { useNavigate } from "react-router-dom";
 import Tarjeta from "../assets/tarjeta.webp";
 import Footer from "../components/footer";
+import { useUser } from '../context/UserContext';
 
 function PagoTarjeta() {
-  const { productos, vaciarCarrito } = useContext(CarritoContext);
+  const { productos, setProductos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
+  const { datosEnvio } = useContext(EnvioContext);
   const navigate = useNavigate();
+  const { user } = useUser();
 
-  const handleFinalizarCompra = (e) => {
-    e.preventDefault(); 
+  // ESTADOS PARA CAPTURAR DATOS DEL FORM
+  const [numeroTarjeta, setNumeroTarjeta] = useState("");
+  const [nombreTitular, setNombreTitular] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const handleFinalizarCompra = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      idusuario: user?.id,
+      subtotal: total - descuento,
+      total,
+      metododeentrega: "Delivery",
+      metodopago: "TARJETA",
+      direccionenvio: `${datosEnvio.direccion}, ${datosEnvio.ciudad} - ${datosEnvio.departamento}`,
+
+      // AHORA SE ENVÍA EL VALOR REAL
+      nrotarjeta: numeroTarjeta,
+      tipotarjeta: "VISA",
+    };
+
+    const resp = await fetch("http://localhost:3005/orden", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await resp.json();
+    if (!resp.ok || !data.success) {
+      alert("Error creando la orden");
+      return;
+    }
+
+    localStorage.setItem("orden_id", data.data.id);
     localStorage.setItem("pedido_final", JSON.stringify(productos));
-    vaciarCarrito();
+
+    localStorage.removeItem("mi_carrito_productos");
+    setProductos([]);
+
     navigate("/pedido");
   };
 
@@ -27,35 +67,52 @@ function PagoTarjeta() {
       <HeaderHome />
       <Navbar />
 
-      <div className="titulo-pagina">
-        <h2>Checkout</h2>
-      </div>
-
       <main className="checkout-metodo-pago">
         <section className="seccion metodo-pago">
           <h3>Pagar con Tarjeta</h3>
-          <img
-            src={Tarjeta}
-            alt="Tarjetas"
-            className="tarjeta-img"
-          />
+          <img src={Tarjeta} alt="Tarjetas" className="tarjeta-img" />
 
           <form className="tarjeta-form" onSubmit={handleFinalizarCompra}>
+
             <label>Número de tarjeta</label>
-            <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" required />
+            <input
+              type="text"
+              placeholder="XXXX-XXXX-XXXX-XXXX"
+              required
+              value={numeroTarjeta}
+              onChange={(e) => setNumeroTarjeta(e.target.value)}
+            />
 
             <label>Nombre del titular</label>
-            <input type="text" placeholder="Nombre" required />
+            <input
+              type="text"
+              placeholder="Nombre"
+              required
+              value={nombreTitular}
+              onChange={(e) => setNombreTitular(e.target.value)}
+            />
 
             <aside className="fecha-cvv">
               <div>
                 <label>Fecha de vencimiento</label>
-                <input type="text" placeholder="MM/AA" required />
+                <input
+                  type="text"
+                  placeholder="MM/AA"
+                  required
+                  value={fecha}
+                  onChange={(e) => setFecha(e.target.value)}
+                />
               </div>
 
               <div>
                 <label>CVV</label>
-                <input type="text" placeholder="123" required />
+                <input
+                  type="text"
+                  placeholder="123"
+                  required
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value)}
+                />
               </div>
             </aside>
 
@@ -65,17 +122,13 @@ function PagoTarjeta() {
           </form>
         </section>
 
-        <Resumen
-          productosSeleccionados={contador}
-          total={total}
-          descuento={descuento}
-        />
+        <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
       </main>
+
       <Footer />
     </>
   );
 }
 
 export default PagoTarjeta;
-
 

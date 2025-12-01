@@ -1,9 +1,7 @@
 
 //Codigo hecho por Walter Melendez 20231805
 import React, { useState } from 'react';
-import { productos } from '../data/productos';
 import { useContext } from "react";
-import { list } from 'postcss';
 import { Link, useNavigate } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContexto";
 import { useCalculoCarrito } from "../data/logicaCarrito";

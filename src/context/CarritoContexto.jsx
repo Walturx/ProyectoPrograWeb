@@ -1,35 +1,130 @@
 // Codigo hecho por Samantha Rodriguez
 
 import React, { createContext, useState, useEffect } from "react";
+import { useUser } from "./UserContext";
+import {
+  getCarritoByUsuario,
+  getItemsDeCarrito,
+  agregarItemCarrito,
+  crearCarrito,
+} from "../components/services/api";
 
 export const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
+  const { user } = useUser();
+  const idusuario = user ? user.id : null;
+
+  const [carritoBDId, setCarritoBDId] = useState(null);
+
   const inicial = () => {
     const raw = localStorage.getItem("mi_carrito_productos");
-    if (raw) {
+    if (!raw) return [];
+    try {
       const data = JSON.parse(raw);
-      if (Array.isArray(data) && data.length > 0) {
-        return data;
-      }
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
     }
-    return [];
   };
 
   const [productosEnCarrito, setProductosEnCarrito] = useState(inicial);
 
+  // Guardar en localStorage solo si hay carrito en BD
   useEffect(() => {
-    const filtrados = productosEnCarrito.filter(p => p.cantidad > 0);
+    if (!carritoBDId) return;
+    const filtrados = productosEnCarrito.filter((p) => p.cantidad > 0);
     localStorage.setItem("mi_carrito_productos", JSON.stringify(filtrados));
-  }, [productosEnCarrito]);
+  }, [productosEnCarrito, carritoBDId]);
 
-  const vaciarCarrito = () => {
-    setProductosEnCarrito([]);
-  };
 
-  const agregarProducto = (producto) => {
+  // useEffect(() => {
+  //   if (!idusuario) return; 
+  //   const cargarCarritoDesdeBackend = async () => {
+  //     try {
+  //       // Si no hay usuario logueado, usar solo localStorage
+  //       if (!idusuario) {
+  //         setProductosEnCarrito(inicial());
+  //         return;
+  //       }
+
+  //       // 1) Buscar carrito del usuario
+  //       let res = await getCarritoByUsuario(idusuario);
+
+  //       let carritoId;
+  //       if (!res.data) {
+  //         // no existe -> crearlo
+  //         const creado = await crearCarrito(idusuario);
+  //         carritoId = creado.data.id;
+  //       } else {
+  //         carritoId = res.data.id;
+  //       }
+
+  //       setCarritoBDId(carritoId);
+
+  //       // 2) Cargar items de ese carrito
+  //       const itemsRes = await getItemsDeCarrito(carritoId);
+
+  //       const productosBD = (itemsRes.data || []).map((item) => ({
+  //         id: item.idproducto,
+  //         cantidad: item.cantidad,
+  //         seleccionado: true,
+  //       }));
+
+  //       setProductosEnCarrito(productosBD);
+  //     } catch (error) {
+  //       console.error("Backend caído → usando solo localStorage", error);
+  //       setProductosEnCarrito(inicial());
+  //     }
+  //   };
+
+  //   cargarCarritoDesdeBackend();
+  // }, [idusuario]);
+
+  useEffect(() => {
+    if (!idusuario) return;  // ⛔ Evita ejecutar antes de tener usuario
+
+    const cargarCarritoDesdeBackend = async () => {
+      try {
+        // 1) Buscar carrito del usuario
+        let res = await getCarritoByUsuario(idusuario);
+
+        let carritoId;
+        if (!res.data) {
+          const creado = await crearCarrito(idusuario);
+          carritoId = creado.data.id;
+        } else {
+          carritoId = res.data.id;
+        }
+
+        setCarritoBDId(carritoId);
+
+        // 2) Cargar items
+        const itemsRes = await getItemsDeCarrito(carritoId);
+
+        const productosBD = (itemsRes.data || []).map((item) => ({
+          id: item.idproducto,
+          cantidad: item.cantidad,
+          seleccionado: true,
+        }));
+
+        setProductosEnCarrito(productosBD);
+      } catch (error) {
+        console.error("Backend caído → usando localStorage", error);
+        setProductosEnCarrito(inicial());
+      }
+    };
+
+    cargarCarritoDesdeBackend();
+  }, [idusuario]); // 👈 Se ejecuta cuando el usuario YA esté cargado
+
+
+
+  const agregarProducto = async (producto) => {
+    // FRONT
     setProductosEnCarrito((prev) => {
       const existe = prev.find((p) => p.id === producto.id);
+
       if (existe) {
         return prev.map((p) =>
           p.id === producto.id
@@ -40,6 +135,93 @@ export const CarritoProvider = ({ children }) => {
         return [...prev, { ...producto, cantidad: 1, seleccionado: true }];
       }
     });
+
+    // BACK
+    if (carritoBDId) {
+      try {
+        await agregarItemCarrito({
+          idcarrito: carritoBDId,
+          idproducto: producto.id,
+          cantidad: 1,
+        });
+      } catch (error) {
+        console.error("Error agregando item en backend:", error);
+      }
+    }
+  };
+
+  const actualizarCantidad = async (idProducto, cantidad) => {
+    const cant = parseInt(cantidad) || 1;
+
+    // FRONT
+    setProductosEnCarrito((prev) =>
+      prev.map((p) => (p.id === idProducto ? { ...p, cantidad: cant } : p))
+    );
+
+    // BACK
+    if (carritoBDId) {
+      try {
+        await agregarItemCarrito({
+          idcarrito: carritoBDId,
+          idproducto: idProducto,
+          cantidad: cant,
+        });
+      } catch (err) {
+        console.error("Error actualizando cantidad en backend:", err);
+      }
+    }
+  };
+
+  const cambiarSeleccion = (idProducto) => {
+    setProductosEnCarrito((prev) =>
+      prev.map((p) =>
+        p.id === idProducto ? { ...p, seleccionado: !p.seleccionado } : p
+      )
+    );
+  };
+
+
+  const vaciarCarrito = async () => {
+    // FRONTEND
+    setProductosEnCarrito([]);
+    localStorage.removeItem("mi_carrito_productos");
+
+
+    setCarritoBDId(null);
+
+    // BACKEND
+    if (carritoBDId) {
+      try {
+        await fetch(`http://localhost:3005/itemcarrito/carrito/${carritoBDId}`, {
+          method: "DELETE",
+        });
+      } catch (e) {
+        console.error("Error eliminando items en backend:", e);
+      }
+    }
+  };
+
+
+
+  const eliminarProducto = async (idProducto) => {
+    setProductosEnCarrito((prev) => prev.filter((p) => p.id !== idProducto));
+
+    if (carritoBDId) {
+      try {
+        const itemsRes = await getItemsDeCarrito(carritoBDId);
+        const item = (itemsRes.data || []).find(
+          (i) => i.idproducto === idProducto
+        );
+
+        if (item) {
+          await fetch(`http://localhost:3005/itemcarrito/${item.id}`, {
+            method: "DELETE",
+          });
+        }
+      } catch (error) {
+        console.error("Error eliminando item en backend:", error);
+      }
+    }
   };
 
   return (
@@ -48,16 +230,15 @@ export const CarritoProvider = ({ children }) => {
         productos: productosEnCarrito,
         setProductos: setProductosEnCarrito,
         agregarProducto,
+        actualizarCantidad,
+        cambiarSeleccion,
         vaciarCarrito,
+        eliminarProducto,
+        carritoBDId,
+        idusuario,
       }}
     >
       {children}
     </CarritoContext.Provider>
   );
 };
-
-
-
-
-
-

@@ -8,44 +8,54 @@ const OlvidePassword = () => {
     const navigate = useNavigate();
     const { recoverPassword } = useUser();
     const [email, setEmail] = useState('');
+    const [cargando, setCargando] = useState(false);
 
-    const handleRecover = () => {
-
+    const handleRecover = async () => {
         if (!email) {
             alert("Por favor, ingresa un correo electrónico.");
             return;
         }
 
-        const emailExiste = recoverPassword(email);
+        setCargando(true);
+        const exito = await recoverPassword(email);
+        setCargando(false);
 
-        alert("Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.");
-        if (emailExiste){
+        if (exito) {
+            alert("Si el correo existe, se enviaron las instrucciones.");
+            // En un caso real, el usuario va a su correo. 
+            // Aquí simulamos que el link del correo lo lleva a reset-password:
             navigate(`/reset-password/${email}`);
-        } 
+        }
     };
 
     return (
-        <>
-            <main className="containerOlvide">
-                <div className="container1">
-                    <h2>Olvidé mi contraseña</h2>
-
-                    <p className="textoOlvide">
-                        Se enviará un enlace a tu correo electrónico para que puedas validar tu
-                        identidad y restablecer tu contraseña. Por favor, asegúrate de revisar
-                        tu bandeja de entrada y la carpeta de spam.
-                    </p>
-                    
-                    <div className="grupo">
-                        <p>Correo</p>
-                        <input type="email" id="recovery-email" placeholder="usuario@gmail.com" 
-                                value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    </div>
-
-                    <button onClick={() => handleRecover()} className="btn-primary" style={{ marginTop: '5px' }}>Recuperar contraseña</button>
+        <main className="containerOlvide">
+            <div className="container1">
+                <h2>Olvidé mi contraseña</h2>
+                <p className="textoOlvide">
+                    Ingresa tu correo. Si está registrado, te enviaremos un enlace (Simulado).
+                </p>
+                
+                <div className="grupo">
+                    <p>Correo</p>
+                    <input 
+                        type="email" 
+                        placeholder="usuario@gmail.com" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                 </div>
-            </main>
-        </>
+
+                <button 
+                    onClick={handleRecover} 
+                    className="btn-primary" 
+                    disabled={cargando}
+                    style={{ marginTop: '5px' }}
+                >
+                    {cargando ? "Enviando..." : "Recuperar contraseña"}
+                </button>
+            </div>
+        </main>
     );
 }
 

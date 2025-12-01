@@ -69,7 +69,16 @@ export const getUsuarios = async () => {
 };
 
 export const getUsuarioById = async (id) => {
-  const res = await fetch(`${API_URL}/usuario/${id}`);
+  const token = localStorage.getItem("token"); // Recuperamos el token
+
+  const res = await fetch(`${API_URL}/usuario/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+    }
+  });
+
   if (!res.ok) throw new Error("Error al obtener usuario");
   return res.json();
 };
@@ -86,11 +95,17 @@ export const cambiarEstadoUsuario = async (id, nuevoEstado) => {
 
 // Cambiar contraseña
 export const cambiarPasswordUsuario = async (id, passwordActual, passwordNueva) => {
+  const token = localStorage.getItem("token"); // Recuperamos el token
+
   const res = await fetch(`${API_URL}/usuario/${id}/password`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Agregamos el token!
+    },
     body: JSON.stringify({ passwordActual, passwordNueva }),
   });
+
   const data = await res.json();
   if (!res.ok || data.success === false) {
     throw new Error(data.message || "Error al cambiar contraseña");
@@ -111,7 +126,6 @@ export const getOrdenById = async (id) => {
   return res.json();
 };
 
-// Crear nueva orden
 export const createOrden = async (orden) => {
   try {
     const res = await fetch(`${API_URL}/orden`, {
@@ -136,10 +150,157 @@ export const createOrden = async (orden) => {
   }
 };
 
+// ---------- CARRITO DE COMPRA ----------
+export const getCarritoByUsuario = async (idusuario) => {
+  const res = await fetch(`${API_URL}/carrito/usuario/${idusuario}`);
+  if (!res.ok) throw new Error("Error al obtener carrito del usuario");
+  return res.json();
+};
+
+export const crearCarrito = async (idusuario) => {
+  const res = await fetch(`${API_URL}/carrito`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idusuario }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear carrito");
+
+  return data;
+};
+
+export const eliminarCarrito = async (idcarrito) => {
+  const res = await fetch(`${API_URL}/carrito/${idcarrito}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar carrito");
+
+  return data;
+};
+
+// ---------- ITEMS DEL CARRITO ----------
+export const getItemsDeCarrito = async (idcarrito) => {
+  const res = await fetch(`${API_URL}/itemcarrito/carrito/${idcarrito}`);
+  if (!res.ok) throw new Error("Error al obtener items del carrito");
+  return res.json(); // { success, data }
+};
+
+export const agregarItemCarrito = async ({ idcarrito, idproducto, cantidad }) => {
+  const res = await fetch(`${API_URL}/itemcarrito`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idcarrito, idproducto, cantidad }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al agregar item");
+
+  return data;
+};
+
+export const eliminarItemCarrito = async (iditem) => {
+  const res = await fetch(`${API_URL}/itemcarrito/${iditem}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al eliminar item");
+
+  return data;
+};
+
+// ---------- ITEMS DE LA ORDEN ----------
+export const getItemsDeOrden = async (idorden) => {
+  const res = await fetch(`${API_URL}/itemorden/${idorden}`);
+  if (!res.ok) throw new Error("Error al obtener items de la orden");
+  return res.json();
+};
+
+export const crearItemDeOrden = async ({ idorden, idproducto, cantidad, preciounitario }) => {
+  const res = await fetch(`${API_URL}/itemorden`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idorden, idproducto, cantidad, preciounitario }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al crear item");
+
+  return data;
+};
+
+export const getOrdenByIdUsuario = async (id) => {
+  const token = localStorage.getItem("token"); // Recuperamos el token guardado en el Login
+
+  const res = await fetch(`${API_URL}/orden/usuario/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` // ¡Importante! Enviamos el token para que el backend nos deje pasar
+    }
+  });
+
+  if (!res.ok) {
+    // Si el usuario no tiene órdenes, a veces el backend puede devolver 404.
+    // Para que no rompa el front, devolvemos un array vacío.
+    if(res.status === 404) return [];
+    throw new Error("Error al obtener órdenes");
+  }
+  
+  return res.json();
+};
+
+export const loginUsuario = async (credenciales) => {
+  // credenciales es un objeto: { email, password }
+  const res = await fetch(`${API_URL}/usuario/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credenciales),
+  });
+
+  const data = await res.json();
+  
+  // Si el backend devuelve error (status != 200), lanzamos el error
+  if (!res.ok) {
+    throw new Error(data.message || "Error al iniciar sesión");
+  }
+  
+  return data; // Retorna lo que envía tu backend: { success, token, usuario }
+};
+
+export const solicitarRecuperacion = async (email) => {
+  const res = await fetch(`${API_URL}/usuario/recuperar-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al solicitar recuperación");
+  return data;
+};
+
+// 2. Restablecer contraseña (Guarda la nueva contraseña)
+export const restablecerPassword = async (email, newPassword) => {
+  const res = await fetch(`${API_URL}/usuario/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, newPassword }),
+  });
+  
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Error al restablecer contraseña");
+  return data;
+};
+
+
 // Crear nuevo usuario (registro)
 export const createUsuario = async (usuario) => {
   try {
-    const res = await fetch(`${API_URL}/usuario`, {
+    const res = await fetch(`${API_URL}/usuario/registrar`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(usuario),
@@ -160,6 +321,7 @@ export const createUsuario = async (usuario) => {
     }
     throw error;
   }
+  
 };
 // ---------- ADMIN ----------
 export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock }) => {

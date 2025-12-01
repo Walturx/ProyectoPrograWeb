@@ -16,6 +16,7 @@ function Checkout() {
   const { productos } = useContext(CarritoContext);
   const { total, contador, descuento } = useCalculoCarrito(productos);
   const { setDatosEnvio } = useContext(EnvioContext);
+  const { setProductosCompra } = useContext(EnvioContext);
   const [form, setForm] = useState({
     nombre: "",
     apellido: "",
@@ -35,6 +36,7 @@ function Checkout() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setDatosEnvio(form);
+    setProductosCompra(productos); 
     navigate("/metodo-pago");
   };
 

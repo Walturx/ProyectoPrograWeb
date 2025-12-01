@@ -4,30 +4,15 @@ import { createContext, useState, useEffect } from "react";
 
 export const EnvioContext = createContext();
 
-export function EnvioProvider({ children }) {
-  const [datosEnvio, setDatosEnvio] = useState(() => {
-    const guardado = localStorage.getItem("datosEnvio");
-    return guardado
-      ? JSON.parse(guardado)
-      : {
-          nombre: "",
-          apellido: "",
-          ciudad: "",
-          departamento: "",
-          direccion: "",
-          telefono: "",
-          codigoPostal: "",
-        };
-  });
+export const EnvioProvider = ({ children }) => {
+    const [datosEnvio, setDatosEnvio] = useState(null);
+    const [productosCompra, setProductosCompra] = useState([]);
 
-  useEffect(() => {
-    localStorage.setItem("datosEnvio", JSON.stringify(datosEnvio));
-  }, [datosEnvio]);
+    return (
+        <EnvioContext.Provider value={{ datosEnvio, setDatosEnvio, productosCompra, setProductosCompra }}>
+            {children}
+        </EnvioContext.Provider>
+    );
+};
 
-  return (
-    <EnvioContext.Provider value={{ datosEnvio, setDatosEnvio }}>
-      {children}
-    </EnvioContext.Provider>
-  );
-}
 

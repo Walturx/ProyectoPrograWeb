@@ -6,33 +6,40 @@ import './ResetPassword.css';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
-    const { email } = useParams(); 
+    const { email } = useParams(); // Obtenemos el email de la URL
     const { resetPassword } = useUser(); 
 
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [cargando, setCargando] = useState(false);
 
-    const handleReset = (e) => {
+    const handleReset = async (e) => {
         e.preventDefault();
+        
         if (newPassword !== confirmPassword) {
             alert("Las contraseñas no coinciden.");
             return;
         }
+        
+        if (!newPassword) {
+            alert("Ingresa una contraseña.");
+            return;
+        }
 
-        const exito = resetPassword(email, newPassword);
+        setCargando(true);
+        const exito = await resetPassword(email, newPassword);
+        setCargando(false);
 
         if (exito) {
             alert("Contraseña actualizada con éxito. Por favor, inicia sesión de nuevo.");
-            navigate('/');
-        } else {
-            alert("No se pudo actualizar la contraseña.");
+            navigate('/login');
         }
     };
 
     return (
         <main className="containerRecuperar">
             <div className="container1">
-                <h2>Recuperar contraseña</h2>
+                <h2>Recuperar contraseña para {email}</h2>
                 <form onSubmit={handleReset}>
                     <div className="grupo">
                         <p>Nueva contraseña</p>
@@ -40,7 +47,7 @@ const ResetPassword = () => {
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="Contraseña"
+                            placeholder="Nueva contraseña"
                         />
                     </div>
                     
@@ -50,12 +57,17 @@ const ResetPassword = () => {
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Contraseña"
+                            placeholder="Repetir contraseña"
                         />
                     </div>
 
-                    <button type="submit" className="btn-primary" style={{ marginTop: '5px' }}>
-                        Cambiar contraseña
+                    <button 
+                        type="submit" 
+                        className="btn-primary" 
+                        disabled={cargando}
+                        style={{ marginTop: '5px' }}
+                    >
+                        {cargando ? "Actualizando..." : "Cambiar contraseña"}
                     </button>
                 </form>
             </div>

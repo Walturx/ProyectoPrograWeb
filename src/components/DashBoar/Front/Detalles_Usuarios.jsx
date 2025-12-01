@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './Detalles_Usuarios.css'
-import { getUsuarioById } from "../../services/api";
+import { getUsuarioById, getOrdenByIdUsuario} from "../../services/api";
 
 function Detalles_Usuarios() {
   const {id} = useParams();
   const [Usuario, setUsuario] = useState(null);
+  const [Ordenes, setOrdenes] = useState([]);
 
 useEffect(() => {
     const cargarUsuario = async () => {
@@ -21,6 +22,22 @@ useEffect(() => {
 
     cargarUsuario();
   }, []);
+
+  useEffect(() => {
+    console.log("pivote conponente detalles")
+    const cargarOrdenes = async () => {
+      try {
+        const data = await getOrdenByIdUsuario(id); 
+        setOrdenes(data);
+      } catch (error) {
+        console.error("Error al obtener Ordenes...:", error);
+        setOrdenes([]);
+      }
+    };
+
+    cargarOrdenes();
+  }, [id]);
+
 
 
   if (!Usuario) {
@@ -61,16 +78,18 @@ useEffect(() => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <tr key={n}>
-                  <td className="id">#{Math.floor(1000 + Math.random() * 9000)}</td>
-                  <td>20/0{n}/2025</td>
-                  <td>S/{199.0}</td>
+              {Ordenes.length > 0 ? ( Ordenes.map((Orden) => (
+                <tr key={Orden.id}>
+                  <td className="id"> #{Orden.id} </td>
+                  <td>{Orden.fecha}</td>
+                  <td>S/{Orden.total}</td>
                   <td>
                     <button className="btn-verdetalle">Ver detalle</button>
                   </td>
                 </tr>
-              ))}
+              ))):(<tr>
+                    <td colSpan="4">No hay órdenes</td>
+                  </tr>)}
             </tbody>
           </table>
             </div>
