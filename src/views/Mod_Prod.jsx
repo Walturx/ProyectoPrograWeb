@@ -17,6 +17,7 @@ function ModProd() {
         presentacion: '',
         categoria: '',
         descripcion: '',
+        precio: '',
         imagen: '',
         stock: 0
     });
@@ -34,6 +35,7 @@ function ModProd() {
                     presentacion: producto.presentacion || '',
                     categoria: producto.categoria || '',
                     descripcion: producto.descripcion || '',
+                    precio: producto.precio || '',
                     imagen: producto.imagen || '',
                     stock: producto.stock || 0
                 });
@@ -122,6 +124,19 @@ function ModProd() {
                                     value={formData.presentacion}
                                     onChange={handleChange}
                                 />
+                            </div>
+
+                            <div className="Form-group">
+                            <label htmlFor="GETPrecio">Precio *</label>
+                            <input
+                                type="number"
+                                id="GETPrecio"
+                                name="precio"
+                                placeholder="Precio"
+                                value={formData.precio}
+                                onChange={handleChange}
+                                required
+                            />
                             </div>
 
                             <div className="Form-group">

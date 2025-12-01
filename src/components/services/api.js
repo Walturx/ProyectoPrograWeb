@@ -36,7 +36,18 @@ export const createCategoria = async ({ categoria, descripcion, imagenCat }) => 
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ categoria, descripcion, imagenCat }),
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al crear categoría");
   return data;
 };
@@ -47,7 +58,18 @@ export const updateCategoria = async ({ id, categoria, descripcion, imagenCat })
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id, categoria, descripcion, imagenCat }),
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al actualizar categoría");
   return data;
 };
@@ -56,7 +78,18 @@ export const deleteCategoria = async (id) => {
   const res = await fetch(`${API_URL}/categoria/${id}`, {
     method: "DELETE",
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al eliminar categoría");
   return data;
 };
@@ -332,42 +365,78 @@ export const createUsuario = async (usuario) => {
     }
     throw error;
   }
-
 };
-// ---------- ADMIN ----------
-export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock }) => {
-  const res = await fetch(`${API_URL}/admin/productos/agregar`, {
+
+// ---------- ADMIN PRODUCTOS ----------
+export const createProducto = async ({ nombre, presentacion, categoria, descripcion, imagen, stock, precio }) => {
+  const res = await fetch(`${API_URL}/productos/agregar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, presentacion, categoria, descripcion, imagen, stock }),
+    body: JSON.stringify({ nombre, presentacion, categoria, descripcion, imagen, stock, precio }),
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    // Si no es JSON, leer como texto
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al crear producto");
   return data;
 };
 
-export const updateProducto = async ({ id, nombre, presentacion, categoria, descripcion, imagen, stock }) => {
-  const res = await fetch(`${API_URL}/admin/productos/modificar/${id}`, {
+export const updateProducto = async ({ id, nombre, presentacion, categoria, descripcion, imagen, stock, precio }) => {
+  const res = await fetch(`${API_URL}/producto`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, nombre, presentacion, categoria, descripcion, imagen, stock }),
+    body: JSON.stringify({ id, nombre, presentacion, categoria, descripcion, imagen, stock, precio }),
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    // Si no es JSON, leer como texto
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al actualizar producto");
   return data;
 };
 
 export const deleteProducto = async (id) => {
-  const res = await fetch(`${API_URL}/admin/productos/eliminar/${id}`, {
+  const res = await fetch(`${API_URL}/producto/${id}`, {
     method: "DELETE",
   });
-  const data = await res.json();
+
+  // Verificar si la respuesta es JSON
+  const contentType = res.headers.get("content-type");
+  let data;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    // Si no es JSON, leer como texto
+    const text = await res.text();
+    data = { message: text };
+  }
+
   if (!res.ok) throw new Error(data.message || "Error al eliminar producto");
   return data;
 };
 
 export const AllProductos = async () => {
-  const res = await fetch(`${API_URL}/admin/productos`);
+  const res = await fetch(`${API_URL}/producto`);
   if (!res.ok) throw new Error("Error al obtener productos");
   return res.json();
-}
+};
