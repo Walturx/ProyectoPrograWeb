@@ -99,7 +99,7 @@ export default function DetalleOrden() {
                         </div>
                       </td>
                       <td>{item.nombre}</td>
-                      <td>{/* No viene categoría, se puede dejar vacío o texto */}</td>
+                      <td>{item.categoria}</td>
                       <td>{item.cantidad}</td>
                       <td>
                         S/{" "}
