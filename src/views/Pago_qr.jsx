@@ -13,6 +13,8 @@ import Footer from "../components/footer";
 import { useUser } from '../context/UserContext';
 
 
+import { crearItemDeOrden } from "../components/services/api";
+
 function PagoQR() {
 
   const { productos, setProductos } = useContext(CarritoContext);
@@ -47,6 +49,25 @@ function PagoQR() {
         alert("Error creando la orden.");
         return;
       }
+
+      const idOrden = data.data.id;
+      const productosSeleccionados = productos.filter(p => p.seleccionado);
+       try {
+        await Promise.all(
+          productosSeleccionados.map(p =>
+            crearItemDeOrden({
+              idorden: idOrden,
+              idproducto: p.id,
+              cantidad: p.cantidad,
+              preciounitario: p.precio
+            })
+          )
+        );
+      } catch (err) {
+        console.error("Error creando items de la orden:", err);
+      }
+
+
 
       localStorage.setItem("orden_id", data.data.id);
       localStorage.setItem("pedido_final", JSON.stringify(productos));

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Tarjeta from "../assets/tarjeta.webp";
 import Footer from "../components/footer";
 import { useUser } from '../context/UserContext';
+import { crearItemDeOrden } from "../components/services/api";
 
 function PagoTarjeta() {
   const { productos, setProductos } = useContext(CarritoContext);
@@ -35,31 +36,63 @@ function PagoTarjeta() {
       metododeentrega: "Delivery",
       metodopago: "TARJETA",
       direccionenvio: `${datosEnvio.direccion}, ${datosEnvio.ciudad} - ${datosEnvio.departamento}`,
-
-      // AHORA SE ENVÍA EL VALOR REAL
       nrotarjeta: numeroTarjeta,
       tipotarjeta: "VISA",
     };
 
-    const resp = await fetch("https://proyecto-progra-web-back-end.vercel.app/orden", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const resp = await fetch(
+        "https://proyecto-progra-web-back-end.vercel.app/orden",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
-    const data = await resp.json();
-    if (!resp.ok || !data.success) {
-      alert("Error creando la orden");
-      return;
+      const data = await resp.json();
+      if (!resp.ok || !data.success) {
+        alert("Error creando la orden");
+        return;
+      }
+
+      const idOrden = data.data.id;
+
+      // Solo los productos seleccionados en el carrito
+      const productosSeleccionados = productos.filter((p) => p.seleccionado);
+
+      // Crear los items de la orden en el backend
+      try {
+        await Promise.all(
+          productosSeleccionados.map((p) =>
+            crearItemDeOrden({
+              idorden: idOrden,
+              idproducto: p.id,
+              cantidad: p.cantidad,
+              preciounitario: p.precio,
+            })
+          )
+        );
+      } catch (err) {
+        console.error("Error creando items de la orden:", err);
+      }
+
+      // Guardar info para la vista de pedido
+      localStorage.setItem("orden_id", idOrden);
+      localStorage.setItem(
+        "pedido_final",
+        JSON.stringify(productosSeleccionados)
+      );
+
+      // Limpiar carrito
+      localStorage.removeItem("mi_carrito_productos");
+      setProductos([]);
+
+      navigate("/pedido");
+    } catch (error) {
+      console.error("Error procesando pago con tarjeta:", error);
+      alert("El servidor está caído.");
     }
-
-    localStorage.setItem("orden_id", data.data.id);
-    localStorage.setItem("pedido_final", JSON.stringify(productos));
-
-    localStorage.removeItem("mi_carrito_productos");
-    setProductos([]);
-
-    navigate("/pedido");
   };
 
   return (
@@ -73,7 +106,6 @@ function PagoTarjeta() {
           <img src={Tarjeta} alt="Tarjetas" className="tarjeta-img" />
 
           <form className="tarjeta-form" onSubmit={handleFinalizarCompra}>
-
             <label>Número de tarjeta</label>
             <input
               type="text"
@@ -122,7 +154,11 @@ function PagoTarjeta() {
           </form>
         </section>
 
-        <Resumen productosSeleccionados={contador} total={total} descuento={descuento} />
+        <Resumen
+          productosSeleccionados={contador}
+          total={total}
+          descuento={descuento}
+        />
       </main>
 
       <Footer />
@@ -131,4 +167,3 @@ function PagoTarjeta() {
 }
 
 export default PagoTarjeta;
-
