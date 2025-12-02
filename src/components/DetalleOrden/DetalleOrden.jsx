@@ -100,7 +100,9 @@ export default function DetalleOrden() {
                         </div>
                       </td>
                       <td>{item.nombre}</td>
-                      <td>{item.categoriaNombre}</td>
+                      <td style={{ color: "black", fontSize: "16px" }}>
+                        {item.categoriaNombre ?? "SIN CATEGORÍA"}
+                      </td>
                       <td>{item.cantidad}</td>
                       <td>
                         S/{" "}
