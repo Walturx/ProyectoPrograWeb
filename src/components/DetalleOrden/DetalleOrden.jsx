@@ -32,10 +32,11 @@ export default function DetalleOrden() {
   if (error) return <p>{error}</p>;
   if (!orden) return <p>Orden no encontrada</p>;
 
-  const items = orden.items || [];  
+  const items = orden.items || [];
 
   const monto = items.reduce(
-    (sum, item) => sum + Number(item.precioUnitario) * item.cantidad,
+    (sum, item) =>
+      sum + Number(item.precioUnitario || 0) * (item.cantidad || 0),
     0
   );
 
@@ -104,7 +105,8 @@ export default function DetalleOrden() {
                       <td>
                         S/{" "}
                         {(
-                          Number(item.precioUnitario) * item.cantidad
+                          Number(item.precioUnitario || 0) *
+                          (item.cantidad || 0)
                         ).toFixed(2)}
                       </td>
                     </tr>
