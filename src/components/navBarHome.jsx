@@ -38,18 +38,30 @@ function NavBarHome() {
             </svg>
           </button>
 
-          <button className="hover:bg-green-700 p-2 rounded-md text-[22px]">
+          <button
+            className="hover:bg-green-700 p-2 rounded-md text-[22px]"
+            onClick={() => navigate('/categorias/Periféricos')}
+          >
             Categorías
           </button>
-          <button className="hover:bg-green-700 p-2 rounded-md text-[22px]">
+          <button
+            className="hover:bg-green-700 p-2 rounded-md text-[22px]"
+            onClick={() => navigate('/home')}
+          >
             Productos
           </button>
-          <button className="hover:bg-green-700 p-2 rounded-md text-[22px]">
+          <button
+            className="hover:bg-green-700 p-2 rounded-md text-[22px]"
+            onClick={() => navigate('/home')}
+          >
             Nosotros
           </button>
         </div>
 
-        <button className="hover:bg-green-700 p-2 rounded-md text-[22px]">
+        <button
+          className="hover:bg-green-700 p-2 rounded-md text-[22px]"
+          onClick={() => navigate('/home')}
+        >
           Ofertas 🤚
         </button>
       </nav>

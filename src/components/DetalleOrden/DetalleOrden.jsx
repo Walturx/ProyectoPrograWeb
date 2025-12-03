@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrdenById } from "../services/api";
+import { getOrdenById, getProductoById, getCategorias } from "../services/api";
 import "./DetalleOrden.css";
 
 export default function DetalleOrden() {
@@ -17,6 +17,39 @@ export default function DetalleOrden() {
       try {
         setCargando(true);
         const data = await getOrdenById(ordenId);
+
+        // Cargar categorías
+        const categorias = await getCategorias();
+
+        // Enriquecer cada item con información del producto y categoría
+        if (data.items && data.items.length > 0) {
+          const itemsEnriquecidos = await Promise.all(
+            data.items.map(async (item) => {
+              try {
+                const producto = await getProductoById(item.idProducto);
+                const categoria = categorias.find(c => c.id === (producto.idcategoria || producto.idCategoria));
+
+                return {
+                  ...item,
+                  nombre: producto.nombre,
+                  imagen: producto.imagen,
+                  categoriaNombre: categoria?.categoria || "Sin categoría"
+                };
+              } catch (err) {
+                console.error(`Error cargando producto ${item.idProducto}:`, err);
+                return {
+                  ...item,
+                  nombre: item.nombre || "Producto no disponible",
+                  imagen: item.imagen || "",
+                  categoriaNombre: "Sin categoría"
+                };
+              }
+            })
+          );
+
+          data.items = itemsEnriquecidos;
+        }
+
         setOrden(data);
       } catch (err) {
         console.error("Error al obtener detalle de orden:", err);
@@ -55,9 +88,8 @@ export default function DetalleOrden() {
                 <p>
                   <strong>Estado:</strong>{" "}
                   <span
-                    className={`estado ${
-                      (orden.estado || "").toLowerCase()
-                    }`}
+                    className={`estado ${(orden.estado || "").toLowerCase()
+                      }`}
                   >
                     {orden.estado}
                   </span>

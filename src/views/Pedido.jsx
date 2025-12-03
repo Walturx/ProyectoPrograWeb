@@ -91,7 +91,9 @@ function Pedido() {
               />
             </div>
 
-            <button className="btn btn-pago">Ver más ofertas</button>
+            <button className="btn btn-pago"
+              onClick={() => navigate('/home')}
+            >Ver más ofertas</button>
           </aside>
         </div>
       </main>
